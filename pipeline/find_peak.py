@@ -115,6 +115,7 @@ def gaussian_fit_on_df(df_full, output_filename='', output_dir=''):
             if peak_found_number==0:
                 print('NO PEAK FOUND for orbit', orbit)
             else:
+                # Save at every orbit, but with same name because we do not empty peak_founds
                 filename = 'result_d' + output_filename + '-o' + str(orbit) + '.csv'
                 print('Saving to', os.path.join(dir, filename))
                 df = pd.DataFrame(peak_founds)
