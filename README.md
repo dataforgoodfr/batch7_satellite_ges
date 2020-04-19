@@ -9,7 +9,7 @@
 Our goal is to localize CO² emission on earth.
 We are working with :
 - Matthieu Porte, from IGN who submit the projet
-- Marie, from XXX
+- Marie Heckmann, from the French Ministry of Ecology
 - Frederic Chevalier, from IPSL (!!Link) ,one of the author of <https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf>
 
 
