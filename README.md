@@ -48,6 +48,7 @@ But it is extrapolation of the data, it's not what the satellite really see.
 
 # What we have achieved
 
+- Map of known CO2 emissions
 - XXX Picture of CO² Plume
 
 # What is comming next
