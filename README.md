@@ -41,8 +41,9 @@ But it is extrapolation of the data, it's not what the satellite really see.
 # What we want to do
 
 - Detect peak in data by looking at CO² Plume
-- Agregate inventory source of CO²
-- Compare peak to inventory
+- Agregate known sources of CO²
+- Compare peak to known sources to correct them
+- Machine Learning to find new source
 - Display the result on a comprehensive map
 
 # What we have achieved
