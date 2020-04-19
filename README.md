@@ -48,7 +48,6 @@ But it is extrapolation of the data, it's not what the satellite really see.
 
 # What we have achieved
 
-- Map of known CO2 emissions
 - XXX Picture of CO² Plume
 
 # What is comming next
@@ -57,6 +56,6 @@ But it is extrapolation of the data, it's not what the satellite really see.
 
 # We need help
 
-- Better peak detection : we use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?
-- Wins modeling to estimate emission from detected concentration.
+- Better peak detection : we use SciKit Learn curve_fit. How to tune parameters of curve_fit ? Do you know a better algorithme for anomaly detection.
+- Winds modeling to estimate emission from detected concentration.
 - Interractive dasboard to share our work on the web (Streamlit ?)
