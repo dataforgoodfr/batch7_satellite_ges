@@ -20,7 +20,6 @@ We are working with :
 The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO² in atmosphere :
 ![OCO2 spectrometers](https://oco.jpl.nasa.gov/media/uploads/2019/05/07/oco_column.jpg)
 
-!!
 More info here : <https://oco.jpl.nasa.gov/instrument/>
 So it can't see through clouds or fog. And don't work the same over ground or water.
 
