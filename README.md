@@ -15,7 +15,7 @@ We are working with :
 
 # What we have as input
 
-1/ OCO-2 Satellite data
+**1/ OCO-2 Satellite data**
 
 The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO² in atmosphere :
 ![OCO2 spectrometers](https://oco.jpl.nasa.gov/media/uploads/2019/05/07/oco_column.jpg)
@@ -40,7 +40,7 @@ NASA made global CO² image :
 
 But it is extrapolation of the data, it's not what the satellite really see.
 
-2/ Data on known CO2 emissions
+**2/ Data on known CO2 emissions**
 
 - EDGAR
 - WRI
