@@ -46,9 +46,10 @@ Source : https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG
 
 https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/CO2_emissions_Edgar_2018.PNG
 
-- WRI
-- ODIAC
-[Compléter : description + screenshots]
+- The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO2 during their combustion.
+Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
+
+https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/power_plant_emissions_2017.PNG
 
 # What we want to do
 
