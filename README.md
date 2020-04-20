@@ -41,9 +41,10 @@ But it is extrapolation of the data, it's not what the satellite really see.
 
 **2/ Data on known CO2 emissions**
 
-- EDGAR
+- The Emissions Database for Global Atmospheric Research (EDGAR) on CO2 emissions. For the energy related sectors the activity data is mainly based on the energy balance statistics of IEA (2017), whereas the activity data for the agricultural sectors originates mainly from FAO (2018). The special allocation of emissions on the grid is made based on spatial proxy datasets with the location of energy and manufacturing facilities, road networks, shipping routes, human and animal population density and agricultural land use, that vary over time. 
+Source : https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG
 
-![Edgar data] (https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/CO2_emissions_Edgar_2018.PNG)
+https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/CO2_emissions_Edgar_2018.PNG
 
 - WRI
 - ODIAC
