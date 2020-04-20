@@ -23,7 +23,7 @@ The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO
 More info here : <https://oco.jpl.nasa.gov/instrument/>
 So it can't see through clouds or fog. And don't work the same over ground or water.
 
-The swath of the satellite is small : only 10km :
+The swath of the satellite is small (only 10km) :
 ![OCO2 spectrometers](https://scx1.b-cdn.net/csz/news/800/2020/3-nasasatellit.jpg)
 !!
 
