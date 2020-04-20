@@ -43,7 +43,7 @@ But it is extrapolation of the data, it's not what the satellite really see.
 
 - EDGAR
 
-![Edgar data] (https://github.com/dataforgoodfr/batch7_satellite_ges/blob/master/CO2_emissions_Edgar_2018.PNG?raw=true)
+![Edgar data] (https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/CO2_emissions_Edgar_2018.PNG)
 
 - WRI
 - ODIAC
