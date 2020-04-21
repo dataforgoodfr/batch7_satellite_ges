@@ -56,11 +56,29 @@ Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 
 # What we want to do
 
-- Detect peaks in data by looking at CO² Plume
-- Agregate known sources of CO²
-- Compare peaks to known sources to correct them
-- Machine Learning to find new sources
-- Display the result on a comprehensive map
+
+First approach: peak detection from OCO2 & inference from inventory data [in progress]
+•	Detect peak in satellite data by looking at CO² Plumes
+o	Taking into account intrinsic complexity of OCO2 data, notably:
+    	- High variance among ‘background’ Co2 level across the globe  Peaks detected need to take into the background level and can only be confirmed through comparison with local area levels
+        - Narrowness & incompleteness of plumes observations (due to clouds / fogs / …) 
+o	We have a 2 step methodology to detect peaks
+        - Identification of local ‘peaks’ through Gaussian fits (curve_fit)
+        - Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic & manual methodology, with rules to keep only clear Gaussians, with good R2, with complete plumes, clearly distinguishing from background level ; Objective to improve this part with algo-based anomaly detection 
+
+•	Aggregate known sources of CO² from inventory data
+o	Using EDGAR & World Resource Institute
+	
+•	Compare peak to known sources and confirm them
+
+
+Second approach: supervised model to learn to detect peaks from inventory data [not started]
+•	Use areas where inventory data are complete to let a supervised model learn peaks in OCO2 data
+
+On top: dynamic visualization of data [in progress]
+•	Display the result on a comprehensive map, crossing satellite & inventory data
+
+
 
 # What we have achieved
 
