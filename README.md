@@ -44,15 +44,17 @@ The NASA made a global CO² image (see bellow), however this is an extrapolation
 
 **2/ Data on known CO2 emissions**
 
-- The Emissions Database for Global Atmospheric Research (EDGAR) on CO2 emissions. For the energy related sectors the activity data is mainly based on the energy balance statistics of IEA (2017), whereas the activity data for the agricultural sectors originates mainly from FAO (2018). The spatial allocation of emissions on the grid is made based on spatial proxy datasets with the location of energy and manufacturing facilities, road networks, shipping routes, human and animal population density and agricultural land use, that vary over time. 
+- The Emissions Database for Global Atmospheric Research (EDGAR) on CO² emissions. For the energy related sectors the activity data is mainly based on the energy balance statistics of IEA (2017), whereas the activity data for the agricultural sectors originates mainly from FAO (2018). The spatial allocation of emissions on the grid is made based on spatial proxy datasets with the location of energy and manufacturing facilities, road networks, shipping routes, human and animal population density and agricultural land use, that vary over time. 
 Source : https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG
 
 ![CO2_emissions_Edgar_2018](https://user-images.githubusercontent.com/61688979/79775474-9637d180-8334-11ea-9712-274a11356aea.PNG)
 
-- The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO2 during their combustion.
+- The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO² during their combustion.
 Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 
 ![power_plant_emissions_2017](https://user-images.githubusercontent.com/61688979/79775550-b5366380-8334-11ea-9587-8d42b241160e.PNG)
+
+- Other sources of CO² emissions are under study. 
 
 # What we want to do
 
