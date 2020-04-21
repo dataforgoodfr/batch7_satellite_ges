@@ -24,9 +24,10 @@ More info here : <https://oco.jpl.nasa.gov/instrument/>
 
 The data available corresponds to the CO² concentration measured by the satellite during its different orbits. 
 
-[Screenshot]
+Here is a visusalisaiton of the CO² concentration mesured by the OCO-2 satellite in December 2019. 
+![CO2_ concentration_OCO2](https://user-images.githubusercontent.com/61688979/79854803-4c012f80-83ca-11ea-921e-49dcbf55440f.PNG)
 
-There are some limitation to the satellite measurement of the CO² concentration.
+There are some limitations to the satellite measurement of the CO² concentration.
 First, the satellite can not see through clouds or fog.
 Second, it does not work the same over ground or water.
 Third, the swath of the satellite is quite narrow (only 10km), as shown in the image bellow. 
@@ -37,7 +38,7 @@ Finally, as the satellite orbits the Earth, the coverage is partial.
 
 More info on the mission on <https://earth.esa.int/web/eoportal/satellite-missions/o/oco-2>.
 
-NASA made global CO² image (see bellow), however it is an extrapolation of the data, and not what the satellite really see.
+The NASA made a global CO² image (see bellow), however this is an extrapolation of the data, and not what the satellite really see.
 
 ![NASA Global CO²](https://www.jpl.nasa.gov/images/oco/20090219/sinks-browse.jpg)
 
