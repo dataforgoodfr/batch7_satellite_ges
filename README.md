@@ -85,10 +85,11 @@ On top: dynamic visualization of data [in progress]
  - We plot the results and the know emission on a map
 
 Here is a sample of a peak witth the gaussian found :
-XXX
+![CO2_peak of Laiwu](https://github.com/dataforgoodfr/batch7_satellite_ges/raw/master/image.png)
 
 And the global map :
-XXX
+![World CO2_peaks](https://github.com/dataforgoodfr/batch7_satellite_ges/raw/master/map-dark.png)
+![CO2_peak over Spain](https://github.com/dataforgoodfr/batch7_satellite_ges/raw/master/map-dark-orbit.png)
 
 
 # We need help
