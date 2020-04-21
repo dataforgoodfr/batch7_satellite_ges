@@ -6,7 +6,8 @@
 
 # General presentation
 
-Our goal is to localize CO² emissions on Earth.
+The goal of our project is to localize CO² emissions on Earth based on the the carbon concentration data measured by the OCO-2 Satellite from the NASA. 
+
 We are working with:
 - Matthieu Porte, from IGN who submit the projet
 - Marie Heckmann, from the French Ministry of Ecology
