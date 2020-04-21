@@ -1,43 +1,45 @@
 # batch7_satellite_ges
 
-* /dataset contient un échantillon de données OCO-2 et des données d'inventaire ;
-* /notebooks centralise les notebooks réalisés par l'équipe ;
-* /pipeline comprend des scripts pour générer les données nécessaires.
+* /dataset contains a sample of OCO-2 data and inventory data;
+* /notebooks centralised notebooks make by the team;
+* /pipeline contains scripts used to generate the data needed.
 
 # General presentation
 
-Our goal is to localize CO² emission on earth.
-We are working with :
+Our goal is to localize CO² emissions on Earth.
+We are working with:
 - Matthieu Porte, from IGN who submit the projet
 - Marie Heckmann, from the French Ministry of Ecology
-- Frederic Chevalier, from IPSL (!!Link) ,one of the author of <https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf>
+- Frederic Chevalier, from IPSL, one of the author of <https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf>
 
 
 # What we have as input
 
 **1/ OCO-2 Satellite data**
 
-The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO² in atmosphere :
+The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO² in the atmosphere.
 ![OCO2 spectrometers](https://oco.jpl.nasa.gov/media/uploads/2019/05/07/oco_column.jpg)
 
 More info here : <https://oco.jpl.nasa.gov/instrument/>
-So it can't see through clouds or fog. And don't work the same over ground or water.
 
-The swath of the satellite is small (only 10km) :
+The data available corresponds to the CO² concentration measured by the satellite during its different orbits. 
+
+[Screenshot]
+
+There are some limitation to the satellite measurement of the CO² concentration.
+First, the satellite can not see through clouds or fog.
+Second, it does not work the same over ground or water.
+Third, the swath of the satellite is quite narrow (only 10km), as shown in the image bellow. 
+Finally, as the satellite orbits the Earth, the coverage is partial.
+
 ![OCO2 spectrometers](https://scx1.b-cdn.net/csz/news/800/2020/3-nasasatellit.jpg)
 !!
 
-And the coverage is partial, no orbit are contiguous.
-
 More info on the mission on <https://earth.esa.int/web/eoportal/satellite-missions/o/oco-2>.
 
-So that's very limitative and frustrating. We don't have a high resolution images.
-
-NASA made global CO² image :
+NASA made global CO² image (see bellow), however it is an extrapolation of the data, and not what the satellite really see.
 
 ![NASA Global CO²](https://www.jpl.nasa.gov/images/oco/20090219/sinks-browse.jpg)
-
-But it is extrapolation of the data, it's not what the satellite really see.
 
 **2/ Data on known CO2 emissions**
 
