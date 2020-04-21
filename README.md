@@ -66,9 +66,10 @@ First approach: peak detection from OCO2 & inference from inventory data [in pro
 	- Step 2: Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic & manual methodology, with rules to keep only clear Gaussians ; Objective to improve this part with algo-based anomaly detection 
 
 - Aggregate known sources of CO² from inventory data: Using EDGAR & World Resource Institute
-	
-- Compare peak to known sources and confirm them
 
+- Find nearest inventory from peak position, using the wind vector.
+
+- Compare peak to known sources emissions and confirm them
 
 Second approach: supervised model to learn to detect peaks from inventory data [not started]
 - Use areas where inventory data are complete to let a supervised model learn peaks in OCO2 data
@@ -76,15 +77,19 @@ Second approach: supervised model to learn to detect peaks from inventory data [
 On top: dynamic visualization of data [in progress]
 - Display the result on a comprehensive map, crossing satellite & inventory data
 
-
-
 # What we have achieved
 
-- XXX Picture of CO² Plume
+ - We gater data from EDGAR and World Resource Institute and plot them on a map.
+ - We get raw satellite data from NASA and merge the to monthly dataset with the data we need.
+ - We compute a gaussian curve fit over each orbit and save the results.
+ - We plot the results and the know emission on a map
 
-# What is coming next
+Here is a sample of a peak witth the gaussian found :
+XXX
 
-- Find nearest inventory from peak position, using the wind vector.
+And the global map :
+XXX
+
 
 # We need help
 
