@@ -1,8 +1,8 @@
 # batch7_satellite_ges
 
 * /dataset contains a sample of OCO-2 data and inventory data;
-* /notebooks centralised notebooks make by the team;
-* /pipeline contains scripts used to generate the data needed.
+* /notebooks contains the notebooks make by the team;
+* /pipeline contains the scripts used to generate the data needed.
 
 # General presentation
 
@@ -12,26 +12,25 @@ We are working with:
 - Marie Heckmann, from the French Ministry of Ecology
 - Frederic Chevalier, from IPSL, one of the author of <https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf>
 
-
 # What we have as input
 
 **1/ OCO-2 Satellite data**
 
-The OCO-2 Satellite (Orbiting Carbon Observatory) use spectrometers to detect CO² in the atmosphere.
+The OCO-2 Satellite (Orbiting Carbon Observatory) from the NASA orbits around Earth and measures the CO² concentration in the atmosphere.  
+
+Here is a visualisation of the CO² concentration mesured by the OCO-2 satellite in December 2019. 
+![CO2_ concentration_OCO2](https://user-images.githubusercontent.com/61688979/79854803-4c012f80-83ca-11ea-921e-49dcbf55440f.PNG)
+
+The satellite uses spectrometers to detect CO² in the atmosphere, as shown in the image bellow. 
 ![OCO2 spectrometers](https://oco.jpl.nasa.gov/media/uploads/2019/05/07/oco_column.jpg)
 
 More info here : <https://oco.jpl.nasa.gov/instrument/>
 
-The data available corresponds to the CO² concentration measured by the satellite during its different orbits. 
-
-Here is a visusalisaiton of the CO² concentration mesured by the OCO-2 satellite in December 2019. 
-![CO2_ concentration_OCO2](https://user-images.githubusercontent.com/61688979/79854803-4c012f80-83ca-11ea-921e-49dcbf55440f.PNG)
-
-There are some limitations to the satellite measurement of the CO² concentration.
-First, the satellite can not see through clouds or fog.
-Second, it does not work the same over ground or water.
-Third, the swath of the satellite is quite narrow (only 10km), as shown in the image bellow. 
-Finally, as the satellite orbits the Earth, the coverage is partial.
+There are some limitations to the satellite measurement of the CO² concentration:
+- The satellite can not see through clouds or fog;
+- It does not work the same over ground or water;
+- The swath of the satellite is quite narrow (only 10km), as shown in the image bellow; 
+- As the satellite orbits the Earth, the coverage is partial.
 
 ![OCO2 spectrometers](https://scx1.b-cdn.net/csz/news/800/2020/3-nasasatellit.jpg)
 !!
