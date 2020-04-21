@@ -56,17 +56,17 @@ Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 
 # What we want to do
 
-- Detect peak in data by looking at CO² Plume
+- Detect peaks in data by looking at CO² Plume
 - Agregate known sources of CO²
-- Compare peak to known sources to correct them
-- Machine Learning to find new source
+- Compare peaks to known sources to correct them
+- Machine Learning to find new sources
 - Display the result on a comprehensive map
 
 # What we have achieved
 
 - XXX Picture of CO² Plume
 
-# What is comming next
+# What is coming next
 
 - Find nearest inventory from peak position, using the wind vector.
 
