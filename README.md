@@ -60,10 +60,10 @@ Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 First approach: peak detection from OCO2 & inference from inventory data [in progress]
 
 - Detect peak in satellite data by looking at CO² Plumes
-	- Taking into account intrinsic complexity of OCO2 data, notably: High variance among ‘background’ Co2 level across the globe Peaks detected need to take into the background level and can only be confirmed through comparison with local area levels, Narrowness & incompleteness of plumes observations (due to clouds / fogs / …) 
+	- Taking into account intrinsic complexity of OCO2 data, notably: High variance across ‘background’ Co2 level across the globe Peaks detected need to take into the background level, narrowness & incompleteness of plumes observations (due to clouds / fogs / …) 
 	- We have a 2 step methodology to detect peaks
-        	- Identification of local ‘peaks’ through Gaussian fits (curve_fit)
-        	- Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic & manual methodology, with rules to keep only clear Gaussians, with good R2, with complete plumes, clearly distinguishing from background level ; Objective to improve this part with algo-based anomaly detection 
+	    	- Identification of local ‘peaks’ through Gaussian fits (curve_fit)
+		- Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic & manual methodology, with rules to keep only clear Gaussians, with good R2, with complete plumes, clearly distinguishing from background level ; Objective to improve this part with algo-based anomaly detection 
 
 - Aggregate known sources of CO² from inventory data: Using EDGAR & World Resource Institute
 	
