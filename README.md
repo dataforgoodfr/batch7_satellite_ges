@@ -59,10 +59,10 @@ Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 # What we want to do
 
 
-First approach: peak detection from OCO2 & inference from inventory data [in progress]
+First approach: peak detection from O-CO2 & inference from inventory data [in progress]
 
-- Detect peak in OCO 2 data, 2 step methodology
-	- Step 1: Identification of local ‘peaks’ through Gaussian fits (curve_fit) ; Taking into account intrinsic complexity of OCO2 data, notably: High variance across ‘background’ Co2 level across the globe, narrowness & incompleteness of plumes observations (due to clouds / fogs / …), ...
+- Detect peak in O-CO2 data, 2 step methodology
+	- Step 1: Identification of local ‘peaks’ through Gaussian fits (curve_fit) ; Taking into account intrinsic complexity of O-CO2 data, notably: High variance across ‘background’ CO² level across the globe, narrowness & incompleteness of plumes observations (due to clouds / fogs / …), ...
 	- Step 2: Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic & manual methodology, with rules to keep only clear Gaussians ; Objective to improve this part with algo-based anomaly detection 
 
 - Aggregate known sources of CO² from inventory data: Using EDGAR & World Resource Institute
@@ -79,10 +79,10 @@ On top: dynamic visualization of data [in progress]
 
 # What we have achieved
 
- - We gater data from EDGAR and World Resource Institute and plot them on a map.
+ - We gather data from EDGAR and World Resource Institute and plotted them on a map.
  - We get raw satellite data from NASA and merge the to monthly dataset with the data we need.
- - We compute a gaussian curve fit over each orbit and save the results.
- - We plot the results and the know emission on a map
+ - We compute a Gaussian curve fit over each orbit and save the results.
+ - We plot the results and the know emission on a map.
 
 Here is a sample of a peak witth the gaussian found :
 ![CO2_peak of Laiwu](https://github.com/dataforgoodfr/batch7_satellite_ges/raw/master/image.png)
@@ -94,8 +94,8 @@ And the global map :
 
 # We need help
 
-- Better peak detection: So far, we are fitting gaussian curves to detect relevant peaks. 2 issues:
-    - we use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?
-    - we are looking at other methodologies to detect anomalies (our 'peaks') in the concentrations  - any idea? 
-- Wind modeling to estimate emission from detected concentration - any idea? (inverting the gaussian plume model)
+- Better peak detection: So far, we are fitting Gaussian curves to detect relevant peaks. 2 issues:
+    - We use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?
+    - We are looking at other methodologies to detect anomalies (our 'peaks') in the concentrations  - any idea? 
+- Wind modeling to estimate emission from detected concentration - any idea? (inverting the Gaussian plume model)
 - Interactive dasboard to share our work on the web (Streamlit ?)
