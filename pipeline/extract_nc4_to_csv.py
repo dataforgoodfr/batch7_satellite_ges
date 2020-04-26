@@ -7,7 +7,7 @@ import sys
 from netCDF4 import Dataset
 import numpy as np
 import pandas as pd
-input_dir = r'../../../datasets/OCO2/nc4/'
+input_dir = r'/media/NAS-Divers/dev/datasets/OCO2/nc4/'
 output_dir = r'../../../datasets/OCO2/csv/'
 dir = os.path.realpath(input_dir)
 print(dir)
@@ -26,7 +26,9 @@ for year_month in years_months:
     # Get the file list in directory
     nc4_list = glob.glob(input_dir + "oco2_LtCO2_"+year_month+"*.nc4")
     # # Initialize array to store data
-    month_data = np.empty((0,9))
+    columns=['flag','sounding_id', 'latitude', 'longitude', 'xco2', 'xco2_uncert', 'orbit', 'windspeed_u', 'windspeed_v',
+    'surface_pressure_apriori', 'surface_pressure', 'altitude', 'land_water_indicator', 'land_fraction']
+    month_data = np.empty((0,len(columns)))
     # Loop over the files
     for one_file in nc4_list:
         print('Reading', one_file)
@@ -36,15 +38,19 @@ for year_month in years_months:
         except:
             print('ERROR reading', one_file)
             continue
+        # Documentation of data : https://docserver.gesdisc.eosdis.nasa.gov/public/project/OCO/OCO2_DUG.V9.pdf
+        #print(file_nc)
         np_table = np.column_stack((file_nc.variables['xco2_quality_flag'],file_nc.variables['sounding_id'],file_nc.variables['latitude'],file_nc.variables['longitude'],
-            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'], file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met']))
+            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'], file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met'],
+            file_nc.groups['Meteorology']['psurf_apriori'], file_nc.groups['Retrieval']['psurf'], file_nc.groups['Sounding']['altitude'], file_nc.groups['Sounding']['land_water_indicator'],
+             file_nc.groups['Sounding']['land_fraction']))
         month_data = np.concatenate((month_data, np_table), axis=0)
     if(month_data.size == 0):
         continue
     # Save this year to disk
     print("End of", year_month, 'preparing dataframe...')
 
-    df = pd.DataFrame(month_data, columns=['flag','sounding_id', 'latitude', 'longitude', 'xco2', 'xco2_uncert', 'orbit', 'windspeed_u', 'windspeed_v'])
+    df = pd.DataFrame(month_data, columns=columns)
     # using dictionary to convert specific columns (https://www.geeksforgeeks.org/change-data-type-for-one-or-more-columns-in-pandas-dataframe/)
     convert_dict = {'sounding_id': int, 
                     'orbit': int

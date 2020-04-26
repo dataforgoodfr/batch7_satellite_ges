@@ -24,7 +24,7 @@ def peak_detection(input_name, df_orbit, orbit_number, orbit_index, output_dir):
     window = 200 # in km
     km_start = df_orbit.loc[orbit_index, 'distance']
     # Slice back because our input point is the middle of the peak
-    df_slice = df_orbit.query('distance >= (@km_start-@window/2) and distance <= (@km_start + @window)').copy()
+    df_slice = df_orbit.query('distance >= (@km_start-@window/2) and distance <= (@km_start + @window/2)').copy()
     # Skip if too few data
     if len(df_slice)<400:
         #print('ERROR : Not enought data')
@@ -81,7 +81,7 @@ def peak_detection(input_name, df_orbit, orbit_number, orbit_index, output_dir):
     }
     # Save souding data around peak
     df_slice['distance'] = df_slice['distance'] - df_orbit.loc[orbit_index, 'distance']
-    filename = 'peak_data' + input_name + '-o' + str(orbit_number) + '-i' + str(orbit_index) + '.json'
+    filename = 'peak_data-si_' + str(df_slice.loc[orbit_index, 'sounding_id']) + '.json' # f_' + input_name + '-o_' + str(orbit_number) + '-
     df_slice.to_json(os.path.join(output_dir, filename), orient='records')
     return peak
 
