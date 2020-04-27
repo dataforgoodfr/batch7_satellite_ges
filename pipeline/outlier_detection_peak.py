@@ -4,9 +4,11 @@ import pandas as pd
 import dask.dataframe as dd
 import math
 from sklearn.neighbors import LocalOutlierFactor
+from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 # from tqdm import notebook as tqdm
-import tqdm
+# import tqdm
+from tqdm import tqdm
 import numpy as np
 
 # from pipeline.find_peak import peak_detection, gaussian, cannot import because tests implemented directly in
@@ -28,10 +30,6 @@ def extract_orbit_date(file_name, day):
                                                                 errors="coerce")
     df = data_1808.loc[(data_1808['date'].dt.day == day), :].compute()
     return df
-
-
-data_1808_25 = extract_orbit_date("dataset/oco2_1808.csv", 25)
-print(data_1808_25.shape)
 
 
 def compute_haversine_formula(earth_radius, long, long_origin, lat, lat_origin):
@@ -64,18 +62,41 @@ def compute_distance(data_1808_25):
     return df_full
 
 
-def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_filters=True):
+def gaussian(x, m, b, A, sig):
     """
-    Function to determine peak from orbit, with option to implement Frederic Chevalier filters or not
+    Function used to fit gaussian in peak_detection
+    :param x: float, input data for curve
+    :param m: float, slope of the data
+    :param b: float, intercept of the data
+    :param A: float, curve amplitude
+    :param sig: float, standard deviation of curve
+    :return: float
+    """
+    return m * x + b + A / (sig * (2 * np.pi) ** 0.5) * np.exp(-x ** 2 / (2 * sig ** 2))
+
+
+def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_filters, window=200,
+                   output_peak=True):
+    """
+    Function to determine peak from orbit, with option to implement Frederic Chevallier filters or not
+    to restrict peaks found
+    Gaussian Fit based on
+    scipy.optimize.curve_fit
+    scipy.optimize.curve_fit(f, xdata, ydata, p0=None, sigma=None, absolute_sigma=default_return, check_finite=True,
+    bounds=(-inf, inf), method=None, jac=None, **kwargs)[source], where :
+    p0 = Initial guess for the parameters (length N).
+    sigma : Determines the uncertainty in ydata.
+    ftol=0.5, xtol=0.5 to speed up
     :param df_orbit: pandas DataFrame
-    :param orbit_number:
-    :param orbit_index:
-    :param output_dir:
-    :param implement_filters:
+    :param orbit_number: int, orbit value corresponding to orbit_index
+    :param orbit_index: int, index in input data for orbit data
+    :param output_dir: str, directory to store json files for peaks
+    :param implement_filters: Boolean, if True Frederic Chevallier filters are applied to filter out
+    peaks judged insufficiently good
+    :param output_peak: Boolean, if True, outputs the data around peak to json in specified path
     :return:
     """
     default_return = {}
-    window = 200  # in km
     km_start = df_orbit.loc[orbit_index, 'distance']
     # Slice back because our input point is the middle of the peak
     df_slice = df_orbit.query('distance >= (@km_start-@window/2) and distance <= (@km_start + @window/2)').copy()
@@ -88,36 +109,33 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
     # Base parameters for : m, b, A, sig
     p0 = (0., med_temp, 30 * df_slice.loc[orbit_index, 'xco2_enhancement'], 10.)
     d_centered = df_slice['distance'] - km_start
-    '''
-    Gaussian Fit
-    scipy.optimize.curve_fit
-    scipy.optimize.curve_fit(f, xdata, ydata, p0=None, sigma=None, absolute_sigma=default_return, check_finite=True, 
-    bounds=(-inf, inf), method=None, jac=None, **kwargs)[source]¶
-    p0 = Initial guess for the parameters (length N).
-    sigma : Determines the uncertainty in ydata.
-    '''
     popt, _ = curve_fit(f=gaussian, xdata=d_centered, ydata=df_slice['xco2'], sigma=df_slice['xco2_uncert'], p0=p0,
-                        maxfev=20000, ftol=0.5, xtol=0.5)  # ftol=0.5, xtol=0.5 to speed up
+                        maxfev=20000, ftol=0.5, xtol=0.5)
     sig = abs(popt[3])  # sigma of the Gaussian (km)
-    # print(sig)
-    if sig < 2: return default_return  # too narrow
-    if 3 * sig > window / 2.: return default_return  # too large
     delta = popt[2] / (popt[3] * (2 * np.pi) ** 0.5)  # height of the peak (ppm)
-    if delta < 0: return default_return  # depletion
-    # d_plume = df_slice[(d_centered >= -2*sig) & (d_centered <= 2*sig)]
-    # d_backg = df_slice[(d_centered < -2*sig) | (d_centered > 2*sig)]
 
-    # we want at least 1 1-km-sounding per km on average on both sides of the peak within 2 sigmas and between 2 and 3 sigmas
-    if len(df_slice[(d_centered >= -1 * sig) & (d_centered <= 0)]) < int(sig): return default_return
-    if len(df_slice[(d_centered <= 1 * sig) & (d_centered >= 0)]) < int(sig): return default_return
-    if len(df_slice[(d_centered >= -3 * sig) & (d_centered <= -2 * sig)]) < int(sig): return default_return
-    if len(df_slice[(d_centered <= 3 * sig) & (d_centered >= 2 * sig)]) < int(sig): return default_return
+    if implement_filters:
+        if sig < 2:
+            return default_return  # too narrow
+        if 3 * sig > window / 2.:
+            return default_return  # too large
+        if delta < 0:
+            return default_return  # depletion
+        if len(df_slice[(d_centered >= -1 * sig) & (d_centered <= 0)]) < int(sig):
+            return default_return
+        if len(df_slice[(d_centered <= 1 * sig) & (d_centered >= 0)]) < int(sig):
+            return default_return
+        if len(df_slice[(d_centered >= -3 * sig) & (d_centered <= -2 * sig)]) < int(sig):
+            return default_return
+        if len(df_slice[(d_centered <= 3 * sig) & (d_centered >= 2 * sig)]) < int(sig):
+            return default_return
+
     # check the quality of the fit
     d_peak = df_slice[(d_centered >= -4 * sig) & (d_centered <= 4 * sig)]
     d_peak_distance = d_peak['distance'] - df_slice.loc[orbit_index, 'distance']
     R = np.corrcoef(gaussian(d_peak_distance, *popt), d_peak['xco2'])
-    if R[0, 1] ** 2 < 0.25: return default_return
-    # print('orbit_index',orbit_index, 'Number of good fit',good_find, 'Sigma:', sig, 'Ampleur de l\'émission de CO²:',delta,'Coef de coreflation',R[0,1])
+    if R[0, 1] ** 2 < 0.25:
+        return default_return
     # TODO: Add filename of input to be able to load it later
     peak = {
         'sounding_id': df_slice.loc[orbit_index, 'sounding_id'],
@@ -133,29 +151,39 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
         'windspeed_u': df_slice.loc[orbit_index, 'windspeed_u'],
         'windspeed_v': df_slice.loc[orbit_index, 'windspeed_v']
     }
-    # Save souding data around peak
-    df_slice['distance'] = df_slice['distance'] - df_orbit.loc[orbit_index, 'distance']
-    filename = 'peak_data-si_' + str(
-        df_slice.loc[orbit_index, 'sounding_id']) + '.json'  # f_' + input_name + '-o_' + str(orbit_number) + '-
-    df_slice.to_json(os.path.join(output_dir, filename), orient='records')
+    # Save sounding data around peak
+    if output_peak:
+        df_slice['distance'] = df_slice['distance'] - df_orbit.loc[orbit_index, 'distance']
+        filename = 'peak_data-si_' + str(df_slice.loc[orbit_index, 'sounding_id']) + '.json'
+        df_slice.to_json(os.path.join(output_dir, filename), orient='records')
     return peak
 
 
-def gaussian_fit_on_df(df_full, input_name='', output_dir=''):
-    # spatial window for the detection (km)
+def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, implement_filters=True):
+    """
+    Function used to apply peak_detection to oco2 data
+    :param implement_filters: Boolean, if True, implements Frederic Chevallier filters on peak detection
+    :param output_peak: Boolean, if True outputs peak data to different json files
+    :param df_full: pandas DataFrame, containing information for one or several orbits
+    :param input_name: str, not implemented for now
+    :param output_dir: str, directory for output data
+    :return: list of dictionaries, where each element of list is peak data contained in a dictionary (returned value
+    of peak_detection)
+    """
     peak_found_number = 0
     peak_founds = []
     for orbit in tqdm(df_full['orbit'].unique(), desc='Orbit'):
         df_orbit = df_full[df_full['orbit'] == orbit].copy()
         if len(df_orbit) < 500:
             continue
-        # Loop over the souding id's
-        for i, orbit_index in tqdm(enumerate(df_orbit.index), desc='Souding', total=len(df_orbit)):
+        # Loop over the sounding id's
+        for i, orbit_index in tqdm(enumerate(df_orbit.index), desc='Sounding', total=len(df_orbit)):
             try:
                 # Work only each n soundings (15 seems good)
-                if i % 15 != 0:
+                if i % 15 != 0:  # perhaps implement random sample instead of fixed param
                     continue
-                peak = peak_detection(input_name, df_orbit, orbit, orbit_index, output_dir)
+                peak = peak_detection(df_orbit, orbit, orbit_index, output_dir, implement_filters=implement_filters,
+                                      window=200, output_peak=output_peak)
                 if peak:
                     peak_found_number += 1
                     peak_founds.append(peak)
@@ -173,39 +201,66 @@ def gaussian_fit_on_df(df_full, input_name='', output_dir=''):
     return peak_founds
 
 
-test = gaussian_fit_on_df(df_full, input_name='', output_dir='')
-peaks = pd.DataFrame(test)
-print(peaks.shape)  # (108, 12)
+def detect_outliers_lof(peaks, features, neighbors=10):
+    """
+    Functions that implements Local Outlier Factor to determine abnormal fitted curves in peaks
+    :param features: List, list of columns to determine neighbors
+    :param peaks: data containing peak parameters (distinct peaks per row)
+    :param neighbors: number of neigbors to implement LOF
+    :return: pandas DataFrame, input with added y_class variable indicating if -1, abnormality of peak
+    with respect to neighbor peaks, and if 1 normality of peak
+    """
+    x = peaks.loc[:, features].values
+    clf = LocalOutlierFactor(neighbors)
+    peaks["y_class"] = clf.fit_predict(x)
+    x_scores = clf.negative_outlier_factor_
+    peaks['outlier_score'] = x_scores
+    return peaks
 
-X = peaks.loc[:, ["latitude", "longitude", "slope", "intercept", "amplitude", "sigma", "delta", "R",
-                  "windspeed_u", "windspeed_v"]].values
-clf = LocalOutlierFactor()
-y_pred = clf.fit_predict(X)
-X_scores = clf.negative_outlier_factor_
-peaks['outlier_score'] = X_scores
-peaks["y_class"] = peaks['outlier_score'] < clf.offset_
-# aucun pic anormal dans la détection peak_detection de l'article pour le 25/08
-peak = peaks.iloc[0]
 
-
-def show_peak(df_full, peak, window=200):
+def graph_peak(df_full, peak, window=200):
     df_orbit = df_full[df_full['orbit'] == peak['orbit']]
-    km_start = df_orbit.loc[df_orbit["sounding_id"] == peak['sounding_id'], 'distance']
-    km_end = km_start + window / 2
+    km_start = df_orbit.set_index("sounding_id").loc[peak['sounding_id'], 'distance']
     # Slice back because our input point is the middle of the peak
-    df_slice = df_full.loc[(df_full["distance"] >= km_start.iloc[0]) &
-                           (df_full["distance"] <= km_end.iloc[0]) &
-                           (df_full["orbit"] == peak['orbit']), :]
-    x = df_slice['distance'] - km_start.iloc[0]
+    df_slice = df_orbit.query('distance >= (@km_start-@window/2) and distance <= (@km_start + @window/2)').copy()
+
+    x = df_slice['distance'] - km_start
     y = df_slice['xco2']
     plt.scatter(x, y, c=y, s=3, label='data')
     plt.plot(x, gaussian(x, m=peak["slope"], b=peak["intercept"], A=peak["amplitude"], sig=peak["sigma"]), 'r',
              label='fit')
     plt.legend()
-    plt.title('OCO 2 data')
     plt.xlabel('Distance')
     plt.ylabel('CO²')
+    return None
+
+
+def compare_peaks(peaks):
+    abnormal_peak = peaks.loc[peaks["y_class"] == -1, :]
+    normal_peak = peaks.loc[peaks["y_class"] == 1, :]
+    ab_peak = np.random.choice(abnormal_peak.index)
+    norm_peak = np.random.choice(normal_peak.index)
+    fig = plt.figure(figsize=(8, 8))
+    plt.subplot(2, 1, 1)
+    plt.title("Abormal peak")
+    graph_peak(df_full, abnormal_peak.loc[ab_peak, :])
+    plt.subplot(2, 1, 2)
+    plt.title("Normal peak")
+    graph_peak(df_full, normal_peak.loc[norm_peak, :])
+    plt.tight_layout()
     plt.show()
+    return None
 
-
-show_peak(df_full, peak)
+# Tests
+# TODO: test this detection without parameter implement_filters set to True in gaussian_fit_on_df
+# TODO: implement function design_features to add features to LOF based on Charlotte Delgot notebook
+data_1808_25 = extract_orbit_date("dataset/oco2_1808.csv", 25)
+print(data_1808_25.shape)
+df_full = compute_distance(data_1808_25)
+peaks_found = gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=False)
+peaks = pd.DataFrame(peaks_found)
+print(peaks.shape)  # (108, 12)
+peaks = detect_outliers_lof(peaks, neighbors=10, features=["latitude", "longitude", "slope", "intercept", "amplitude",
+                                                           "sigma", "delta", "R"])
+np.random.seed(18)
+compare_peaks(peaks)
