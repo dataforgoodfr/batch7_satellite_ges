@@ -6,16 +6,11 @@ import math
 from sklearn.neighbors import LocalOutlierFactor
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
-# from tqdm import notebook as tqdm
-# import tqdm
 from tqdm import tqdm
 import numpy as np
 
 # from pipeline.find_peak import peak_detection, gaussian, cannot import because tests implemented directly in
 # script, perhaps separate them in tests folder ?
-
-# parameters
-earth_radius = 6367
 
 
 def extract_orbit_date(file_name, day):
@@ -32,7 +27,7 @@ def extract_orbit_date(file_name, day):
     return df
 
 
-def compute_haversine_formula(earth_radius, long, long_origin, lat, lat_origin):
+def compute_haversine_formula(long, long_origin, lat, lat_origin, earth_radius=6367):
     """
     Function to compute Haversine formula from longitude, latitude, latitude origin and longitude
     origin
@@ -53,7 +48,7 @@ def compute_distance(data_1808_25):
     orbit_long = data_1808_25.groupby("orbit")["longitude"].first().rename("longitude_orig")
     orbit_lat = data_1808_25.groupby("orbit")["latitude"].first().rename("latitude_orig")
     data_1808_25 = pd.concat([data_1808_25.set_index("orbit"), orbit_lat, orbit_long], axis=1).reset_index()
-    data_1808_25["distance"] = data_1808_25.apply(lambda df: compute_haversine_formula(earth_radius, df["longitude"],
+    data_1808_25["distance"] = data_1808_25.apply(lambda df: compute_haversine_formula(df["longitude"],
                                                                                        df["longitude_orig"],
                                                                                        df["latitude"],
                                                                                        df["latitude_orig"]),
@@ -87,6 +82,7 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
     p0 = Initial guess for the parameters (length N).
     sigma : Determines the uncertainty in ydata.
     ftol=0.5, xtol=0.5 to speed up
+    :param window: int, parameter to indicate window in km to compute the trace for each potential peak
     :param df_orbit: pandas DataFrame
     :param orbit_number: int, orbit value corresponding to orbit_index
     :param orbit_index: int, index in input data for orbit data
@@ -159,9 +155,11 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
     return peak
 
 
-def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, implement_filters=True):
+def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, implement_filters=True,
+                       output_csv=True):
     """
     Function used to apply peak_detection to oco2 data
+    :param output_csv: Boolean, if True, outputs csv with peaks all peaks detected
     :param implement_filters: Boolean, if True, implements Frederic Chevallier filters on peak detection
     :param output_peak: Boolean, if True outputs peak data to different json files
     :param df_full: pandas DataFrame, containing information for one or several orbits
@@ -191,13 +189,13 @@ def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, 
                 print('WARNING : Failed for orbit', orbit, 'and index', orbit_index)
         if peak_found_number == 0:
             print('NO PEAK FOUND for orbit', orbit)
-        else:
+        elif output_csv:
             # Save at every orbit, but with same name because we do not empty peak_founds
             filename = 'result_for_' + input_name + '.csv'
             print('Saving to', os.path.join(output_dir, filename))
             df = pd.DataFrame(peak_founds)
-            # df.to_csv(os.path.join(output_dir, filename))
-            peak_found_number = 0
+            df.to_csv(os.path.join(output_dir, filename))
+        peak_found_number = 0
     return peak_founds
 
 
@@ -219,6 +217,7 @@ def detect_outliers_lof(peaks, features, neighbors=10):
 
 
 def graph_peak(df_full, peak, window=200):
+    window = 200
     df_orbit = df_full[df_full['orbit'] == peak['orbit']]
     km_start = df_orbit.set_index("sounding_id").loc[peak['sounding_id'], 'distance']
     # Slice back because our input point is the middle of the peak
@@ -235,12 +234,12 @@ def graph_peak(df_full, peak, window=200):
     return None
 
 
-def compare_peaks(peaks):
+def compare_peaks(df_full, peaks):
     abnormal_peak = peaks.loc[peaks["y_class"] == -1, :]
     normal_peak = peaks.loc[peaks["y_class"] == 1, :]
     ab_peak = np.random.choice(abnormal_peak.index)
     norm_peak = np.random.choice(normal_peak.index)
-    fig = plt.figure(figsize=(8, 8))
+    plt.figure(figsize=(8, 8))
     plt.subplot(2, 1, 1)
     plt.title("Abormal peak")
     graph_peak(df_full, abnormal_peak.loc[ab_peak, :])
@@ -250,17 +249,3 @@ def compare_peaks(peaks):
     plt.tight_layout()
     plt.show()
     return None
-
-# Tests
-# TODO: test this detection without parameter implement_filters set to True in gaussian_fit_on_df
-# TODO: implement function design_features to add features to LOF based on Charlotte Delgot notebook
-data_1808_25 = extract_orbit_date("dataset/oco2_1808.csv", 25)
-print(data_1808_25.shape)
-df_full = compute_distance(data_1808_25)
-peaks_found = gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=False)
-peaks = pd.DataFrame(peaks_found)
-print(peaks.shape)  # (108, 12)
-peaks = detect_outliers_lof(peaks, neighbors=10, features=["latitude", "longitude", "slope", "intercept", "amplitude",
-                                                           "sigma", "delta", "R"])
-np.random.seed(18)
-compare_peaks(peaks)
