@@ -199,6 +199,10 @@ def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, 
     return peak_founds
 
 
+def add_features(peaks):
+
+
+
 def detect_outliers_lof(peaks, features, neighbors=10):
     """
     Functions that implements Local Outlier Factor to determine abnormal fitted curves in peaks
