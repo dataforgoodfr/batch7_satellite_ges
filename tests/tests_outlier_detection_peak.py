@@ -27,9 +27,9 @@ np.random.seed(18)
 od.compare_peaks(df_dis, peaks_out, "y_class_lof")
 
 peaks_out["y_class_lof_only_gaussian_param"], _ = od.detect_outliers_lof(peaks_trans, neighbors=10,
-                                                                                  features=["slope", "intercept",
-                                                                                            "amplitude", "sigma",
-                                                                                            "delta", "R"])
+                                                                         features=["slope", "intercept",
+                                                                                   "amplitude", "sigma",
+                                                                                   "delta", "R"])
 peaks_out.y_class_lof_only_gaussian_param.value_counts()
 #  1    2688
 # -1      51
@@ -38,8 +38,8 @@ od.compare_peaks(df_dis, peaks_out, "y_class_lof_only_gaussian_param")
 
 # Issue DBSCAN :very dependent on eps and nmin
 peaks_out["y_class_dbscan"] = od.detect_outliers_dbscan(peaks_trans,
-                                                 features=["latitude", "longitude", "slope", "intercept",
-                                                           "amplitude", "sigma", "delta", "R", "surf_pres"])
+                                                        features=["latitude", "longitude", "slope", "intercept",
+                                                                  "amplitude", "sigma", "delta", "R", "surf_pres"])
 peaks_out.y_class_dbscan.value_counts()
 # Out[12]:
 #  1    1964
@@ -48,12 +48,13 @@ np.random.seed(18)
 od.compare_peaks(df_dis, peaks_out, "y_class_dbscan")
 
 peaks_out["y_class_dbscan_only_gaussian_param"] = od.detect_outliers_dbscan(peaks_trans,
-                                                 features=["slope", "intercept",
-                                                           "amplitude", "sigma", "delta", "R"])
+                                                                            features=["slope", "intercept",
+                                                                                      "amplitude", "sigma", "delta",
+                                                                                      "R"])
 peaks_out.y_class_dbscan_only_gaussian_param.value_counts()
 # Out[12]:
-#  1    1964
-# -1     775
+#   1    2603
+# -1     136
 np.random.seed(18)
 od.compare_peaks(df_dis, peaks_out, "y_class_dbscan_only_gaussian_param")
 
