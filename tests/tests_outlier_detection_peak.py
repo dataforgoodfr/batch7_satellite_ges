@@ -61,4 +61,4 @@ od.compare_peaks(df_dis, peaks_out, "y_class_dbscan_only_gaussian_param")
 # 4 methods: LOF using all features, LOF using only gaussian param features, DBSCAN using all features,
 # DBSCAN using only param features
 
-peaks_out.drop(columns="Unnamed: 0").to_csv("dataset/output/" + "peaks_out_1808", index=False)
+peaks_out.drop(columns="Unnamed: 0").to_csv("dataset/output/" + "peaks_out_1808.csv", index=False)
