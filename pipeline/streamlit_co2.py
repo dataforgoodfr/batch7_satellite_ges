@@ -59,14 +59,17 @@ objects = swift_conn.get_container('oco2')[1]
 for data in objects:
     if '/peaks-detected/' in data['name']:
         #print('{0}\t{1}\t{2}'.format(data['name'], data['bytes'], data['last_modified']))
-        yearmonth = d = re.findall(r'(\d{4})', data['name'])[-1]
+        yearmonth = re.findall(r'(\d{4})', data['name'])[-1]
+        text = yearmonth[2:4] + '/20' +yearmonth[0:2]
         files.update(
-            {yearmonth : config['swift_storage']['base_url']+data['name']}
+            {text : config['swift_storage']['base_url']+data['name']}
         )
+
 
 @st.cache
 def load_data(file):
     df = pd.read_csv(file)
+    df['sounding_id']= df['sounding_id'].astype(str)
     return df
 
 
@@ -74,7 +77,12 @@ def load_data(file):
 # CO2 peaks found in OCO-2 satellite datas
 """
 
-year = st.sidebar.selectbox("Year", tuple(files.keys()) )
+#year = st.sidebar.selectbox("Year", tuple(sorted(files.keys())) )
+
+#year = st.slider("Date", )
+age = st.slider('Select month', 0, len(files)-1)
+st.write("Data for", sorted(files.keys())[age])
+year = sorted(files.keys())[age]
 
 df = load_data(files[year])
 view = data_utils.compute_view(df[["longitude", "latitude"]])
@@ -97,8 +105,8 @@ scatter_layer = pdk.Layer(
     data=df,
     get_position=["longitude", "latitude"],
     get_radius="delta",
-    radius_scale=6000,
-    opacity=0.8,
+    radius_scale=100000,
+    opacity=0.5,
     radius_min_pixels=1,
     radius_max_pixels=100,
     line_width_min_pixels=1,
@@ -120,7 +128,10 @@ r = pdk.Deck(
 )
 st.pydeck_chart(r)
 df
-sounding_id = st.text_input("label goes here", '2014092005344977')
+
+#default_sounding = str(df.loc[df.index[0], 'sounding_id'])
+default_sounding = str(df.iloc[df['delta'].idxmax()]['sounding_id'])
+sounding_id = st.text_input("Enter the sounding ID here", default_sounding)
 df_detail = pd.read_json(config['swift_storage']['base_url']+'/datasets/oco-2/peaks-detected-details/peak_data-si_'+sounding_id+'.json')
 
 gaussian_param = get_gaussian_param(sounding_id, df)
