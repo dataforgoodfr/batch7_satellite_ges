@@ -28,8 +28,8 @@ cities = gpd.GeoDataFrame(cities, geometry=gpd.points_from_xy(cities.longitude, 
 cities.rename(columns={"'Population (CDP)'": "pop"}, inplace=True)
 cities.crs = {'init': 'epsg:4326'}
 
-peaks_meters = peaks.to_crs(epsg=2272)
-km_buffer = peaks_meters.geometry.buffer(10 * 5280)
+peaks_meters = peaks.to_crs(epsg=3857)
+km_buffer = peaks_meters.geometry.buffer(100 * 1000)
 # km_buffer = peaks.geometry.buffer(2)
 km_buffer.head()
 # km_buffer.plot()
@@ -90,3 +90,57 @@ peaks_intersect_ag = \
                                 'land_fraction', 'surf_pres', 'y_class_lof', 'outlier_score_lof',
                                 'y_class_dbscan', 'y_class_lof_only_gaussian_param',
                                 'y_class_dbscan_only_gaussian_param'])["index_cities"].apply(list).reset_index()
+
+
+# Geodesic buffer around peak : Azimuthal equidistant projection
+# https://gis.stackexchange.com/questions/289044/creating-buffer-circle-x-kilometers-from-point-using-python
+from functools import partial
+import pyproj
+from shapely.ops import transform
+from shapely.geometry import Point
+
+proj_wgs84 = pyproj.Proj(init='epsg:4326')
+
+
+def geodesic_point_buffer(lat, lon, km):
+    # Azimuthal equidistant projection
+    aeqd_proj = '+proj=aeqd +lat_0={lat} +lon_0={lon} +x_0=0 +y_0=0'
+    project = partial(
+        pyproj.transform,
+        pyproj.Proj(aeqd_proj.format(lat=lat, lon=lon)),
+        proj_wgs84)
+    buf = Point(0, 0).buffer(km * 1000)  # distance in metres
+    return transform(project, buf).exterior.coords[:]
+
+# Example
+b = geodesic_point_buffer(45.4, -75.7, 100.0)
+buffer_around_one_peak = geodesic_point_buffer(peaks.loc[0, "latitude"], peaks.loc[0, "longitude"], 200)
+buffer_around_one_peak
+
+from shapely.geometry import Polygon
+
+polygon_geom = Polygon(buffer_around_one_peak)
+crs = {'init': 'epsg:4326'}
+polygon = gpd.GeoDataFrame(index=[0], crs=crs, geometry=[polygon_geom])
+print(polygon.geometry)
+polygon.plot()
+
+
+# On fait ceci pour tous les peaks, apres on fera dépend de la force du vent
+# pour le moment 200 km
+peaks["polygon"] =  peaks.apply(lambda df: geodesic_point_buffer(df["latitude"], df["longitude"], 100),
+                                axis = 1)
+peaks["polygon"] = peaks["polygon"].apply(lambda x: Polygon(x))
+peaks.columns
+peaks_with_buffers = peaks.drop(columns="geometry")
+peaks_with_buffers = peaks_with_buffers.rename(columns={"polygon": "geometry"})
+crs = {'init': 'epsg:4326'}
+polygon = gpd.GeoDataFrame(peaks_with_buffers, crs=crs)
+print(polygon.geometry)
+polygon.plot()
+
+m = folium.Map(location=[39.9526, -75.1652], zoom_start=3)
+folium.GeoJson(polygon).add_to(m)
+m.save("dataset/output/buffers.html")
+# peaks_meters.to_crs(epsg=4326).plot()
+webbrowser.open("dataset/output/buffers.html", new=2)
