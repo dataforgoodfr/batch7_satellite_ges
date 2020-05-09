@@ -82,7 +82,7 @@ peaks_intersect_invent = gpd.sjoin(peaks_intersect_invent, centrales.loc[:, ["ge
                                    how="left", op='intersects').rename(columns={"index_right": "index_centrales"})
 peaks_intersect_invent.info()
 
-for c in ["index_centrales"]:
+
 peaks_intersect_ag = \
     peaks_intersect_invent.groupby([peaks_intersect_invent.index, 'sounding_id', 'latitude', 'longitude', 'orbit',
                                 'slope', 'intercept', 'amplitude', 'sigma', 'delta', 'R', 'windspeed_u', 'windspeed_v',
