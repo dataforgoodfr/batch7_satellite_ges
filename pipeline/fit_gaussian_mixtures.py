@@ -7,7 +7,6 @@ from sklearn import mixture
 import itertools
 
 
-
 def select_peak(df, peaks, sounding_chosen):
     peak = peaks.loc[peaks["sounding_id"] == sounding_chosen, :]
     orbit_target = peak['orbit'].astype("int64")
