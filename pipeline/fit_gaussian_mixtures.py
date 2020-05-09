@@ -8,19 +8,23 @@ import itertools
 
 # Parametres
 month_chosen = "1608"
-sounding_chosen = 2016083111560007
+
 STORE = "https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/"
 
 # Import
 df = pd.read_csv(STORE + "soudings/oco2_" + month_chosen + ".csv.xz", compression="xz", sep=";")
 peaks = pd.read_csv(STORE + "peaks-detected/result_for_oco2_" + month_chosen + ".csv").drop(columns="Unnamed: 0")
-peak = peaks.loc[peaks["sounding_id"] == sounding_chosen, :]
-orbit_target = peak['orbit'].astype("int64")
-df_orbit = df.loc[df['orbit'] == orbit_target.iloc[0], :]
-df_orbit = fp.compute_distance(df_orbit)
 
 
-def preprocess_for_fit(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200):
+def select_peak(df, peaks, sounding_chosen):
+    peak = peaks.loc[peaks["sounding_id"] == sounding_chosen, :]
+    orbit_target = peak['orbit'].astype("int64")
+    df_orbit = df.loc[df['orbit'] == orbit_target.iloc[0], :]
+    df_orbit = fp.compute_distance(df_orbit)
+    return df_orbit, peak
+
+
+def preprocess_for_fit(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200, window_rolling_avg=10):
 
     km_start = df_orbit.set_index("sounding_id").loc[peak['sounding_id'], 'distance']
     df_slice = df_orbit.loc[(df_orbit["distance"] >= km_start.iloc[0] - window/2) &
@@ -29,10 +33,13 @@ def preprocess_for_fit(df_orbit, peak, N_sample=10000, N_quantiles=200, window=2
     y = df_slice['xco2']
     X = pd.concat([x, y], axis=1)
     X = X.sort_values("distance")
-    plt.scatter(x, y, c=y, s=3, label='Observed data')
+    #plt.scatter(x, y, c=y, s=3, label='Observed data')
     # On réduit le bruit en prenant des bins
     X["bins"] = pd.qcut(x, N_quantiles)
     X = X.groupby("bins").agg({"distance": "mean", "xco2": "mean"})
+    # then take rolling average to smooth curve
+    X = X.rolling(window=window_rolling_avg).mean()
+    X = X.dropna()
     plt.scatter(X.distance, X.xco2, c=X.xco2, s=3, label='Binned data')
     X = X.values
     # fit du gaussian mixture
@@ -142,5 +149,9 @@ def fit_gaussian_mixture_model_selection(df_orbit, peak, N_sample=10000, N_quant
 
 
 if __name__ == "__main__":
-    fit_gaussian_mixture(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200, k=5)
+    np.random.seed(123)
+    #sounding_chosen = 2016083111560007
+    sounding_chosen = 2016082411501471
+    df_orbit, peak = select_peak(df, peaks, sounding_chosen)
+    # fit_gaussian_mixture(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200, k=5)
     fit_gaussian_mixture_model_selection(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200)
