@@ -6,14 +6,6 @@ import pandas as pd
 from sklearn import mixture
 import itertools
 
-# Parametres
-month_chosen = "1608"
-
-STORE = "https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/"
-
-# Import
-df = pd.read_csv(STORE + "soudings/oco2_" + month_chosen + ".csv.xz", compression="xz", sep=";")
-peaks = pd.read_csv(STORE + "peaks-detected/result_for_oco2_" + month_chosen + ".csv").drop(columns="Unnamed: 0")
 
 
 def select_peak(df, peaks, sounding_chosen):
@@ -145,13 +137,31 @@ def fit_gaussian_mixture_model_selection(df_orbit, peak, N_sample=10000, N_quant
 
     axis.legend()
     plt.show()
+    mu = clf.means_.flatten()
+    sd = np.sqrt(clf.covariances_.flatten())
+    p = clf.weights_
     return None
 
 
 if __name__ == "__main__":
+    # Parametres
+    month_chosen = "1608"
+
+    STORE = "https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/"
+
+    # Import
+    df = pd.read_csv(STORE + "soudings/oco2_" + month_chosen + ".csv.xz", compression="xz", sep=";")
+    peaks = pd.read_csv(STORE + "peaks-detected/result_for_oco2_" + month_chosen + ".csv").drop(columns="Unnamed: 0")
     np.random.seed(123)
-    #sounding_chosen = 2016083111560007
-    sounding_chosen = 2016082411501471
+    # test with johannesburg peak
+    sounding_chosen = 2016083111560007
+    df_orbit, peak = select_peak(df, peaks, sounding_chosen)
+    # fit_gaussian_mixture(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200, k=5)
+    fit_gaussian_mixture_model_selection(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200)
+    # test with randomly chosen peak
+    np.random.seed(12)
+    orbit = np.random.choice(peaks.orbit.unique())
+    sounding_chosen = np.random.choice(peaks.loc[peaks["orbit"] == orbit, "sounding_id"])
     df_orbit, peak = select_peak(df, peaks, sounding_chosen)
     # fit_gaussian_mixture(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200, k=5)
     fit_gaussian_mixture_model_selection(df_orbit, peak, N_sample=10000, N_quantiles=200, window=200)
