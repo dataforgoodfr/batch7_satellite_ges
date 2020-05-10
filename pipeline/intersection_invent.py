@@ -5,6 +5,7 @@ from folium import Choropleth, Circle, Marker
 from folium.plugins import HeatMap, MarkerCluster
 import numpy as np
 import webbrowser
+from scipy import stats
 import math
 
 peaks = pd.read_csv("dataset/output/peaks_out_1808.csv")
@@ -51,6 +52,8 @@ def compute_buffers(peaks, km, y_class="y_class_dbscan_only_gaussian_param"):
 
 
 def draw_buffer_map(peaks, km, y_class="y_class_dbscan_only_gaussian_param"):
+    """ ce n'est qu'une carte qui me permettait de voir les 2 types de peak rapidement,
+    il faudrait juste intégrer les buffer dans la carte de Quentin K"""
     _, km_buffer_normal, km_buffer_abnormal = compute_buffers(peaks, km, y_class)
     m = folium.Map(location=[39.9526, -75.1652], zoom_start=3)
     folium.GeoJson(km_buffer_normal.to_crs(epsg=4326), name='normal', style_function=lambda x: style1).add_to(m)
@@ -117,7 +120,13 @@ peaks_meters_cities_centrales = spatial_join_peak_inventory(peaks)
 
 def define_metric_outlier(peaks_meters_cities_centrales, y_class):
     peaks_meters_cities_centrales.loc[peaks_meters_cities_centrales[y_class] == -1,
-                                      "number_centrales"].describe()
+                                      "number_centrales"].mean()
     peaks_meters_cities_centrales.loc[peaks_meters_cities_centrales[y_class] == 1,
-                                      "number_centrales"].describe()
-
+                                      "number_centrales"].mean()
+    t, p = stats.ttest_ind(peaks_meters_cities_centrales.loc[peaks_meters_cities_centrales[y_class] == -1,
+                                      "number_centrales"],
+                          peaks_meters_cities_centrales.loc[peaks_meters_cities_centrales[y_class] == 1,
+                                                            "number_centrales"], equal_var=False
+                          )
+    print(t, p)
+    return None
