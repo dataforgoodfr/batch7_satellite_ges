@@ -1,0 +1,17 @@
+jupyterlab # Only for dev
+rtree
+bs4 # BeautifulSoup
+dash
+dash_dangerously_set_inner_html
+scipy
+geopandas
+pandas
+numpy
+#matplotlib
+folium
+geopy
+shapely
+tqdm
+python-swiftclient
+python-keystoneclient
+nbdev # For generating modules from notebooks
