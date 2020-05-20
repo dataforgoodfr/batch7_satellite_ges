@@ -1,0 +1,13 @@
+{
+    "swift_storage": {
+        "user":"B..r",
+        "key":"ep..ca",
+        "auth_url":"https://auth.cloud.ovh.net/v3/",
+        "tenant_name":"8..8",
+        "auth_version":"3",
+        "options" : {
+            "region_name": "GRA"
+        },
+        "base_url" : "https://storage.gra.cloud.ovh.net/v1/AUTH_2...d/oco2/"
+    }
+}
