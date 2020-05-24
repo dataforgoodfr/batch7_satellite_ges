@@ -94,6 +94,11 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
     sig = abs(popt[3])  # sigma of the Gaussian (km)
     delta = popt[2] / (popt[3] * (2 * np.pi) ** 0.5)  # height of the peak (ppm)
 
+    # check the quality of the fit
+    d_peak = df_slice[(d_centered >= -4 * sig) & (d_centered <= 4 * sig)]
+    d_peak_distance = d_peak['distance'] - df_slice.loc[orbit_index, 'distance']
+    R = np.corrcoef(gaussian(d_peak_distance, *popt), d_peak['xco2'])
+
     if implement_filters:
         if sig < 2:
             return default_return  # too narrow
@@ -106,16 +111,17 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
         if len(df_slice[(d_centered <= 1 * sig) & (d_centered >= 0)]) < int(sig):
             return default_return
         if len(df_slice[(d_centered >= -3 * sig) & (d_centered <= -2 * sig)]) < int(sig):
-            return default_return
+            return default_return       
         if len(df_slice[(d_centered <= 3 * sig) & (d_centered >= 2 * sig)]) < int(sig):
             return default_return
+        if R[0, 1] ** 2 < 0.25:
+            return default_return
+        if R[0, 1] < 0.00:
+            return default_return    
 
-    # check the quality of the fit
-    d_peak = df_slice[(d_centered >= -4 * sig) & (d_centered <= 4 * sig)]
-    d_peak_distance = d_peak['distance'] - df_slice.loc[orbit_index, 'distance']
-    R = np.corrcoef(gaussian(d_peak_distance, *popt), d_peak['xco2'])
-    if R[0, 1] ** 2 < 0.25:
-        return default_return
+
+ 
+
     # TODO: Add filename of input to be able to load it later
     peak = {
         'sounding_id': df_slice.loc[orbit_index, 'sounding_id'],
@@ -183,6 +189,7 @@ def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, 
     return peak_founds
 
 
+
 if __name__ == "__main__":
     input_dir = r'../../../datasets/OCO2/csv/'
     dir = os.path.realpath(input_dir)
@@ -191,3 +198,5 @@ if __name__ == "__main__":
     data_1808 = compute_distance(data_1808)
     peaks_found = gaussian_fit_on_df(data_1808, input_name='oco2_1808', output_dir=dir, output_peak=True,
                                      output_csv=True, implement_filters=True)
+
+
