@@ -94,7 +94,7 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
     sig = abs(popt[3])  # sigma of the Gaussian (km)
     delta = popt[2] / (popt[3] * (2 * np.pi) ** 0.5)  # height of the peak (ppm)
 
-    # check the quality of the fit
+    # measure the quality of the fit
     d_peak = df_slice[(d_centered >= -4 * sig) & (d_centered <= 4 * sig)]
     d_peak_distance = d_peak['distance'] - df_slice.loc[orbit_index, 'distance']
     R = np.corrcoef(gaussian(d_peak_distance, *popt), d_peak['xco2'])
