@@ -105,7 +105,7 @@ class Datasets:
         # TODO : Switch to GeoPandas ?
         df = None
         extension = url.split('.')[-1].lower()
-        if extension == 'csv' or extension == 'xz':
+        if extension == 'csv' or extension == 'xz' or extension == 'bz2':
             df = pd.read_csv(url, sep=';')
             if len(df.columns) == 1: # Very bad because we load it twice !
                 df = pd.read_csv(url, sep=',')
