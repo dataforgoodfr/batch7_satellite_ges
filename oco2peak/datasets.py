@@ -102,12 +102,15 @@ class Datasets:
         :param url: str, URL of the file to load.
         :return: DataFrame
         """
-        # TODO : Switch to GeoPandas
+        # TODO : Switch to GeoPandas ?
         df = None
         extension = url.split('.')[-1].lower()
-        if extension == 'csv':
-            df = pd.read_csv(url)
-            df['sounding_id']= df['sounding_id'].astype(str)
+        if extension == 'csv' or extension == 'xz':
+            df = pd.read_csv(url, sep=';')
+            if len(df.columns) == 1: # Very bad because we load it twice !
+                df = pd.read_csv(url, sep=',')
+            if 'sounding_id' in df.columns:
+                df['sounding_id']= df['sounding_id'].astype(str)
         elif extension == 'json':
             df = pd.read_json(url)
         return df
