@@ -40,14 +40,20 @@ entries:
       title: Open Stack Swift storage of the project
       url: /oco2peak-datasets
     - output: web,pdf
-      title: Title
-      url: /show_map
+      title: Peak detection
+      url: /oco2peak-find_peak
     - output: web,pdf
       title: 'MAP : Module to display the data on a map'
       url: /oco2peak-map
     - output: web,pdf
+      title: NASA NC4 Loader
+      url: /oco2peak-nc4_convert
+    - output: web,pdf
       title: Test OVH storage
       url: /oco2peak-swift_utils
+    - output: web,pdf
+      title: Title
+      url: /show_map
     - output: web,pdf
       title: Visualization of detected peak of CO2
       url: /view_peak
