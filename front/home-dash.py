@@ -61,7 +61,7 @@ def build_graph(df_oco2, sounding_id):
     df_peak['gaussian_y'] = df_peak.distance.apply(
         lambda x: find_peak.gaussian(x=x, m=gaussian_param['slope'], b=gaussian_param['intercept'], A=gaussian_param['amplitude'], sig=gaussian_param['sigma']))
 
-    sounding_scatter = oco2map.build_sounding_scatter(df_peak, gaussian_param, with_dash = False)
+    sounding_scatter = oco2map.build_sounding_scatter(df_peak, gaussian_param)
 
     mapbox_token = config['mapbox_token']
     sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token)
@@ -90,6 +90,7 @@ def build_graph(df_oco2, sounding_id):
 last_key = sorted(files.keys())[-1]
 
 oco2_data = datasets.get_dataframe(files[last_key]['url'])
+oco2_data = oco2_data[oco2_data.delta > 1]
 default_folium_map = oco2map.build_world_map(oco2_data)
 
 
@@ -156,6 +157,7 @@ def update_output(value):
     key = sorted(files.keys())[value]
     url = files[key]['url']
     oco2_data = datasets.get_dataframe(url)
+    oco2_data = oco2_data[oco2_data.delta > 1]
     return f'Dataset file : {url}', oco2map.build_world_map(oco2_data).get_root().render()
 
 
