@@ -70,7 +70,7 @@ class Datasets:
                                                     content_type=content_type) # 'text/csv'
     def get_files_urls(self, pattern=""):
         result=[]
-        objects = self.conn.get_container(self.container_name)[1]
+        objects = self.conn.get_container(self.container_name, full_listing=True)[1]
         for data in objects:
             if pattern in data['name']:
                 url = self.config['swift_storage']['base_url']+data['name']
