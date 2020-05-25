@@ -92,7 +92,13 @@ sidebar: home_sidebar
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Examples">Examples<a class="anchor-link" href="#Examples"> </a></h1><h2 id="Connection">Connection<a class="anchor-link" href="#Connection"> </a></h2>
+<h1 id="Examples">Examples<a class="anchor-link" href="#Examples"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Connection">Connection<a class="anchor-link" href="#Connection"> </a></h2>
 </div>
 </div>
 </div>
@@ -108,6 +114,447 @@ sidebar: home_sidebar
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Get-a-dataset">Get a dataset<a class="anchor-link" href="#Get-a-dataset"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Level-2-sounding-value-from-OCO-2-satellite">Level 2 sounding value from OCO-2 satellite<a class="anchor-link" href="#Level-2-sounding-value-from-OCO-2-satellite"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="s1">&#39;/soudings/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/soudings/oco2_1409.csv.xz
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sounding_id</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>xco2</th>
+      <th>xco2_uncert</th>
+      <th>orbit</th>
+      <th>windspeed_u</th>
+      <th>windspeed_v</th>
+      <th>surface_pressure_apriori</th>
+      <th>surface_pressure</th>
+      <th>altitude</th>
+      <th>land_water_indicator</th>
+      <th>land_fraction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2014090602072531</td>
+      <td>54.465824</td>
+      <td>160.511734</td>
+      <td>394.609192</td>
+      <td>0.772341</td>
+      <td>958</td>
+      <td>-2.220395</td>
+      <td>0.993341</td>
+      <td>1013.956604</td>
+      <td>1012.595825</td>
+      <td>13.096467</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2014090602072573</td>
+      <td>54.482216</td>
+      <td>160.537918</td>
+      <td>394.162170</td>
+      <td>0.677214</td>
+      <td>958</td>
+      <td>-2.180700</td>
+      <td>0.966224</td>
+      <td>1014.002808</td>
+      <td>1012.873962</td>
+      <td>12.102757</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2014090602072574</td>
+      <td>54.480503</td>
+      <td>160.555984</td>
+      <td>395.652740</td>
+      <td>0.741387</td>
+      <td>958</td>
+      <td>-2.182690</td>
+      <td>0.930883</td>
+      <td>1014.672607</td>
+      <td>1014.506714</td>
+      <td>6.454920</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="List-of-detected-peak">List of detected peak<a class="anchor-link" href="#List-of-detected-peak"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="s1">&#39;peaks-detected/result&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected/result_for_oco2_1409.csv
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>sounding_id</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>orbit</th>
+      <th>slope</th>
+      <th>intercept</th>
+      <th>amplitude</th>
+      <th>sigma</th>
+      <th>delta</th>
+      <th>R</th>
+      <th>windspeed_u</th>
+      <th>windspeed_v</th>
+      <th>surface_pressure_apriori</th>
+      <th>surface_pressure</th>
+      <th>altitude</th>
+      <th>land_water_indicator</th>
+      <th>land_fraction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>2014090607005973</td>
+      <td>43.501789</td>
+      <td>90.922615</td>
+      <td>961</td>
+      <td>-0.007228</td>
+      <td>393.498364</td>
+      <td>29.462107</td>
+      <td>9.534737</td>
+      <td>1.232722</td>
+      <td>0.660609</td>
+      <td>2.995442</td>
+      <td>2.878621</td>
+      <td>777.691711</td>
+      <td>774.468628</td>
+      <td>2221.837158</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2014090607010032</td>
+      <td>43.544865</td>
+      <td>90.895233</td>
+      <td>961</td>
+      <td>-0.007340</td>
+      <td>393.459130</td>
+      <td>31.360344</td>
+      <td>10.894470</td>
+      <td>1.148378</td>
+      <td>0.693845</td>
+      <td>2.847558</td>
+      <td>2.515943</td>
+      <td>774.478516</td>
+      <td>773.318420</td>
+      <td>2257.781982</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2014090704095436</td>
+      <td>-16.547655</td>
+      <td>143.959457</td>
+      <td>974</td>
+      <td>-0.000913</td>
+      <td>395.653969</td>
+      <td>36.590754</td>
+      <td>10.926841</td>
+      <td>1.335939</td>
+      <td>0.642492</td>
+      <td>-3.830105</td>
+      <td>0.613206</td>
+      <td>994.341064</td>
+      <td>996.813232</td>
+      <td>178.946243</td>
+      <td>0.0</td>
+      <td>100.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Level-2-sounding-value-for-a-peak">Level 2 sounding value for a peak<a class="anchor-link" href="#Level-2-sounding-value-for-a-peak"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">url</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="s1">&#39;/peaks-detected-details/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2014090607005973.json
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>orbit</th>
+      <th>sounding_id</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>xco2</th>
+      <th>xco2_uncert</th>
+      <th>windspeed_u</th>
+      <th>windspeed_v</th>
+      <th>surface_pressure_apriori</th>
+      <th>surface_pressure</th>
+      <th>altitude</th>
+      <th>land_water_indicator</th>
+      <th>land_fraction</th>
+      <th>latitude_orig</th>
+      <th>longitude_orig</th>
+      <th>distance</th>
+      <th>xco2_enhancement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>961</td>
+      <td>2014090607004536</td>
+      <td>42.636265</td>
+      <td>91.254890</td>
+      <td>394.385742</td>
+      <td>0.608847</td>
+      <td>1.066924</td>
+      <td>-0.115263</td>
+      <td>959.215515</td>
+      <td>956.433167</td>
+      <td>413.602203</td>
+      <td>0</td>
+      <td>100</td>
+      <td>16.679594</td>
+      <td>98.151855</td>
+      <td>-99.885402</td>
+      <td>0.727142</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>961</td>
+      <td>2014090607004502</td>
+      <td>42.630756</td>
+      <td>91.208755</td>
+      <td>394.208282</td>
+      <td>0.484068</td>
+      <td>1.061136</td>
+      <td>-0.146890</td>
+      <td>959.631592</td>
+      <td>955.195984</td>
+      <td>409.457794</td>
+      <td>0</td>
+      <td>100</td>
+      <td>16.679594</td>
+      <td>98.151855</td>
+      <td>-99.505273</td>
+      <td>0.549683</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>961</td>
+      <td>2014090607004535</td>
+      <td>42.639961</td>
+      <td>91.241791</td>
+      <td>394.180023</td>
+      <td>0.581653</td>
+      <td>1.080121</td>
+      <td>-0.070387</td>
+      <td>960.536621</td>
+      <td>956.597473</td>
+      <td>401.312225</td>
+      <td>0</td>
+      <td>100</td>
+      <td>16.679594</td>
+      <td>98.151855</td>
+      <td>-99.213240</td>
+      <td>0.521423</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -154,7 +601,14 @@ sidebar: home_sidebar
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="List-files">List files<a class="anchor-link" href="#List-files"> </a></h2>
+<h2 id="List-files">List files<a class="anchor-link" href="#List-files"> </a></h2><h2 id="Open-Stack-directories-structure">Open Stack directories structure<a class="anchor-link" href="#Open-Stack-directories-structure"> </a></h2><p>We do not store the original OCO-2 files from NASA.</p>
+<ul>
+<li>/emissions/ contains all the potential source of emissions : factories, power plants, cities...</li>
+<li>/soudings/ contains CSV of the raw features extracted from NASA NC4 files.</li>
+<li>/peaks-detected/ contains all the peak found in the satellite orbit datas.</li>
+<li>/peaks-detected-details/ contains one JSON file of the full data for all detected peak</li>
+</ul>
+
 </div>
 </div>
 </div>
@@ -205,6 +659,7 @@ sidebar: home_sidebar
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">objects</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_container</span><span class="p">(</span><span class="s1">&#39;oco2&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of file : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">objects</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
     <span class="k">if</span> <span class="s1">&#39;oco2_1504&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="se">\t</span><span class="si">{1}</span><span class="se">\t</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bytes&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;last_modified&#39;</span><span class="p">]))</span>
@@ -220,8 +675,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>/datasets/oco-2/peaks-detected/result_for_oco2_1504.csv	21241	2020-05-05T17:13:30.884370
-/datasets/oco-2/soudings/oco2_1504.csv.xz	75186100	2020-05-03T07:48:47.793680
+<pre>Number of file : 10000
 </pre>
 </div>
 </div>
@@ -246,8 +700,8 @@ sidebar: home_sidebar
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">mask</span><span class="o">=</span><span class="s1">&#39;../*.md&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/Trash/&quot;</span><span class="p">,</span><span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;text/text&#39;</span><span class="p">)</span>
-<span class="c1"># datasets.(&quot;/media/data-nvme/dev/datasets/OCO2/csv/*.csv&quot;, &quot;/datasets/oco-2/peaks-detected/&quot;, &#39;text/csv&#39;)</span>
-<span class="c1"># datasets.(&quot;/media/data-nvme/dev/datasets/OCO2/csv/*.json&quot;, &quot;/datasets/oco-2/peaks-detected-details/&quot;, &#39;application/json&#39;)</span>
+<span class="c1"># datasets.upload(&quot;/media/data-nvme/dev/datasets/OCO2/csv/*.csv&quot;, &quot;/datasets/oco-2/peaks-detected/&quot;, &#39;text/csv&#39;)</span>
+<span class="c1"># datasets.upload(&quot;/media/data-nvme/dev/datasets/OCO2/csv/*.json&quot;, &quot;/datasets/oco-2/peaks-detected-details/&quot;, &#39;application/json&#39;)</span>
 </pre></div>
 
     </div>
@@ -260,7 +714,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 2/2 [00:00&lt;00:00,  3.85it/s]
+<pre>100%|██████████| 3/3 [00:00&lt;00:00,  4.63it/s]
 </pre>
 </div>
 </div>
@@ -294,6 +748,7 @@ sidebar: home_sidebar
 
 <div class="output_text output_subarea output_execute_result">
 <pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/CONTRIBUTING.md&#39;,
+ &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/README-old.md&#39;,
  &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/README.md&#39;]</pre>
 </div>
 
@@ -356,6 +811,7 @@ sidebar: home_sidebar
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>deleting /Trash/CONTRIBUTING.md
+deleting /Trash/README-old.md
 deleting /Trash/README.md
 </pre>
 </div>
@@ -374,140 +830,7 @@ deleting /Trash/README.md
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="s1">&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2018082505142073.json&#39;</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>orbit</th>
-      <th>sounding_id</th>
-      <th>latitude</th>
-      <th>longitude</th>
-      <th>xco2</th>
-      <th>xco2_uncert</th>
-      <th>windspeed_u</th>
-      <th>windspeed_v</th>
-      <th>surface_pressure_apriori</th>
-      <th>surface_pressure</th>
-      <th>altitude</th>
-      <th>land_water_indicator</th>
-      <th>land_fraction</th>
-      <th>latitude_orig</th>
-      <th>longitude_orig</th>
-      <th>distance</th>
-      <th>xco2_enhancement</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>22061</td>
-      <td>2018082505140535</td>
-      <td>35.290813</td>
-      <td>117.642830</td>
-      <td>400.878540</td>
-      <td>0.559905</td>
-      <td>-2.961818</td>
-      <td>-0.434006</td>
-      <td>983.626465</td>
-      <td>981.835144</td>
-      <td>218.204407</td>
-      <td>0</td>
-      <td>100</td>
-      <td>-43.749119</td>
-      <td>135.989822</td>
-      <td>-99.458018</td>
-      <td>-0.413101</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>22061</td>
-      <td>2018082505140503</td>
-      <td>35.292336</td>
-      <td>117.637512</td>
-      <td>400.439972</td>
-      <td>0.567133</td>
-      <td>-2.958889</td>
-      <td>-0.431859</td>
-      <td>981.793701</td>
-      <td>984.246216</td>
-      <td>234.751266</td>
-      <td>0</td>
-      <td>100</td>
-      <td>-43.749119</td>
-      <td>135.989822</td>
-      <td>-99.182306</td>
-      <td>-0.851669</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>22061</td>
-      <td>2018082505140608</td>
-      <td>35.297531</td>
-      <td>117.647171</td>
-      <td>400.820587</td>
-      <td>0.667865</td>
-      <td>-2.963000</td>
-      <td>-0.423906</td>
-      <td>984.632263</td>
-      <td>984.782532</td>
-      <td>209.161057</td>
-      <td>0</td>
-      <td>100</td>
-      <td>-43.749119</td>
-      <td>135.989822</td>
-      <td>-98.822275</td>
-      <td>-0.471054</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="n">notebook2script</span>
 <span class="n">notebook2script</span><span class="p">()</span>
 </pre></div>
 
@@ -521,11 +844,29 @@ deleting /Trash/README.md
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Converted 00_core.ipynb.
-Converted datasets.ipynb.
-Converted find_peak.ipynb.
+<pre>Converted 03_25_OCO2_Data_Exploration.ipynb.
+Converted 04_01_OCO2_Work_Base.ipynb.
+Converted 04_04_OCO2_China_Peaks.ipynb.
+Converted 04_15_OCO2_Laiwu_Peak_Detection.ipynb.
+Converted CO2_emissions_Inventory_data.ipynb.
+Converted Christian-datasets-Distances.ipynb.
+Converted Find_Peaks_with_LSTM_autoencoders.ipynb.
+Converted Laiwu_Plume-more_data.ipynb.
+Converted Laiwu_Plume-more_data_CD_exploration_selection_peaks.ipynb.
+Converted Laiwu_Plume.ipynb.
+Converted Untitled.ipynb.
+Converted WIP_OCO2_Capture.ipynb.
+Converted WIP_OCO2_Peaks_Wind.ipynb.
+Converted WIP_OCO2_Peaks_Wind_Visualization.ipynb.
+Converted find_peak_bco_test.ipynb.
 Converted index.ipynb.
-Converted map.ipynb.
+Converted oco2peak-datasets.ipynb.
+Converted oco2peak-find_peak.ipynb.
+Converted oco2peak-map.ipynb.
+Converted oco2peak-nc4_convert.ipynb.
+Converted oco2peak-swift_utils.ipynb.
+Converted show_map.ipynb.
+Converted view_peak.ipynb.
 </pre>
 </div>
 </div>

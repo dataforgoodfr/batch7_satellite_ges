@@ -70,7 +70,7 @@ class Datasets:
                                                     content_type=content_type) # 'text/csv'
     def get_files_urls(self, pattern=""):
         result=[]
-        objects = self.conn.get_container(self.container_name)[1]
+        objects = self.conn.get_container(self.container_name, full_listing=True)[1]
         for data in objects:
             if pattern in data['name']:
                 url = self.config['swift_storage']['base_url']+data['name']
@@ -102,12 +102,15 @@ class Datasets:
         :param url: str, URL of the file to load.
         :return: DataFrame
         """
-        # TODO : Switch to GeoPandas
+        # TODO : Switch to GeoPandas ?
         df = None
         extension = url.split('.')[-1].lower()
-        if extension == 'csv':
-            df = pd.read_csv(url)
-            df['sounding_id']= df['sounding_id'].astype(str)
+        if extension == 'csv' or extension == 'xz' or extension == 'bz2':
+            df = pd.read_csv(url, sep=';')
+            if len(df.columns) == 1: # Very bad because we load it twice !
+                df = pd.read_csv(url, sep=',')
+            if 'sounding_id' in df.columns:
+                df['sounding_id']= df['sounding_id'].astype(str)
         elif extension == 'json':
             df = pd.read_json(url)
         return df

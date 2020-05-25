@@ -5,14 +5,17 @@
     "OCO2 - Working basis": "/01_OCO2_Work_Base",
     "OCO2 - Reproduce F. Chevallier's figures": "/WIP_OCO2_Peaks_Wind",
     "**1. EDGAR data**": "/CO2_emissions_Inventory_data",
+    "Open Stack Swift storage of the project": "/oco2peak-datasets",
     "Importing Libraries and Loading Data": "/Find_Peaks_with_LSTM_autoencoders",
     "OCO2 - Analyze the CO\u00b2 plume of Laiwu city": "/Laiwu_Plume",
     "Gaussian fit": "/Laiwu_Plume-more_data_CD_exploration_selection_peaks",
+    "Upload file to Open Stack": "/Untitled",
     "OCO2 - Count Cities and Plants inside a capture zone around the peak": "/WIP_OCO2_Capture",
     "OCO2 - Visualize detected peaks and other sources": "/WIP_OCO2_Peaks_Wind_Visualization",
-    "Open Stack Swift storage of the project": "/oco2peak-datasets",
     "Title": "/show_map",
+    "Peak detection": "/oco2peak-find_peak",
     "MAP : Module to display the data on a map": "/oco2peak-map",
+    "NASA NC4 Loader": "/oco2peak-nc4_convert",
     "Test OVH storage": "/oco2peak-swift_utils",
     "Visualization of detected peak of CO2": "/view_peak"
   }
