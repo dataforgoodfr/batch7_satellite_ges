@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn import preprocessing
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.cluster import DBSCAN
+from sklearn.cluster import KMeans
 from .find_peak import gaussian
 
 
@@ -73,6 +74,21 @@ def detect_outliers_dbscan(peaks, features, epsilon=1, nmin=5):
     # print(peaks["y_class"].value_counts())
     return peaks["y_class"]
 
+
+def detect_outliers_kmeans(peaks, features, nclusters):
+    """
+    Function that implements kmean clustering to select best gaussian fits
+    :param features: List, list of columns to determine neighbors
+    :param peaks: data containing peak parameters (distinct peaks per row)
+    :param nclusters: parameter n_clusters in K_means
+    :return: pandas DataFrame, input with added kmeans_cluster variable indicating the number of cluster associated to the gaussian
+    """
+    x = peaks.loc[:, features].values
+    clusterer = KMeans(n_clusters=nclusters, random_state=10)
+    cluster_labels = clusterer.fit_predict(x)
+    peaks['kmeans_cluster'] = cluster_labels
+    return peaks
+   
 
 def graph_peak(df_full, peak):
     window = 200
