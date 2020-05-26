@@ -17,6 +17,7 @@
     "MAP : Module to display the data on a map": "/oco2peak-map",
     "NASA NC4 Loader": "/oco2peak-nc4_convert",
     "Test OVH storage": "/oco2peak-swift_utils",
+    "Find the source of a peak": "/oco2peak_find_source",
     "Visualization of detected peak of CO2": "/view_peak"
   }
 }

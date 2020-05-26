@@ -58,6 +58,9 @@ entries:
       title: Test OVH storage
       url: /oco2peak-swift_utils
     - output: web,pdf
+      title: Find the source of a peak
+      url: /oco2peak_find_source
+    - output: web,pdf
       title: Visualization of detected peak of CO2
       url: /view_peak
     output: web

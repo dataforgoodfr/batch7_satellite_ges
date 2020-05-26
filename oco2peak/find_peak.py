@@ -130,6 +130,8 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
         if R[0, 1] < 0.00:
             return default_return # The correlation must be positive
     # TODO: Add filename of input to be able to load it later
+    # TODO: Add psurf
+    # TODO: add TCWV
     peak = {
         'sounding_id': df_slice.loc[orbit_index, 'sounding_id'],
         'latitude': df_slice.loc[orbit_index, 'latitude'],
@@ -142,7 +144,9 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
         'delta': delta,
         'R': R[0, 1],
         'windspeed_u': df_slice.loc[orbit_index, 'windspeed_u'],
-        'windspeed_v': df_slice.loc[orbit_index, 'windspeed_v']
+        'windspeed_v': df_slice.loc[orbit_index, 'windspeed_v'],
+        'surface_pressure': df_slice.loc[orbit_index, 'surface_pressure'],
+        'tcwv': 0,
     }
     # Save sounding data around peak
     if output_peak:

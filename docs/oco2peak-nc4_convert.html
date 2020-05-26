@@ -157,7 +157,9 @@ sidebar: home_sidebar
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Sounding&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span>
+<span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Sounding&#39;</span><span class="p">]</span>
+<span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Meteorology&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -172,10 +174,58 @@ sidebar: home_sidebar
 
 
 <div class="output_text output_subarea output_execute_result">
+<pre>&lt;class &#39;netCDF4._netCDF4.Dataset&#39;&gt;
+root group (NETCDF4 data model, file format HDF5):
+    filter_function: oco2_xco2_quality_flag_b10
+    bc_function: oco2_xco2_bias_correct_b10
+    warn_level_function: From_L2Std
+    Bias_Correction_land: XCO2_Bias_Corrected = (XCO2_Raw + 0.855*(dpfrac + 0.0) + 0.0335*(co2_grad_del - 5.00) + 0.335*(logDWS + 5.00) - 5.20*(aod_fine - 0.0300) - footprint_bias)/0.99580
+    Bias_Correction_oceanGL: XCO2_Bias_Corrected = (XCO2_Raw + 0.213*(dp_sco2 + 0.0) - 0.0870*((co2_grad_del&lt;(0.)) + 6.00) - footprint_bias)/0.99560
+    Bias_Correction_oceanND: XCO2_Bias_Corrected = (XCO2_Raw + 0.213*(dp_sco2 + 0.0) - 0.0870*((co2_grad_del&lt;(0.)) + 6.00) - footprint_bias)/0.99560
+    Footprint_bias_land: Assumed footprint biases in xco2 [ppm] for footprints 1-8: -0.51, -0.24, -0.20, -0.15, 0.11, 0.40, 0.20, 0.39
+    Footprint_bias_oceanGL: Assumed footprint biases in xco2 [ppm] for footprints 1-8: -0.37, -0.10, -0.15, -0.10, 0.04, 0.28, 0.11, 0.29
+    Footprint_bias_oceanND: Assumed footprint biases in xco2 [ppm] for footprints 1-8: -0.37, -0.10, -0.15, -0.10, 0.04, 0.28, 0.11, 0.29
+    Bias_Uncertainty: Bias correction parameter uncertainties are given in the data users guide.
+    Note_regarding_bias_correction: There is some uncertainty in not only the bias correction coefficients but in the chosen parameters themselves. This release bias correction may be slightly different that of previous releases, and also somewhat different from those of previous ACOS algorithm versions.  This has to do with details of the particular retrieval algorithm version and is considered normal (though not ideal).
+    Platform: OCO-2
+    Sensor: OCO-2
+    BuildId: B10.0.04
+    CollectionLabel: Ops_B10007_r02
+    L2FullPhysicsExeVersion: SVN-B10.0.04_sdos_testing_1-34778
+    title: ACOS L2 Lite Output
+    filtering state: Filtered with oco2_lite_file_prefilter_b8a
+    creation_date: May 2020
+    contact: Chris O&#39;Dell: odell@atmos.colostate.edu
+    dimensions(sizes): sounding_id(202617), levels(20), bands(3), vertices(4), footprints(8), source_files(15), epoch_dimension(7)
+    variables(dimensions): uint64 sounding_id(sounding_id), int16 levels(levels), int16 bands(bands), int16 vertices(vertices), int16 footprints(footprints), int16 date(sounding_id,epoch_dimension), float32 latitude(sounding_id), float32 longitude(sounding_id), float64 time(sounding_id), float32 solar_zenith_angle(sounding_id), float32 sensor_zenith_angle(sounding_id), int8 xco2_quality_flag(sounding_id), int32 xco2_qf_bitflag(sounding_id), uint8 xco2_qf_simple_bitflag(sounding_id), &lt;class &#39;str&#39;&gt; source_files(source_files), uint8 file_index(sounding_id), float32 vertex_latitude(sounding_id,vertices), float32 vertex_longitude(sounding_id,vertices), float32 xco2(sounding_id), float32 xco2_uncertainty(sounding_id), float32 xco2_apriori(sounding_id), float32 pressure_levels(sounding_id,levels), float32 co2_profile_apriori(sounding_id,levels), float32 xco2_averaging_kernel(sounding_id,levels), float32 pressure_weight(sounding_id,levels)
+    groups: Meteorology, Preprocessors, Retrieval, Sounding</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
 <pre>&lt;class &#39;netCDF4._netCDF4.Group&#39;&gt;
 group /Sounding:
     dimensions(sizes): 
     variables(dimensions): float32 solar_azimuth_angle(sounding_id), float32 sensor_azimuth_angle(sounding_id), float32 polarization_angle(sounding_id), int8 land_fraction(sounding_id), float32 glint_angle(sounding_id), float32 airmass(sounding_id), float32 snr_o2a(sounding_id), float32 snr_wco2(sounding_id), float32 snr_sco2(sounding_id), int32 l1b_type(sounding_id), int8 operation_mode(sounding_id), int32 orbit(sounding_id), uint8 path(sounding_id), int8 footprint(sounding_id), int8 land_water_indicator(sounding_id), float32 altitude(sounding_id), float32 altitude_stddev(sounding_id)
+    groups: </pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;class &#39;netCDF4._netCDF4.Group&#39;&gt;
+group /Meteorology:
+    dimensions(sizes): 
+    variables(dimensions): float32 psurf_apriori_o2a(sounding_id), float32 psurf_apriori_wco2(sounding_id), float32 psurf_apriori_sco2(sounding_id), float32 windspeed_u_met(sounding_id), float32 windspeed_v_met(sounding_id)
     groups: </pre>
 </div>
 
@@ -654,6 +704,7 @@ Converted oco2peak-find_peak.ipynb.
 Converted oco2peak-map.ipynb.
 Converted oco2peak-nc4_convert.ipynb.
 Converted oco2peak-swift_utils.ipynb.
+Converted oco2peak_find_source.ipynb.
 Converted show_map.ipynb.
 Converted view_peak.ipynb.
 </pre>
