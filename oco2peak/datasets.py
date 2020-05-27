@@ -80,7 +80,7 @@ class Datasets:
     def delete_files(self, pattern="/Trash/", dry_run=True):
         if dry_run:
             print('Nothing will be deleted. Use dry_run=False to delete.')
-        for data in self.conn.get_container(self.container_name)[1]:
+        for data in self.conn.get_container(self.container_name, full_listing=True)[1]:
             file = data['name']
             if pattern in file:
                 print('deleting', file)
@@ -91,7 +91,7 @@ class Datasets:
     def get_containers(self):
         return self.conn.get_account()[1]
     def get_container(self, container_name='oco2'):
-        return self.conn.get_container(container_name)[1]
+        return self.conn.get_container(container_name, full_listing=True)[1]
 
     def get_url_from_sounding_id(self, sounding_id):
         return config['swift_storage']['base_url']+'/datasets/oco-2/peaks-detected-details/peak_data-si_'+sounding_id+'.json'
@@ -113,6 +113,14 @@ class Datasets:
                 df['sounding_id']= df['sounding_id'].astype(str)
         elif extension == 'json':
             df = pd.read_json(url)
+        if 'tcwv' not in df.columns:
+            df['tcwv'] = 25
+        else:
+            tcwv = 0
+        if 'surface_pressure' not in df.columns:
+            df['surface_pressure'] = 979
+        else:
+            tcwv = 0
         return df
 
     def get_gaussian_param(self, sounding_id, df_all_peak):

@@ -21,7 +21,7 @@ def estimate_emission(df_peak, peak_param):
 
     # Total Column Water Vapour
     tcwv = peak_param['tcwv']
-    psurf = peak_param['surface_pressure']
+    psurf = peak_param['surface_pressure'] * 100 # Convert hpa to pa
     u10 = peak_param['windspeed_u']
     v10 = peak_param['windspeed_v']
 
