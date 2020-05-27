@@ -76,7 +76,7 @@ sidebar: home_sidebar
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="Datasets" class="doc_header"><code>class</code> <code>Datasets</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/datasets.py#L14" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Datasets</code>(<strong><code>config_file</code></strong>)</p>
+<h2 id="Datasets" class="doc_header"><code>class</code> <code>Datasets</code><a href="oco2peak/datasets.py#L14" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>Datasets</code>(<strong><code>config_file</code></strong>)</p>
 </blockquote>
 <p>Utility class to access the Open Stack Swift storage of the project.</p>
 
@@ -195,6 +195,7 @@ sidebar: home_sidebar
       <th>altitude</th>
       <th>land_water_indicator</th>
       <th>land_fraction</th>
+      <th>tcwv</th>
     </tr>
   </thead>
   <tbody>
@@ -213,6 +214,7 @@ sidebar: home_sidebar
       <td>13.096467</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>1</th>
@@ -229,6 +231,7 @@ sidebar: home_sidebar
       <td>12.102757</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>2</th>
@@ -245,6 +248,7 @@ sidebar: home_sidebar
       <td>6.454920</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
   </tbody>
 </table>
@@ -333,6 +337,7 @@ sidebar: home_sidebar
       <th>altitude</th>
       <th>land_water_indicator</th>
       <th>land_fraction</th>
+      <th>tcwv</th>
     </tr>
   </thead>
   <tbody>
@@ -356,6 +361,7 @@ sidebar: home_sidebar
       <td>2221.837158</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>1</th>
@@ -377,6 +383,7 @@ sidebar: home_sidebar
       <td>2257.781982</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>2</th>
@@ -398,6 +405,7 @@ sidebar: home_sidebar
       <td>178.946243</td>
       <td>0.0</td>
       <td>100.0</td>
+      <td>25</td>
     </tr>
   </tbody>
 </table>
@@ -485,6 +493,7 @@ sidebar: home_sidebar
       <th>longitude_orig</th>
       <th>distance</th>
       <th>xco2_enhancement</th>
+      <th>tcwv</th>
     </tr>
   </thead>
   <tbody>
@@ -507,6 +516,7 @@ sidebar: home_sidebar
       <td>98.151855</td>
       <td>-99.885402</td>
       <td>0.727142</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>1</th>
@@ -527,6 +537,7 @@ sidebar: home_sidebar
       <td>98.151855</td>
       <td>-99.505273</td>
       <td>0.549683</td>
+      <td>25</td>
     </tr>
     <tr>
       <th>2</th>
@@ -547,6 +558,7 @@ sidebar: home_sidebar
       <td>98.151855</td>
       <td>-99.213240</td>
       <td>0.521423</td>
+      <td>25</td>
     </tr>
   </tbody>
 </table>
@@ -675,7 +687,9 @@ sidebar: home_sidebar
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Number of file : 10000
+<pre>Number of file : 15524
+/datasets/oco-2/peaks-detected/result_for_oco2_1504.csv	21241	2020-05-05T17:13:30.884370
+/datasets/oco-2/soudings/oco2_1504.csv.xz	75186100	2020-05-03T07:48:47.793680
 </pre>
 </div>
 </div>
@@ -714,7 +728,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 3/3 [00:00&lt;00:00,  4.63it/s]
+<pre>100%|██████████| 3/3 [00:01&lt;00:00,  2.96it/s]
 </pre>
 </div>
 </div>
@@ -865,6 +879,7 @@ Converted oco2peak-find_peak.ipynb.
 Converted oco2peak-map.ipynb.
 Converted oco2peak-nc4_convert.ipynb.
 Converted oco2peak-swift_utils.ipynb.
+Converted oco2peak_find_source.ipynb.
 Converted show_map.ipynb.
 Converted view_peak.ipynb.
 </pre>
