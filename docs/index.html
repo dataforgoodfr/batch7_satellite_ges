@@ -44,7 +44,7 @@ sidebar: home_sidebar
 <h2 id="What-we-have-as-input">What we have as input<a class="anchor-link" href="#What-we-have-as-input"> </a></h2><p><strong>1/ OCO-2 Satellite data</strong></p>
 <p>The OCO-2 Satellite (Orbiting Carbon Observatory) from the NASA orbits around Earth and measures the CO² concentration in the atmosphere.</p>
 <p>Here is a visualisation of the CO² concentration mesured by the OCO-2 satellite in December 2019. 
-<img src="/oco2peak/./assets/CO2_emissions_Edgar_2018.png" alt="CO2_ concentration_OCO2"></p>
+<img src="/batch7_satellite_ges/./assets/CO2_emissions_Edgar_2018.png" alt="CO2_ concentration_OCO2"></p>
 <p>The satellite uses spectrometers to detect CO² in the atmosphere, as shown in the image bellow.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg/321px-Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg" alt="OCO2 spectrometers"></p>
 <p><a href="https://commons.wikimedia.org/wiki/File:Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg">source</a></p>
@@ -71,7 +71,7 @@ Source : <a href="https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG">https://
 <li>The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO² during their combustion.
 Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http://datasets.wri.org/dataset/globalpowerplantdatabase</a></li>
 </ul>
-<p><img src="/oco2peak/./assets/power_plant_emissions_2017.png" alt="power_plant_emissions_2017"></p>
+<p><img src="/batch7_satellite_ges/./assets/power_plant_emissions_2017.png" alt="power_plant_emissions_2017"></p>
 <ul>
 <li>Other sources of CO² emissions are under study. </li>
 </ul>
@@ -111,10 +111,10 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 <li>We plot the results and the know emission on a map.</li>
 </ul>
 <p>Here is a sample of a peak witth the gaussian found :
-<img src="/oco2peak/./assets/gaussian_peak.png" alt="Gaussian Peak"></p>
+<img src="/batch7_satellite_ges/./assets/gaussian_peak.png" alt="Gaussian Peak"></p>
 <p>And the global map :
-<img src="/oco2peak/./assets/map-dark.png" alt="World CO2_peaks">
-<img src="/oco2peak/./assets/map-dark-orbit.png" alt="CO2_peak over Spain"></p>
+<img src="/batch7_satellite_ges/./assets/map-dark.png" alt="World CO2_peaks">
+<img src="/batch7_satellite_ges/./assets/map-dark-orbit.png" alt="CO2_peak over Spain"></p>
 <h2 id="We-need-help">We need help<a class="anchor-link" href="#We-need-help"> </a></h2><ul>
 <li>Better peak detection: So far, we are fitting Gaussian curves to detect relevant peaks. 2 issues:<ul>
 <li>We use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?</li>

@@ -6,16 +6,14 @@ __all__ = ['get_file_list', 'get_nc4_raw_content', 'get_np_table', 'columns', 'g
 # Cell
 import os
 import glob
-import re
-import sys
 from netCDF4 import Dataset
 import numpy as np
 import pandas as pd
+from fastprogress.fastprogress import master_bar, progress_bar
 
 # Cell
 def get_file_list(nc4_directory, pattern='*.nc4'):
     nc4_directory = os.path.realpath(nc4_directory)
-    #print(nc4_directory)
     return glob.glob(nc4_directory + '/' + pattern)
 
 # Cell
@@ -24,7 +22,7 @@ def get_nc4_raw_content(one_file):
 
 # Cell
 columns=['flag','sounding_id', 'latitude', 'longitude', 'xco2', 'xco2_uncert', 'orbit', 'windspeed_u', 'windspeed_v',
-    'surface_pressure_apriori', 'surface_pressure', 'altitude', 'land_water_indicator', 'land_fraction']
+    'surface_pressure_apriori', 'surface_pressure', 'altitude', 'land_water_indicator', 'land_fraction', 'tcwv', 'tcwv_apriori', 'tcwv_uncertainty']
 def get_np_table(one_file):
     # Open the file
     try:
@@ -36,20 +34,23 @@ def get_np_table(one_file):
     #print(file_nc)
     if file_nc.BuildId[0:3] == 'B10' :
         np_table = np.column_stack((file_nc.variables['xco2_quality_flag'],file_nc.variables['sounding_id'],file_nc.variables['latitude'],file_nc.variables['longitude'],
-            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'], file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met'],
-            file_nc.groups['Meteorology']['psurf_apriori_o2a'], file_nc.groups['Retrieval']['psurf'], file_nc.groups['Sounding']['altitude'], file_nc.groups['Sounding']['land_water_indicator'],
-             file_nc.groups['Sounding']['land_fraction']))
+            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'],
+            file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met'],
+            file_nc.groups['Meteorology']['psurf_apriori_o2a'], file_nc.groups['Retrieval']['psurf'],
+            file_nc.groups['Sounding']['altitude'], file_nc.groups['Sounding']['land_water_indicator'], file_nc.groups['Sounding']['land_fraction'],
+            file_nc.groups['Retrieval']['tcwv'], file_nc.groups['Retrieval']['tcwv_apriori'], file_nc.groups['Retrieval']['tcwv_uncertainty']))
     else:
         np_table = np.column_stack((file_nc.variables['xco2_quality_flag'],file_nc.variables['sounding_id'],file_nc.variables['latitude'],file_nc.variables['longitude'],
-            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'], file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met'],
+            file_nc.variables['xco2'],file_nc.variables['xco2_uncertainty'],file_nc.groups['Sounding'].variables['orbit'],
+            file_nc.groups['Meteorology']['windspeed_u_met'], file_nc.groups['Meteorology']['windspeed_v_met'],
             file_nc.groups['Meteorology']['psurf_apriori'], file_nc.groups['Retrieval']['psurf'], file_nc.groups['Sounding']['altitude'], file_nc.groups['Sounding']['land_water_indicator'],
-             file_nc.groups['Sounding']['land_fraction']))
+            file_nc.groups['Sounding']['land_fraction'],
+            file_nc.groups['Retrieval']['tcwv'], file_nc.groups['Retrieval']['tcwv_apriori'], file_nc.groups['Retrieval']['tcwv_uncertainty']))#))
     return np_table
 
 # Cell
 def get_dataframe(nc4_list, master_progress_bar = None):
-    columns=['flag','sounding_id', 'latitude', 'longitude', 'xco2', 'xco2_uncert', 'orbit', 'windspeed_u', 'windspeed_v',
-    'surface_pressure_apriori', 'surface_pressure', 'altitude', 'land_water_indicator', 'land_fraction']
+    global columns
     month_data = np.empty((0,len(columns)))
     # Loop over the files
     if master_progress_bar is None:
@@ -89,12 +90,17 @@ def process_files(input_dir, output_dir, patterns):
     '''
     Process all NC4 file corresponding to the patterns list.
     '''
+    if len(patterns) < 1:
+        raise Exception("ERROR You must give an array pattern !")
     master_progress_bar = master_bar(patterns)
     for pattern in master_progress_bar:
-        master_progress_bar.write(f'Loading {pattern}')
         # Get the file list in directory
         nc4_list = get_file_list(input_dir, pattern='*'+pattern+"*.nc4")
-        df = get_dataframe(nc4_list, master_progress_bar)
-        master_progress_bar.write(f'Saving to disk...')
-        df.to_csv(output_dir + 'oco2_'+pattern+'.csv.bz2', sep=';', index=False, compression='bz2')
-        del(df)
+        if len(nc4_list) > 1:
+            master_progress_bar.write(f'Loading {pattern}')
+            df = get_dataframe(nc4_list, master_progress_bar)
+            master_progress_bar.write(f'Saving {pattern} to disk...')
+            df.to_csv(output_dir + 'oco2_'+pattern+'.csv.bz2', sep=';', index=False, compression='bz2')
+            del(df)
+        else:
+            master_progress_bar.write(f'WARNING : No file for {pattern}')

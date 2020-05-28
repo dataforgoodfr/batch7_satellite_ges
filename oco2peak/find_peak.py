@@ -10,6 +10,7 @@ from fastprogress.fastprogress import master_bar, progress_bar
 from scipy.optimize import curve_fit
 import os
 import glob
+from oco2peak import find_source
 
 # Cell
 def compute_haversine_formula(long, long_origin, lat, lat_origin, earth_radius=6367):
@@ -129,9 +130,6 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
             return default_return
         if R[0, 1] < 0.00:
             return default_return # The correlation must be positive
-    # TODO: Add filename of input to be able to load it later
-    # TODO: Add psurf
-    # TODO: add TCWV
     peak = {
         'sounding_id': df_slice.loc[orbit_index, 'sounding_id'],
         'latitude': df_slice.loc[orbit_index, 'latitude'],
@@ -146,8 +144,11 @@ def peak_detection(df_orbit, orbit_number, orbit_index, output_dir, implement_fi
         'windspeed_u': df_slice.loc[orbit_index, 'windspeed_u'],
         'windspeed_v': df_slice.loc[orbit_index, 'windspeed_v'],
         'surface_pressure': df_slice.loc[orbit_index, 'surface_pressure'],
-        'tcwv': 0,
+        'tcwv': df_slice.loc[orbit_index, 'tcwv'],
     }
+    emission = find_source.estimate_emission(df_slice, peak)
+    peak['gCO2_per_s'] = emission['gCO2_per_s']
+    peak['ktCO2_per_h'] = emission['ktCO2_per_h']
     # Save sounding data around peak
     if output_peak:
         df_slice['distance'] = df_slice['distance'] - df_orbit.loc[orbit_index, 'distance']

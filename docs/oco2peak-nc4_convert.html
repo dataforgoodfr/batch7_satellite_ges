@@ -59,7 +59,7 @@ sidebar: home_sidebar
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_file_list" class="doc_header"><code>get_file_list</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_file_list</code>(<strong><code>nc4_directory</code></strong>, <strong><code>pattern</code></strong>=<em>`'</em>.nc4'`*)</p>
+<h4 id="get_file_list" class="doc_header"><code>get_file_list</code><a href="oco2peak/nc4_convert.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_file_list</code>(<strong><code>nc4_directory</code></strong>, <strong><code>pattern</code></strong>=<em>`'</em>.nc4'`*)</p>
 </blockquote>
 
 </div>
@@ -130,7 +130,7 @@ sidebar: home_sidebar
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_nc4_raw_content" class="doc_header"><code>get_nc4_raw_content</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L22" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nc4_raw_content</code>(<strong><code>one_file</code></strong>)</p>
+<h4 id="get_nc4_raw_content" class="doc_header"><code>get_nc4_raw_content</code><a href="oco2peak/nc4_convert.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nc4_raw_content</code>(<strong><code>one_file</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -160,6 +160,7 @@ sidebar: home_sidebar
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span>
 <span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Sounding&#39;</span><span class="p">]</span>
 <span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Meteorology&#39;</span><span class="p">]</span>
+<span class="n">get_nc4_raw_content</span><span class="p">(</span><span class="n">last_nc4</span><span class="p">)</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;Retrieval&#39;</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -226,6 +227,20 @@ group /Sounding:
 group /Meteorology:
     dimensions(sizes): 
     variables(dimensions): float32 psurf_apriori_o2a(sounding_id), float32 psurf_apriori_wco2(sounding_id), float32 psurf_apriori_sco2(sounding_id), float32 windspeed_u_met(sounding_id), float32 windspeed_v_met(sounding_id)
+    groups: </pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;class &#39;netCDF4._netCDF4.Group&#39;&gt;
+group /Retrieval:
+    dimensions(sizes): 
+    variables(dimensions): int8 surface_type(sounding_id), float32 psurf(sounding_id), float32 SigmaB(levels), float32 windspeed(sounding_id), float32 windspeed_apriori(sounding_id), float32 psurf_apriori(sounding_id), float32 t700(sounding_id), float32 fs(sounding_id), float32 fs_rel(sounding_id), float32 tcwv(sounding_id), float32 tcwv_apriori(sounding_id), float32 tcwv_uncertainty(sounding_id), float32 xco2_raw(sounding_id), float32 dp(sounding_id), float32 dp_o2a(sounding_id), float32 dp_sco2(sounding_id), float32 dpfrac(sounding_id), float32 s31(sounding_id), float32 s32(sounding_id), float32 co2_grad_del(sounding_id), float32 dws(sounding_id), float32 eof3_3_rel(sounding_id), int8 snow_flag(sounding_id), float32 aod_dust(sounding_id), float32 aod_bc(sounding_id), float32 aod_oc(sounding_id), float32 aod_seasalt(sounding_id), float32 aod_sulfate(sounding_id), float32 aod_strataer(sounding_id), float32 aod_water(sounding_id), float32 aod_ice(sounding_id), float32 aod_total(sounding_id), float32 dust_height(sounding_id), float32 ice_height(sounding_id), float32 water_height(sounding_id), float32 h2o_scale(sounding_id), float32 deltaT(sounding_id), float32 albedo_o2a(sounding_id), float32 albedo_wco2(sounding_id), float32 albedo_sco2(sounding_id), float32 albedo_slope_o2a(sounding_id), float32 albedo_slope_wco2(sounding_id), float32 albedo_slope_sco2(sounding_id), float32 albedo_quad_o2a(sounding_id), float32 albedo_quad_wco2(sounding_id), float32 albedo_quad_sco2(sounding_id), float32 chi2_o2a(sounding_id), float32 chi2_wco2(sounding_id), float32 chi2_sco2(sounding_id), float32 rms_rel_o2a(sounding_id), float32 rms_rel_wco2(sounding_id), float32 rms_rel_sco2(sounding_id), int8 iterations(sounding_id), int8 diverging_steps(sounding_id)
     groups: </pre>
 </div>
 
@@ -301,7 +316,7 @@ group /Meteorology:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_np_table" class="doc_header"><code>get_np_table</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_np_table</code>(<strong><code>one_file</code></strong>)</p>
+<h4 id="get_np_table" class="doc_header"><code>get_np_table</code><a href="oco2peak/nc4_convert.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_np_table</code>(<strong><code>one_file</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -337,7 +352,7 @@ group /Meteorology:
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>(202617, 14)</pre>
+<pre>(202617, 17)</pre>
 </div>
 
 </div>
@@ -373,7 +388,7 @@ group /Meteorology:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_dataframe" class="doc_header"><code>get_dataframe</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_dataframe</code>(<strong><code>nc4_list</code></strong>, <strong><code>master_progress_bar</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="get_dataframe" class="doc_header"><code>get_dataframe</code><a href="oco2peak/nc4_convert.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_dataframe</code>(<strong><code>nc4_list</code></strong>, <strong><code>master_progress_bar</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -484,6 +499,9 @@ group /Meteorology:
       <th>altitude</th>
       <th>land_water_indicator</th>
       <th>land_fraction</th>
+      <th>tcwv</th>
+      <th>tcwv_apriori</th>
+      <th>tcwv_uncertainty</th>
     </tr>
   </thead>
   <tbody>
@@ -502,6 +520,9 @@ group /Meteorology:
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
+      <td>18.573519</td>
+      <td>17.652161</td>
+      <td>0.109404</td>
     </tr>
     <tr>
       <th>13</th>
@@ -518,6 +539,9 @@ group /Meteorology:
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
+      <td>18.361076</td>
+      <td>17.563622</td>
+      <td>0.097325</td>
     </tr>
     <tr>
       <th>16</th>
@@ -534,6 +558,232 @@ group /Meteorology:
       <td>0.0</td>
       <td>1.0</td>
       <td>0.0</td>
+      <td>18.235178</td>
+      <td>17.771111</td>
+      <td>0.093667</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sounding_id</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>xco2</th>
+      <th>xco2_uncert</th>
+      <th>orbit</th>
+      <th>windspeed_u</th>
+      <th>windspeed_v</th>
+      <th>surface_pressure_apriori</th>
+      <th>surface_pressure</th>
+      <th>altitude</th>
+      <th>land_water_indicator</th>
+      <th>land_fraction</th>
+      <th>tcwv</th>
+      <th>tcwv_apriori</th>
+      <th>tcwv_uncertainty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1.026720e+05</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+      <td>102672.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.020041e+15</td>
+      <td>6.799648</td>
+      <td>-0.213743</td>
+      <td>412.532200</td>
+      <td>0.453390</td>
+      <td>30671.647927</td>
+      <td>-0.474404</td>
+      <td>-0.649793</td>
+      <td>996.979927</td>
+      <td>996.165778</td>
+      <td>153.193501</td>
+      <td>0.704330</td>
+      <td>29.814536</td>
+      <td>25.079223</td>
+      <td>25.389070</td>
+      <td>0.089610</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>6.811327e+06</td>
+      <td>27.727262</td>
+      <td>103.142932</td>
+      <td>2.655431</td>
+      <td>0.099719</td>
+      <td>4.137757</td>
+      <td>4.379928</td>
+      <td>3.129051</td>
+      <td>38.246736</td>
+      <td>37.936126</td>
+      <td>348.045096</td>
+      <td>0.462135</td>
+      <td>45.733770</td>
+      <td>13.437647</td>
+      <td>13.318149</td>
+      <td>0.047803</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>2.020041e+15</td>
+      <td>-50.229252</td>
+      <td>-179.998718</td>
+      <td>401.247559</td>
+      <td>0.259756</td>
+      <td>30665.000000</td>
+      <td>-12.165148</td>
+      <td>-14.724771</td>
+      <td>569.062927</td>
+      <td>574.740662</td>
+      <td>-10.927058</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.488046</td>
+      <td>1.375631</td>
+      <td>0.007579</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.020041e+15</td>
+      <td>-20.594182</td>
+      <td>-93.544983</td>
+      <td>409.817978</td>
+      <td>0.386220</td>
+      <td>30667.000000</td>
+      <td>-4.173923</td>
+      <td>-3.127896</td>
+      <td>1002.930862</td>
+      <td>1001.288177</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>14.507736</td>
+      <td>15.098022</td>
+      <td>0.050798</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.020041e+15</td>
+      <td>10.888887</td>
+      <td>-5.311413</td>
+      <td>413.222961</td>
+      <td>0.432248</td>
+      <td>30672.000000</td>
+      <td>-0.819255</td>
+      <td>-0.489899</td>
+      <td>1011.487122</td>
+      <td>1010.897705</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+      <td>0.000000</td>
+      <td>23.878181</td>
+      <td>23.651602</td>
+      <td>0.085683</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2.020041e+15</td>
+      <td>29.144582</td>
+      <td>93.615358</td>
+      <td>414.809303</td>
+      <td>0.495875</td>
+      <td>30675.000000</td>
+      <td>3.014307</td>
+      <td>1.558952</td>
+      <td>1015.685547</td>
+      <td>1014.205765</td>
+      <td>117.972736</td>
+      <td>1.000000</td>
+      <td>100.000000</td>
+      <td>35.180960</td>
+      <td>35.131514</td>
+      <td>0.122442</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2.020041e+15</td>
+      <td>62.634010</td>
+      <td>179.999802</td>
+      <td>424.836792</td>
+      <td>1.217122</td>
+      <td>30679.000000</td>
+      <td>13.394435</td>
+      <td>9.827548</td>
+      <td>1032.375610</td>
+      <td>1032.910767</td>
+      <td>4751.152344</td>
+      <td>3.000000</td>
+      <td>100.000000</td>
+      <td>64.513527</td>
+      <td>68.197533</td>
+      <td>0.304702</td>
     </tr>
   </tbody>
 </table>
@@ -572,7 +822,7 @@ group /Meteorology:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_pattern_yearmonth" class="doc_header"><code>get_pattern_yearmonth</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_pattern_yearmonth</code>()</p>
+<h4 id="get_pattern_yearmonth" class="doc_header"><code>get_pattern_yearmonth</code><a href="oco2peak/nc4_convert.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_pattern_yearmonth</code>()</p>
 </blockquote>
 <p>Generate a list of every YYMM from 2014 to 2020</p>
 
@@ -597,7 +847,7 @@ group /Meteorology:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="process_files" class="doc_header"><code>process_files</code><a href="https://github.com/trancept/oco2peak/tree/master/oco2peak/nc4_convert.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_files</code>(<strong><code>input_dir</code></strong>, <strong><code>output_dir</code></strong>, <strong><code>patterns</code></strong>)</p>
+<h4 id="process_files" class="doc_header"><code>process_files</code><a href="oco2peak/nc4_convert.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>process_files</code>(<strong><code>input_dir</code></strong>, <strong><code>output_dir</code></strong>, <strong><code>patterns</code></strong>)</p>
 </blockquote>
 <p>Process all NC4 file corresponding to the patterns list.</p>
 
@@ -626,10 +876,10 @@ group /Meteorology:
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">years_months</span> <span class="o">=</span> <span class="n">get_pattern_yearmonth</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">years_months</span><span class="p">)</span>
-<span class="n">input_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/media/NAS-Divers/dev/datasets/OCO2/nc4-v10/&#39;</span>
-<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;../../../datasets/OCO2/csv-v10/&#39;</span>
+<span class="n">input_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/media/NAS-Divers/dev/datasets/OCO2/nc4-v9/&#39;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;../../../datasets/OCO2/csv-v9/&#39;</span>
 <span class="c1"># Replace [&#39;1409&#39;] by years_months to process every files.</span>
-<span class="n">process_files</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;1409&#39;</span><span class="p">])</span>
+<span class="n">process_files</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;1809&#39;</span><span class="p">])</span> <span class="c1">#1409</span>
 </pre></div>
 
     </div>
@@ -651,7 +901,96 @@ group /Meteorology:
 
 
 <div class="output_html rendered_html output_subarea ">
-Loading 1409<p>Saving to disk...
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value='0' class='' max='1', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      0.00% [0/1 00:00<00:00]
+    </div>
+    
+Loading 1809<p>
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value='667' class='' max='1354', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      49.26% [667/1354 3:48:47<3:55:39]
+    </div>
+    
+</div>
+
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>ERROR reading /media/NAS-Divers/dev/datasets/OCO2/nc4-v9/oco2_LtCO2_140910_B9003r_180927220447s.nc4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">years_months</span> <span class="o">=</span> <span class="n">get_pattern_yearmonth</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">years_months</span><span class="p">)</span>
+<span class="n">input_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;/media/NAS-Divers/dev/datasets/OCO2/nc4-v9/&#39;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;../../../datasets/OCO2/csv-v9/&#39;</span>
+<span class="c1"># Replace [&#39;1409&#39;] by years_months to process every files.</span>
+<span class="n">process_files</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;1406&#39;</span><span class="p">])</span> <span class="c1">#1409</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;1401&#39;, &#39;1402&#39;, &#39;1403&#39;, &#39;1404&#39;, &#39;1405&#39;, &#39;1406&#39;, &#39;1407&#39;, &#39;1408&#39;, &#39;1409&#39;, &#39;1410&#39;, &#39;1411&#39;, &#39;1412&#39;, &#39;1501&#39;, &#39;1502&#39;, &#39;1503&#39;, &#39;1504&#39;, &#39;1505&#39;, &#39;1506&#39;, &#39;1507&#39;, &#39;1508&#39;, &#39;1509&#39;, &#39;1510&#39;, &#39;1511&#39;, &#39;1512&#39;, &#39;1601&#39;, &#39;1602&#39;, &#39;1603&#39;, &#39;1604&#39;, &#39;1605&#39;, &#39;1606&#39;, &#39;1607&#39;, &#39;1608&#39;, &#39;1609&#39;, &#39;1610&#39;, &#39;1611&#39;, &#39;1612&#39;, &#39;1701&#39;, &#39;1702&#39;, &#39;1703&#39;, &#39;1704&#39;, &#39;1705&#39;, &#39;1706&#39;, &#39;1707&#39;, &#39;1708&#39;, &#39;1709&#39;, &#39;1710&#39;, &#39;1711&#39;, &#39;1712&#39;, &#39;1801&#39;, &#39;1802&#39;, &#39;1803&#39;, &#39;1804&#39;, &#39;1805&#39;, &#39;1806&#39;, &#39;1807&#39;, &#39;1808&#39;, &#39;1809&#39;, &#39;1810&#39;, &#39;1811&#39;, &#39;1812&#39;, &#39;1901&#39;, &#39;1902&#39;, &#39;1903&#39;, &#39;1904&#39;, &#39;1905&#39;, &#39;1906&#39;, &#39;1907&#39;, &#39;1908&#39;, &#39;1909&#39;, &#39;1910&#39;, &#39;1911&#39;, &#39;1912&#39;, &#39;2001&#39;, &#39;2002&#39;, &#39;2003&#39;, &#39;2004&#39;, &#39;2005&#39;, &#39;2006&#39;, &#39;2007&#39;, &#39;2008&#39;, &#39;2009&#39;, &#39;2010&#39;, &#39;2011&#39;, &#39;2012&#39;]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+WARNING : No file for 1406
 </div>
 
 </div>
@@ -711,6 +1050,23 @@ Converted view_peak.ipynb.
 </div>
 </div>
 
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">628</span><span class="o">/</span><span class="mi">1354</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 

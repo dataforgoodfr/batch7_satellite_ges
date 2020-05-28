@@ -7,9 +7,8 @@ import swiftclient
 import json
 import glob
 import os
-#from tqdm import tqdm_notebook as tqdm
-from tqdm import tqdm
 import pandas as pd
+from fastprogress.fastprogress import master_bar, progress_bar
 
 class Datasets:
     """
@@ -61,40 +60,53 @@ class Datasets:
         :param recursive: boolean, To allow search in sub-folder.
         :return:
         """
-        for file in tqdm(glob.glob(mask, recursive=recursive)):
+        master_progress_bar = master_bar([0])
+        for _ in master_progress_bar: None
+
+        for file in progress_bar(glob.glob(mask, recursive=recursive), parent=master_progress_bar):
             with open(file, 'rb') as one_file:
                     upload_to = prefix+ os.path.basename(file)
                     #print('Copy from',file,'to',upload_to)
                     self.conn.put_object(self.container_name, upload_to,
                                                     contents= one_file.read(),
                                                     content_type=content_type) # 'text/csv'
-    def get_files_urls(self, pattern=""):
+    def get_files_urls(self, prefix, pattern=""):
+        """
+        Retreive the list of file filtered by the given parameters.
+        :param prefix: str, Mandatory to avoid retreiving too many files.
+        :param pattern: str, Filter the list of files by this pattern. Complemantary of prefix.
+        :return: Array of url
+        """
         result=[]
-        objects = self.conn.get_container(self.container_name, full_listing=True)[1]
+        objects = self.conn.get_container(self.container_name, prefix=prefix, full_listing=True)[1]
         for data in objects:
             if pattern in data['name']:
                 url = self.config['swift_storage']['base_url']+data['name']
                 result.append(url)
         return result
 
-    def delete_files(self, pattern="/Trash/", dry_run=True):
+    def delete_files(self, prefix="/Trash/", pattern='', dry_run=True):
         if dry_run:
             print('Nothing will be deleted. Use dry_run=False to delete.')
-        for data in self.conn.get_container(self.container_name)[1]:
+        master_progress_bar = master_bar([0])
+        for _ in master_progress_bar: None
+        objects = self.conn.get_container(self.container_name, prefix=prefix, full_listing=True)[1]
+        for data in progress_bar(objects, parent=master_progress_bar):
             file = data['name']
             if pattern in file:
-                print('deleting', file)
+                #master_progress_bar.write(f'Deleting {file}')
                 if not dry_run:
                     self.conn.delete_object(self.container_name, file)
 
 
     def get_containers(self):
         return self.conn.get_account()[1]
-    def get_container(self, container_name='oco2'):
-        return self.conn.get_container(container_name)[1]
+    def get_container(self, container_name='oco2', prefix='/datasets/oco-2/'):
+        return self.conn.get_container(container_name, prefix=prefix, full_listing=True)[1]
 
     def get_url_from_sounding_id(self, sounding_id):
-        return config['swift_storage']['base_url']+'/datasets/oco-2/peaks-detected-details/peak_data-si_'+sounding_id+'.json'
+        base_url = self.config['swift_storage']['base_url']
+        return base_url+'/datasets/oco-2/peaks-detected-details/peak_data-si_'+sounding_id+'.json'
 
     def get_dataframe(self, url):
         """
@@ -109,10 +121,18 @@ class Datasets:
             df = pd.read_csv(url, sep=';')
             if len(df.columns) == 1: # Very bad because we load it twice !
                 df = pd.read_csv(url, sep=',')
-            if 'sounding_id' in df.columns:
-                df['sounding_id']= df['sounding_id'].astype(str)
+#             if 'sounding_id' in df.columns:
+#                 df['sounding_id']= df['sounding_id'].astype(str)
         elif extension == 'json':
             df = pd.read_json(url)
+        if 'tcwv' not in df.columns:
+            df['tcwv'] = 25
+        else:
+            tcwv = 0
+        if 'surface_pressure' not in df.columns:
+            df['surface_pressure'] = 979
+        else:
+            tcwv = 0
         return df
 
     def get_gaussian_param(self, sounding_id, df_all_peak):
