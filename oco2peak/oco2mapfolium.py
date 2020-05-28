@@ -6,10 +6,19 @@ __all__ = ['inventory_map_only', 'peaks_capture_map', 'stats_invent']
 import pandas as pd
 import geopandas as gpd
 import numpy as np
+from numpy import exp, loadtxt, pi, sqrt, log
+import math
+import matplotlib
+import matplotlib.pyplot as plt
+import swiftclient
+import json
+from io import StringIO
 import folium
 from folium import plugins
-from shapely.wkt import loads
+import geopy
 from shapely.geometry import Polygon
+from shapely.wkt import loads
+from geopy.distance import VincentyDistance
 
 # Cell
 def inventory_map_only(plants, plants_coal, cities):
@@ -121,12 +130,18 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     for index, row in plants.iterrows():
         color="#999900"
         radius = row['estimated_generation_gwh']/10000
+
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
+        emit = str(round(row['estimated_generation_gwh'],2))
+        popup_html="""<h4>"""+tooltip+"""</h4>"""+row['country_long']+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
+        popup=folium.Popup(popup_html, max_width=450)
+
         plants_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=0.1,
                             color=color,
                             tooltip=tooltip,
+                            popup=popup,
                             fill=True))
 
     # Adding Coal plants
@@ -134,12 +149,18 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     for index, row in plants_coal.iterrows():
         color="#FF3333" # red
         radius = row['Annual CO2 emissions (millions of tonnes) in 2018']/10000
+
         tooltip =  "["+str(round(row['Latitude'],2))+" ; "+str(round(row['Longitude'],2))+"]"
+        emit = str(round(row['Annual CO2 emissions (millions of tonnes) in 2018'],2))
+        popup_html="""<h4>"""+tooltip+"""</h4>"""+str(row['Plant'])+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
+        popup=folium.Popup(popup_html, max_width=450)
+
         plants_coal_group.add_child(folium.CircleMarker(location=(row["Latitude"],
                                       row["Longitude"]),
                             radius=radius,
                             color=color,
                             tooltip=tooltip,
+                            popup=popup,
                             fill=True))
 
 
@@ -148,12 +169,20 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     for index, row in cities.iterrows():
         color="#990099"
         radius = row['Population (CDP)']/2000000
+
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
+        pop = str(round(row['Population (CDP)'],0))
+        title = "" + str(row['City name']) + ", " + str(row['Country'])
+        popup_html="""<h4><b>"""+row["City name"]+"""</b>, """+row["Country"]+"""</h4>"""+"""<p>"""+tooltip+"""</p>"""+"""<p>Population 2017: """+pop+"""</p>"""
+        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>"""+"""<p><b>Population 2017:</b> """+pop+"""</p>"""
+        popup=folium.Popup(popup_html, max_width=450)
+
         cities_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
                             color=color,
                             tooltip=tooltip,
+                            popup=popup,
                             fill=True))
 
     # Adding detected peaks
@@ -161,16 +190,37 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     peaks_group_capture = folium.FeatureGroup(name=" - 50km CirclesCapture Zone").add_to(peaks_capture)
     for index, row in peaks.iterrows():
         radius = row["amplitude"]/20
+        tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
         color="#FF3333" # red
         sounding = str(row['sounding_id'])
         date = str(row['date'])
         orbit = str(row['orbit'])
+
+        popup_html="""<h4>"""+tooltip+"""</h4>"""+date+"""<p>sounding_id: """+sounding+"""</br>orbit: """+orbit+"""</p>"""
+        popup_html+='<p><input type="button" value="Show plot"'
+        # Injecting JavaScript in popup to fire the Dash Callback
+        popup_html+='onclick="\
+            let bco_input = parent.document.getElementById(\'input_sounding\'); \
+            let lastValue = bco_input.value;'
+        popup_html+=f'bco_input.value = \'{sounding}\';'
+        popup_html+="let bco_event = new Event('input', { bubbles: true });\
+            bco_event.simulated = true;\
+            let tracker = bco_input._valueTracker;\
+            if (tracker) {\
+            tracker.setValue(lastValue);\
+            }\
+            bco_input.dispatchEvent(bco_event);\
+            elt.dispatchEvent(new Event('change'));\
+            \"/></p>"
+
+        popup=folium.Popup(popup_html, max_width=450)
 
         peaks_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
                             color=color,
                             tooltip=sounding,
+                            popup=popup,
                             fill=True))
 
         peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
