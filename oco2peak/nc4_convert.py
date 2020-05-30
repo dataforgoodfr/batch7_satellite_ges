@@ -95,9 +95,10 @@ def process_files(input_dir, output_dir, patterns):
     master_progress_bar = master_bar(patterns)
     for pattern in master_progress_bar:
         # Get the file list in directory
-        nc4_list = get_file_list(input_dir, pattern='*'+pattern+"*.nc4")
+        nc4_list = get_file_list(input_dir, pattern='oco2_LtCO2_'+pattern+"*.nc4")
+        master_progress_bar.write(f'Files to process for {pattern} : {len(nc4_list)}')
         if len(nc4_list) > 1:
-            master_progress_bar.write(f'Loading {pattern}')
+            #master_progress_bar.write(f'Loading {pattern}')
             df = get_dataframe(nc4_list, master_progress_bar)
             master_progress_bar.write(f'Saving {pattern} to disk...')
             df.to_csv(output_dir + 'oco2_'+pattern+'.csv.bz2', sep=';', index=False, compression='bz2')

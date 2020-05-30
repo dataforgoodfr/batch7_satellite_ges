@@ -208,7 +208,7 @@ def gaussian_fit_on_df(df_full, input_name='', output_dir='', output_peak=True, 
         filename = 'result_for_' + input_name + '.csv'
         master_progress_bar.write(f'Saving to :  {os.path.join(output_dir, filename)}')
         df = pd.DataFrame(peak_founds)
-        df.to_csv(os.path.join(output_dir, filename), sep=';')
+        df.to_csv(os.path.join(output_dir, filename), sep=';', index=False)
         peak_found_number = 0
     return peak_founds
 

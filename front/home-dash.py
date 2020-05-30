@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import dash_dangerously_set_inner_html
 import json
 import re
+from urllib.error import URLError
 
 # Our modules
 from oco2peak.datasets import Datasets
@@ -19,9 +20,10 @@ with open(config_file) as json_data_file:
 # Retrieve file list
 def get_detected_peak_file_list(datasets):
     files = {}
-    urls = datasets.get_files_urls('/peaks-detected/')
+    urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-detected/")
     for url in urls:
-        yearmonth = re.findall(r'_(\d{4}).', url)[-1]
+        # RegExp to get 4 digits followed by a dot
+        yearmonth = re.findall(r'(\d{4})\.', url)[-1]
         yearmonth_text = yearmonth[2:4] + '/20' +yearmonth[0:2]
         files.update(
             {yearmonth : {
@@ -52,24 +54,34 @@ def build_graph(df_oco2, sounding_id):
 
     if sounding_id is None:
         return html.H1("Please select a point")
+    #if len(str(int(float(sounding_id))))!=16 :
     if len(sounding_id)!=16 :
         print(len(sounding_id))
         return html.H1("Wrong sounding_id format !")
-    url_peak = datasets.get_files_urls('peak_data-si_' + sounding_id)[0]
-    df_peak = datasets.get_dataframe(url_peak)
-    gaussian_param = datasets.get_gaussian_param(sounding_id, df_oco2)
+    url_peak = datasets.get_url_from_sounding_id(sounding_id) #get_files_urls('peak_data-si_' + sounding_id)[0]
+    try:
+        df_peak = datasets.get_dataframe(url_peak)
+    except URLError as e:
+        msg=''
+        if hasattr(e, 'reason'):
+            msg='We failed to reach a server.Reason: ' + e.reason
+        elif hasattr(e, 'code'):
+            msg='The server couldn\'t fulfill the request. Error code: '+ e.code
+        return html.Div([html.H3('ERROR : souding data not found'),html.P(f"URL : {url_peak}"),html.P(f"Error : {msg}")])
+    peak_param = datasets.get_peak_param(sounding_id, df_oco2)
     df_peak['gaussian_y'] = df_peak.distance.apply(
-        lambda x: find_peak.gaussian(x=x, m=gaussian_param['slope'], b=gaussian_param['intercept'], A=gaussian_param['amplitude'], sig=gaussian_param['sigma']))
+        lambda x: find_peak.gaussian(x=x, m=peak_param['slope'], b=peak_param['intercept'], A=peak_param['amplitude'], sig=peak_param['sigma']))
 
-    sounding_scatter = oco2map.build_sounding_scatter(df_peak, gaussian_param)
+    sounding_scatter = oco2map.build_sounding_scatter(df_peak, peak_param)
 
     mapbox_token = config['mapbox_token']
     sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token)
 
     return html.Div([
+        dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated volume of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>"),
         html.Div([
             html.H3('2D Scatter plot with peak detection'),
-            html.P(f"m={gaussian_param['slope']}, b={gaussian_param['intercept']}, A={gaussian_param['amplitude']}, sig={gaussian_param['sigma']}"),
+            html.P(f"m={peak_param['slope']}, b={peak_param['intercept']}, A={peak_param['amplitude']}, sig={peak_param['sigma']}"),
             dcc.Graph(
                 id='xco2-graph',
                 figure=sounding_scatter
