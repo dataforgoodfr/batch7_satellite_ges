@@ -135,7 +135,7 @@ class Datasets:
         if 'surface_pressure' not in df.columns:
             df['surface_pressure'] = 979
         if 'sounding_id' in df.columns:
-            df['sounding_id']= df['sounding_id'].astype(int)
+            df['sounding_id']= df['sounding_id'] #.astype(int)
         return df
 
     def get_peak_param(self, sounding_id, df_all_peak):
