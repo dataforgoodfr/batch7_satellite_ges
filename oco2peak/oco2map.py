@@ -6,10 +6,8 @@ __all__ = ['build_sounding_scatter', 'build_sounding_map', 'build_world_map']
 import plotly.graph_objects as go
 
 # Cell
-def build_sounding_scatter(df_sounding, gaussian_param, with_dash = False):
-    sounding_plot = {
-            'data': [
-                go.Scatter(
+def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True):
+    xco2 = go.Scatter(
                     x=df_sounding['distance'],
                     y=df_sounding['xco2'],
                     text='xco2',
@@ -20,18 +18,26 @@ def build_sounding_scatter(df_sounding, gaussian_param, with_dash = False):
                         'line': {'width': 0.5, 'color': 'white'}
                     },
                     name="xco2"
-                ),
-                go.Scatter(x=df_sounding['distance'], y=df_sounding['gaussian_y'], name="Gaussian fit",
-                    hoverinfo='name',
-                    line_shape='spline')
-            ],
-            'layout': go.Layout(
+                )
+    layout = go.Layout(
                 xaxis={'title': 'Distance (km)'},
                 yaxis={'title': 'CO² level in ppm'},
                 #margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
                 legend={'x': 0, 'y': 1},
                 hovermode='closest'
             )
+    if plot_gaussian:
+        gaussian_plot = go.Scatter(x=df_sounding['distance'], y=df_sounding['gaussian_y'], name="Gaussian fit",
+                    hoverinfo='name',
+                    line_shape='spline')
+        sounding_plot = {
+            'data': [xco2,gaussian_plot],
+            'layout': layout
+        }
+    else:
+        sounding_plot = {
+            'data': [ xco2 ],
+            'layout': layout
         }
     return sounding_plot
 
@@ -80,9 +86,9 @@ def build_world_map(data):
     for _, row in data.iterrows():
         radius = row["amplitude"]/20
         color="#FF3333" # red
-        tooltip =  "GPS : ["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        sounding = str(row['sounding_id'])
-        date = str(row['sounding_id'])
+        tooltip =  f'GPS : [{row.latitude:.2f} , {row.longitude:.2f}]'
+        sounding = str(row.sounding_id.astype(int)) # TODO : find why .astype(str) add a '.0'
+        date = sounding[:4] + '/' + sounding[4:6] + '/' + sounding[6:8]
         orbit = str(row['orbit'])
         wind = [[row['latitude'],row['longitude']],[row['latitude']+row['windspeed_u'],row['longitude']+row['windspeed_v']]]
 

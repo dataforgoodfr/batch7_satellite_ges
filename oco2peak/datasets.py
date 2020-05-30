@@ -9,6 +9,7 @@ import glob
 import os
 import pandas as pd
 from fastprogress.fastprogress import master_bar, progress_bar
+from swiftclient.exceptions import ClientException
 
 class Datasets:
     """
@@ -91,12 +92,18 @@ class Datasets:
         master_progress_bar = master_bar([0])
         for _ in master_progress_bar: None
         objects = self.conn.get_container(self.container_name, prefix=prefix, full_listing=True)[1]
+        if len(objects) < 1:
+            master_progress_bar.write(f'Nothing to delete')
+            return
         for data in progress_bar(objects, parent=master_progress_bar):
             file = data['name']
             if pattern in file:
                 #master_progress_bar.write(f'Deleting {file}')
                 if not dry_run:
-                    self.conn.delete_object(self.container_name, file)
+                    try:
+                        self.conn.delete_object(self.container_name, file)
+                    except ClientException:
+                        master_progress_bar.write(f'Error deleting {file}')
 
 
     def get_containers(self):
@@ -121,33 +128,32 @@ class Datasets:
             df = pd.read_csv(url, sep=';')
             if len(df.columns) == 1: # Very bad because we load it twice !
                 df = pd.read_csv(url, sep=',')
-#             if 'sounding_id' in df.columns:
-#                 df['sounding_id']= df['sounding_id'].astype(str)
         elif extension == 'json':
             df = pd.read_json(url)
         if 'tcwv' not in df.columns:
             df['tcwv'] = 25
-        else:
-            tcwv = 0
         if 'surface_pressure' not in df.columns:
             df['surface_pressure'] = 979
-        else:
-            tcwv = 0
+        if 'sounding_id' in df.columns:
+            df['sounding_id']= df['sounding_id'].astype(int)
         return df
 
-    def get_gaussian_param(self, sounding_id, df_all_peak):
+    def get_peak_param(self, sounding_id, df_all_peak):
         df_param = df_all_peak.query("sounding_id==@sounding_id")
         if len(df_param)<1:
             print('ERROR : sounding_id not found in dataframe !')
-            return {'slope' : 1,'intercept' : 1,'amplitude' : 1,'sigma': 1,'delta': 1,'R' : 1}
+            #return {'slope' : 1,'intercept' : 1,'amplitude' : 1,'sigma': 1,'delta': 1,'R' : 1}
+            return {}
         param_index = df_param.index[0]
-
-        gaussian_param = {
-            'slope' : df_param.loc[param_index, 'slope'],
-            'intercept' : df_param.loc[param_index, 'intercept'],
-            'amplitude' : df_param.loc[param_index, 'amplitude'],
-            'sigma': df_param.loc[param_index, 'sigma'],
-            'delta': df_param.loc[param_index, 'delta'],
-            'R' : df_param.loc[param_index, 'R'],
-        }
+        gaussian_param = df_param.loc[param_index].to_dict()
+#         gaussian_param = {
+#             'slope' : df_param.loc[param_index, 'slope'],
+#             'intercept' : df_param.loc[param_index, 'intercept'],
+#             'amplitude' : df_param.loc[param_index, 'amplitude'],
+#             'sigma': df_param.loc[param_index, 'sigma'],
+#             'delta': df_param.loc[param_index, 'delta'],
+#             'R' : df_param.loc[param_index, 'R'],
+#         }
         return gaussian_param
+    def get_gaussian_param(self, sounding_id, df_all_peak):
+        return self.get_peak_param(sounding_id, df_all_peak)
