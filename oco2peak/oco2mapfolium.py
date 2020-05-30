@@ -107,7 +107,7 @@ def inventory_map_only(plants, plants_coal, cities):
     minimap = plugins.MiniMap()
     inventory_map.add_child(minimap)
 
-    inventory_map.save("inventory_map.html")
+    #inventory_map.save("inventory_map.html")
     return inventory_map
 
 
@@ -128,7 +128,7 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     # Adding Power plants
     plants_group = folium.FeatureGroup(name="Plants").add_to(peaks_capture)
     for index, row in plants.iterrows():
-        color="#999900"
+        color="#17a589" # ligh blue-ish
         radius = row['estimated_generation_gwh']/10000
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -147,7 +147,7 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     # Adding Coal plants
     plants_coal_group = folium.FeatureGroup(name="Coal Plants").add_to(peaks_capture)
     for index, row in plants_coal.iterrows():
-        color="#FF3333" # red
+        color="#138d75" # blue-ish
         radius = row['Annual CO2 emissions (millions of tonnes) in 2018']/10000
 
         tooltip =  "["+str(round(row['Latitude'],2))+" ; "+str(round(row['Longitude'],2))+"]"
@@ -167,7 +167,7 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     # Adding Cities
     cities_group = folium.FeatureGroup(name="Cities").add_to(peaks_capture)
     for index, row in cities.iterrows():
-        color="#990099"
+        color="#7d3c98" # purple
         radius = row['Population (CDP)']/2000000
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -186,12 +186,12 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
                             fill=True))
 
     # Adding detected peaks
-    peaks_group = folium.FeatureGroup(name="Peaks").add_to(peaks_capture)
     peaks_group_capture = folium.FeatureGroup(name=" - 50km CirclesCapture Zone").add_to(peaks_capture)
+    peaks_group = folium.FeatureGroup(name="Peaks").add_to(peaks_capture)
     for index, row in peaks.iterrows():
         radius = row["amplitude"]/20
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        color="#FF3333" # red
+        color="#a93226" # red
         sounding = str(row['sounding_id'])
         date = str(row['date'])
         orbit = str(row['orbit'])
@@ -215,6 +215,8 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
 
         popup=folium.Popup(popup_html, max_width=450)
 
+        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
+
         peaks_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
@@ -223,10 +225,19 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
                             popup=popup,
                             fill=True))
 
-        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
-
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
-    peaks_capture.save("peaks_capture_map.html")
+
+    plugins.Fullscreen(
+        position='topright',
+        title='Expand me',
+        title_cancel='Exit me',
+        force_separate_button=True
+    ).add_to(peaks_capture)
+
+    minimap = plugins.MiniMap()
+    peaks_capture.add_child(minimap)
+
+    #peaks_capture.save("peaks_capture_map.html")
     return peaks_capture
 
 
