@@ -53,10 +53,13 @@ def build_graph(df_oco2, sounding_id):
     # https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2016061413390672.json
 
     if sounding_id is None:
-        return html.H1("Please select a point")
+        # Get the peak with maximum volume of CO2
+        sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
+        # return html.H1("Please select a point")
     #if len(str(int(float(sounding_id))))!=16 :
+    sounding_id = str(sounding_id)
+    #print(sounding_id)
     if len(sounding_id)!=16 :
-        print(len(sounding_id))
         return html.H1("Wrong sounding_id format !")
     url_peak = datasets.get_url_from_sounding_id(sounding_id) #get_files_urls('peak_data-si_' + sounding_id)[0]
     try:
@@ -78,14 +81,15 @@ def build_graph(df_oco2, sounding_id):
     sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token)
 
     return html.Div([
-        dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated volume of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>"),
+        
         html.Div([
             html.H3('2D Scatter plot with peak detection'),
             html.P(f"m={peak_param['slope']}, b={peak_param['intercept']}, A={peak_param['amplitude']}, sig={peak_param['sigma']}"),
             dcc.Graph(
                 id='xco2-graph',
                 figure=sounding_scatter
-            )
+            ),
+            dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated volume of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>")
         ], className="eight columns"),
 
         html.Div([
@@ -103,8 +107,8 @@ last_key = sorted(files.keys())[-1]
 
 oco2_data = datasets.get_dataframe(files[last_key]['url'])
 oco2_data = oco2_data[oco2_data.delta > 1]
-default_folium_map = oco2map.build_world_map(oco2_data)
-
+world_map = oco2map.build_world_map(oco2_data)
+previous_slider_key = last_key
 
 ###############################################################################
 ######################## DASH #################################################
@@ -136,9 +140,9 @@ app.layout = html.Div(
     ),
     html.Div(id='slider-output-container'),
     # Big Map
-    html.Iframe(id='folium-iframe', srcDoc=default_folium_map.get_root().render(), style={'width': '100%', 'height': '400px'}),
+    html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'}),
     # Focus on a single peak
-    html.Div(id='div-xco2', children=build_graph(None, None)),
+    html.Div(id='div-xco2', children=build_graph(oco2_data, None)),
     # Input of a peak ID
     html.P("Sounding_id : "),
     dcc.Input(
@@ -152,25 +156,31 @@ app.layout = html.Div(
 ])
 
 
-@app.callback(
-    dash.dependencies.Output('div-xco2', 'children'),
-    [dash.dependencies.Input('input_sounding', 'value')])
-def update_graph(sounding_id):
-    global oco2_data
-    return build_graph(oco2_data, sounding_id)
+# @app.callback(
+#     dash.dependencies.Output('div-xco2', 'children'),
+#     [dash.dependencies.Input('input_sounding', 'value')])
+# def update_graph(sounding_id):
+#     global oco2_data
+#     return build_graph(oco2_data, sounding_id)
 
 
 @app.callback(
     [dash.dependencies.Output('slider-output-container', 'children'),
-    dash.dependencies.Output('folium-iframe', 'srcDoc'),],
-    [dash.dependencies.Input('my-slider', 'value')])
-def update_output(value):
-    global oco2_data
-    key = sorted(files.keys())[value]
-    url = files[key]['url']
-    oco2_data = datasets.get_dataframe(url)
-    oco2_data = oco2_data[oco2_data.delta > 1]
-    return f'Dataset file : {url}', oco2map.build_world_map(oco2_data).get_root().render()
+    dash.dependencies.Output('folium-iframe', 'srcDoc'),
+    dash.dependencies.Output('div-xco2', 'children')],
+    [dash.dependencies.Input('my-slider', 'value'),
+    dash.dependencies.Input('input_sounding', 'value')])
+def update_output(slider_key, sounding_id):
+    global oco2_data, world_map, previous_slider_key
+    #print('Input:', slider_key, sounding_id)
+    if previous_slider_key != slider_key:
+        key = sorted(files.keys())[slider_key]
+        url = files[key]['url']
+        oco2_data = datasets.get_dataframe(url)
+        oco2_data = oco2_data[oco2_data.delta > 1]
+        world_map = oco2map.build_world_map(oco2_data).get_root().render()
+        previous_slider_key = slider_key
+    return f'Dataset file : {url}', world_map, build_graph(oco2_data, sounding_id)
 
 
 if __name__ == '__main__':
