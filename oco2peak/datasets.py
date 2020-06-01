@@ -135,13 +135,13 @@ class Datasets:
         if 'surface_pressure' not in df.columns:
             df['surface_pressure'] = 979
         if 'sounding_id' in df.columns:
-            df['sounding_id']= df['sounding_id'].astype(int)
+            df['sounding_id']= df['sounding_id'].astype('int64')
         return df
 
     def get_peak_param(self, sounding_id, df_all_peak):
         df_param = df_all_peak.query("sounding_id==@sounding_id")
         if len(df_param)<1:
-            print('ERROR : sounding_id not found in dataframe !')
+            print(f'ERROR in oco2peak.Datasets.get_peak_param(...) : sounding_id -{sounding_id}- not found in dataframe !')
             #return {'slope' : 1,'intercept' : 1,'amplitude' : 1,'sigma': 1,'delta': 1,'R' : 1}
             return {}
         param_index = df_param.index[0]
