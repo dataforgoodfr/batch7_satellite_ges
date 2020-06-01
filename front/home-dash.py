@@ -20,14 +20,14 @@ with open(config_file) as json_data_file:
 # Retrieve file list
 def get_detected_peak_file_list(datasets):
     files = {}
-    urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-detected/")
-    for url in urls:
+    detected_peaks_urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-detected/")
+    for detected_peaks_url in detected_peaks_urls:
         # RegExp to get 4 digits followed by a dot
-        yearmonth = re.findall(r'(\d{4})\.', url)[-1]
+        yearmonth = re.findall(r'(\d{4})\.', detected_peaks_url)[-1]
         yearmonth_text = yearmonth[2:4] + '/20' +yearmonth[0:2]
         files.update(
             {yearmonth : {
-                'url' : url,
+                'url' : detected_peaks_url,
                 'label' : yearmonth_text
                 }
             }
@@ -61,17 +61,19 @@ def build_graph(df_oco2, sounding_id):
     #print(sounding_id)
     if len(sounding_id)!=16 :
         return html.H1("Wrong sounding_id format !")
-    url_peak = datasets.get_url_from_sounding_id(sounding_id) #get_files_urls('peak_data-si_' + sounding_id)[0]
+    one_peak_url = datasets.get_url_from_sounding_id(sounding_id) #get_files_detected_peaks_urls('peak_data-si_' + sounding_id)[0]
     try:
-        df_peak = datasets.get_dataframe(url_peak)
+        df_peak = datasets.get_dataframe(one_peak_url)
     except URLError as e:
         msg=''
         if hasattr(e, 'reason'):
             msg='We failed to reach a server.Reason: ' + e.reason
         elif hasattr(e, 'code'):
             msg='The server couldn\'t fulfill the request. Error code: '+ e.code
-        return html.Div([html.H3('ERROR : souding data not found'),html.P(f"URL : {url_peak}"),html.P(f"Error : {msg}")])
+        return html.Div([html.H3('ERROR : souding data not found'),html.P(f"url : {one_peak_url}"),html.P(f"Error : {msg}")])
     peak_param = datasets.get_peak_param(sounding_id, df_oco2)
+    if peak_param is None:
+        return html.H1("Param of peak not found !")
     df_peak['gaussian_y'] = df_peak.distance.apply(
         lambda x: find_peak.gaussian(x=x, m=peak_param['slope'], b=peak_param['intercept'], A=peak_param['amplitude'], sig=peak_param['sigma']))
 
@@ -104,8 +106,8 @@ def build_graph(df_oco2, sounding_id):
 
 
 last_key = sorted(files.keys())[-1]
-
-oco2_data = datasets.get_dataframe(files[last_key]['url'])
+detected_peaks_url = files[last_key]['url']
+oco2_data = datasets.get_dataframe(detected_peaks_url)
 oco2_data = oco2_data[oco2_data.delta > 1]
 world_map = oco2map.build_world_map(oco2_data)
 previous_slider_key = last_key
@@ -171,16 +173,16 @@ app.layout = html.Div(
     [dash.dependencies.Input('my-slider', 'value'),
     dash.dependencies.Input('input_sounding', 'value')])
 def update_output(slider_key, sounding_id):
-    global oco2_data, world_map, previous_slider_key
+    global oco2_data, world_map, previous_slider_key, detected_peaks_url
     #print('Input:', slider_key, sounding_id)
     if previous_slider_key != slider_key:
         key = sorted(files.keys())[slider_key]
-        url = files[key]['url']
-        oco2_data = datasets.get_dataframe(url)
+        detected_peaks_url = files[key]['url']
+        oco2_data = datasets.get_dataframe(detected_peaks_url)
         oco2_data = oco2_data[oco2_data.delta > 1]
         world_map = oco2map.build_world_map(oco2_data).get_root().render()
         previous_slider_key = slider_key
-    return f'Dataset file : {url}', world_map, build_graph(oco2_data, sounding_id)
+    return f'Dataset file : {detected_peaks_url}', world_map, build_graph(oco2_data, sounding_id)
 
 
 if __name__ == '__main__':
