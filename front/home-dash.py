@@ -80,7 +80,7 @@ def build_graph(df_oco2, sounding_id):
     sounding_scatter = oco2map.build_sounding_scatter(df_peak, peak_param)
 
     mapbox_token = config['mapbox_token']
-    sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token)
+    sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token, peak_param)
 
     return html.Div([
         
