@@ -83,7 +83,7 @@ def peaks_capture_map(peaks, invent):
 
     # Adding detected peaks
     peaks_group = folium.FeatureGroup(name="Peaks").add_to(peaks_capture)
-    peaks_group_capture = folium.FeatureGroup(name=" - 50km CirclesCapture Zone").add_to(peaks_capture)
+    peaks_group_capture = folium.FeatureGroup(name=" - 50km Capture Zone", show=False).add_to(peaks_capture)
     for index, row in peaks.iterrows():
         radius = row["amplitude"]/20
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -141,9 +141,10 @@ def peaks_capture_map(peaks, invent):
                                       row["longitude"]),
                             radius=radius,
                             color=color,
-                            popup=popup,
                             tooltip= str(row['CO2/CO2e emissions source']),
                             fill=True))
+
+    peaks_capture.keep_in_front(peaks_group)
 
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
 
