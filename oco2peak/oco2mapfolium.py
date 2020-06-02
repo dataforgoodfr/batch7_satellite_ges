@@ -21,79 +21,37 @@ from shapely.wkt import loads
 from geopy.distance import VincentyDistance
 
 # Cell
-def inventory_map_only(plants, plants_coal, cities):
+def inventory_map_only(invent):
     """
     Create map with inventory only
-    :param plants: GeoDataFrame, Dataframe containing all registered plants.
-    :param plants_coal: GeoDataFrame, Dataframe containing all registered coal plants.
-    :param cities: GeoDataFrame, Dataframe containing all registered big cities.
+    :param invent: GeoDataFrame, Dataframe containing all inventory.
     :return:
     """
     # Initialize Map
     inventory_map = folium.Map([43, 0], zoom_start=4)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(inventory_map)
 
-    # Adding Power plants
-    plants_group = folium.FeatureGroup(name="Plants").add_to(inventory_map)
-    for index, row in plants.iterrows():
-        radius = row['estimated_generation_gwh']/10000
-        color="#3186CC" # blue
+    d={}
+    for cl in invent_types:
+        d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(inventory_map)
+
+    for index, row in invent.iterrows():
+        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
+        color="#368534" # green
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        emit = str(round(row['estimated_generation_gwh'],2))
-        popup_html="""<h4>"""+tooltip+"""</h4>"""+row['country_long']+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
+        pop = str(round(row['CO2/CO2e emissions (in tonnes per year)'],0))
+        title = "" + str(row['CO2/CO2e emissions source']) + " T/y " + row['CO2 or CO2e'] + ", from " + str(row['Data source'])
+        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>"""
         popup=folium.Popup(popup_html, max_width=450)
 
-        plants_group.add_child(folium.CircleMarker(location=(row["latitude"],
+        d[row['CO2/CO2e emissions source']].add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
                             color=color,
                             # popup=popup,
                             # tooltip=tooltip,
                             fill=True))
-
-    # Adding Coal plants
-    plants_coal_group = folium.FeatureGroup(name="Coal Plants").add_to(inventory_map)
-    for index, row in plants_coal.iterrows():
-        radius = row['Annual CO2 emissions (millions of tonnes) in 2018']/10000
-        color="#FF3333" # red
-
-        tooltip =  "["+str(round(row['Latitude'],2))+" ; "+str(round(row['Longitude'],2))+"]"
-        emit = str(round(row['Annual CO2 emissions (millions of tonnes) in 2018'],2))
-        popup_html="""<h4>"""+tooltip+"""</h4>"""+str(row['Plant'])+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
-        popup=folium.Popup(popup_html, max_width=450)
-
-        plants_coal_group.add_child(folium.CircleMarker(location=(row["Latitude"],
-                                      row["Longitude"]),
-                            radius=radius,
-                            color=color,
-                            # popup=popup,
-                            # tooltip=tooltip,
-                            fill=True))
-
-
-
-    # Adding Cities
-    cities_group = folium.FeatureGroup(name="Cities").add_to(inventory_map)
-    for index, row in cities.iterrows():
-        radius = row['Population (CDP)']/2000000
-        color="#FEF65B" # yellow
-
-        tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        pop = str(round(row['Population (CDP)'],0))
-        title = "" + str(row['City name']) + ", " + str(row['Country'])
-        popup_html="""<h4><b>"""+row["City name"]+"""</b>, """+row["Country"]+"""</h4>"""+"""<p>"""+tooltip+"""</p>"""+"""<p>Population 2017: """+pop+"""</p>"""
-        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>"""+"""<p><b>Population 2017:</b> """+pop+"""</p>"""
-        popup=folium.Popup(popup_html, max_width=450)
-
-        cities_group.add_child(folium.CircleMarker(location=(row["latitude"],
-                                      row["longitude"]),
-                            radius=radius,
-                            color=color,
-                            # popup=popup,
-                            # tooltip=tooltip,
-                            fill=True))
-
 
     folium.map.LayerControl(collapsed=False).add_to(inventory_map)
 
@@ -104,15 +62,12 @@ def inventory_map_only(plants, plants_coal, cities):
         force_separate_button=True
     ).add_to(inventory_map)
 
-    minimap = plugins.MiniMap()
-    inventory_map.add_child(minimap)
-
-    inventory_map.save("inventory_map.html")
+    #inventory_map.save("inventory_map.html")
     return inventory_map
 
 
 
-def peaks_capture_map(peaks, plants, plants_coal, cities):
+def peaks_capture_map(peaks, invent):
     """
     Create map with peaks (marker + capture zone) and inventory
     :param peaks: GeoDataFrame, Dataframe containing the peaks we want to display.
@@ -125,64 +80,26 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
     peaks_capture = folium.Map([40, -100], zoom_start=4)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(peaks_capture)
 
-    # Adding Power plants
-    plants_group = folium.FeatureGroup(name="Plants").add_to(peaks_capture)
-    for index, row in plants.iterrows():
-        color="#999900"
-        radius = row['estimated_generation_gwh']/10000
+    d={}
+    for cl in invent_types:
+        d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(peaks_capture)
+
+    for index, row in invent.iterrows():
+        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
+        color="#368534" # green
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        emit = str(round(row['estimated_generation_gwh'],2))
-        popup_html="""<h4>"""+tooltip+"""</h4>"""+row['country_long']+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
+        pop = str(round(row['CO2/CO2e emissions (in tonnes per year)'],0))
+        title = "" + str(row['CO2/CO2e emissions source']) + " T/y " + row['CO2 or CO2e'] + ", from " + str(row['Data source'])
+        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>"""
         popup=folium.Popup(popup_html, max_width=450)
 
-        plants_group.add_child(folium.CircleMarker(location=(row["latitude"],
-                                      row["longitude"]),
-                            radius=0.1,
-                            color=color,
-                            tooltip=tooltip,
-                            popup=popup,
-                            fill=True))
-
-    # Adding Coal plants
-    plants_coal_group = folium.FeatureGroup(name="Coal Plants").add_to(peaks_capture)
-    for index, row in plants_coal.iterrows():
-        color="#FF3333" # red
-        radius = row['Annual CO2 emissions (millions of tonnes) in 2018']/10000
-
-        tooltip =  "["+str(round(row['Latitude'],2))+" ; "+str(round(row['Longitude'],2))+"]"
-        emit = str(round(row['Annual CO2 emissions (millions of tonnes) in 2018'],2))
-        popup_html="""<h4>"""+tooltip+"""</h4>"""+str(row['Plant'])+"""<p><b>Emission 2018 (est):</b> """+emit+""" GWh</p>"""
-        popup=folium.Popup(popup_html, max_width=450)
-
-        plants_coal_group.add_child(folium.CircleMarker(location=(row["Latitude"],
-                                      row["Longitude"]),
-                            radius=radius,
-                            color=color,
-                            tooltip=tooltip,
-                            popup=popup,
-                            fill=True))
-
-
-    # Adding Cities
-    cities_group = folium.FeatureGroup(name="Cities").add_to(peaks_capture)
-    for index, row in cities.iterrows():
-        color="#990099"
-        radius = row['Population (CDP)']/2000000
-
-        tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        pop = str(round(row['Population (CDP)'],0))
-        title = "" + str(row['City name']) + ", " + str(row['Country'])
-        popup_html="""<h4><b>"""+row["City name"]+"""</b>, """+row["Country"]+"""</h4>"""+"""<p>"""+tooltip+"""</p>"""+"""<p>Population 2017: """+pop+"""</p>"""
-        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>"""+"""<p><b>Population 2017:</b> """+pop+"""</p>"""
-        popup=folium.Popup(popup_html, max_width=450)
-
-        cities_group.add_child(folium.CircleMarker(location=(row["latitude"],
+        d[row['CO2/CO2e emissions source']].add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
                             color=color,
-                            tooltip=tooltip,
-                            popup=popup,
+                            # popup=popup,
+                            # tooltip=tooltip,
                             fill=True))
 
     # Adding detected peaks
@@ -215,6 +132,8 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
 
         popup=folium.Popup(popup_html, max_width=450)
 
+        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
+
         peaks_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
                             radius=radius,
@@ -223,10 +142,19 @@ def peaks_capture_map(peaks, plants, plants_coal, cities):
                             popup=popup,
                             fill=True))
 
-        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
-
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
-    peaks_capture.save("peaks_capture_map.html")
+
+    plugins.Fullscreen(
+        position='topright',
+        title='Expand me',
+        title_cancel='Exit me',
+        force_separate_button=True
+    ).add_to(inventory_map)
+
+    minimap = plugins.MiniMap()
+    inventory_map.add_child(minimap)
+
+    #peaks_capture.save("peaks_capture_map.html")
     return peaks_capture
 
 
