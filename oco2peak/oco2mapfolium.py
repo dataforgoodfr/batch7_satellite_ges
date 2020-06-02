@@ -32,6 +32,7 @@ def inventory_map_only(invent):
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(inventory_map)
 
     d={}
+    invent_types = invent['CO2/CO2e emissions source'].unique()
     for cl in invent_types:
         d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(inventory_map)
 
@@ -42,7 +43,7 @@ def inventory_map_only(invent):
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
         pop = str(round(row['CO2/CO2e emissions (in tonnes per year)'],0))
         title = "" + str(round(row['CO2/CO2e emissions (in tonnes per year)'],0)) + " T/y " + row['CO2 or CO2e']
-        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>""" + """<p>"""+ "from " + str(row['Data source']) + """</p>"""
+        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>""" + """<p>"""+ str(row['CO2/CO2e emissions source']) + ", from " + str(row['Data source']) + """</p>"""
         popup=folium.Popup(popup_html, max_width=450)
 
         d[row['CO2/CO2e emissions source']].add_child(folium.CircleMarker(location=(row["latitude"],
@@ -80,28 +81,6 @@ def peaks_capture_map(peaks, invent):
     peaks_capture = folium.Map([40, -100], zoom_start=4)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(peaks_capture)
 
-    d={}
-    for cl in invent_types:
-        d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(peaks_capture)
-
-    for index, row in invent.iterrows():
-        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
-        color="#368534" # green
-
-        tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
-        pop = str(round(row['CO2/CO2e emissions (in tonnes per year)'],0))
-        title = "" + str(round(row['CO2/CO2e emissions (in tonnes per year)'],0)) + " T/y " + row['CO2 or CO2e']
-        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>""" + """<p>"""+ str(row['CO2/CO2e emissions source']) +"from " + str(row['Data source']) + """</p>"""
-        popup=folium.Popup(popup_html, max_width=450)
-
-        d[row['CO2/CO2e emissions source']].add_child(folium.CircleMarker(location=(row["latitude"],
-                                      row["longitude"]),
-                            radius=radius,
-                            color=color,
-                            popup=popup,
-                            tooltip= str(row['CO2/CO2e emissions source']),
-                            fill=True))
-
     # Adding detected peaks
     peaks_group = folium.FeatureGroup(name="Peaks").add_to(peaks_capture)
     peaks_group_capture = folium.FeatureGroup(name=" - 50km CirclesCapture Zone").add_to(peaks_capture)
@@ -132,7 +111,7 @@ def peaks_capture_map(peaks, invent):
 
         popup=folium.Popup(popup_html, max_width=450)
 
-        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone"))
+        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone", tooltip=sounding, popup=popup))
 
         peaks_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),
@@ -140,6 +119,30 @@ def peaks_capture_map(peaks, invent):
                             color=color,
                             tooltip=sounding,
                             popup=popup,
+                            fill=True))
+
+
+    d={}
+    invent_types = invent['CO2/CO2e emissions source'].unique()
+    for cl in invent_types:
+        d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(peaks_capture)
+
+    for index, row in invent.iterrows():
+        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
+        color="#368534" # green
+
+        tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
+        pop = str(round(row['CO2/CO2e emissions (in tonnes per year)'],0))
+        title = "" + str(round(row['CO2/CO2e emissions (in tonnes per year)'],0)) + " T/y " + row['CO2 or CO2e']
+        popup_html = """<h4>"""+title+"""</h4><p>"""+tooltip+"""</p>""" + """<p>"""+ str(row['CO2/CO2e emissions source']) + ", from " + str(row['Data source']) + """</p>"""
+        popup=folium.Popup(popup_html, max_width=450)
+
+        d[row['CO2/CO2e emissions source']].add_child(folium.CircleMarker(location=(row["latitude"],
+                                      row["longitude"]),
+                            radius=radius,
+                            color=color,
+                            popup=popup,
+                            tooltip= str(row['CO2/CO2e emissions source']),
                             fill=True))
 
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
