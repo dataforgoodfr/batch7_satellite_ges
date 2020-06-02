@@ -142,6 +142,7 @@ def peaks_capture_map(peaks, invent):
                             radius=radius,
                             color=color,
                             tooltip= str(row['CO2/CO2e emissions source']),
+                            popup=popup,
                             fill=True))
 
     peaks_capture.keep_in_front(peaks_group)
