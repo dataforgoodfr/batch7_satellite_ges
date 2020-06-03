@@ -8,8 +8,8 @@ import geopandas as gpd
 import numpy as np
 from numpy import exp, loadtxt, pi, sqrt, log
 import math
-import matplotlib
-import matplotlib.pyplot as plt
+# import matplotlib
+# import matplotlib.pyplot as plt
 import swiftclient
 import json
 from io import StringIO
@@ -111,7 +111,7 @@ def peaks_capture_map(peaks, invent):
 
         popup=folium.Popup(popup_html, max_width=450)
 
-        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone", tooltip=sounding, popup=popup))
+        peaks_group_capture.add_child(folium.GeoJson(row['geometry'], name=" - Capture Zone", tooltip=sounding)) # , popup=popup
 
         peaks_group.add_child(folium.CircleMarker(location=(row["latitude"],
                                       row["longitude"]),

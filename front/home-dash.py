@@ -7,20 +7,25 @@ import json
 import re
 from urllib.error import URLError
 
+import pandas as pd
+import geopandas as gpd
+from shapely.wkt import loads
+
 # Our modules
 from oco2peak.datasets import Datasets
 from oco2peak import oco2map
+from oco2peak import oco2mapfolium
 from oco2peak import find_peak
 
 # Read config file
-config_file = "../configs/config.json"
+config_file = "./configs/config.json"
 with open(config_file) as json_data_file:
     config = json.load(json_data_file)
 
 # Retrieve file list
 def get_detected_peak_file_list(datasets):
     files = {}
-    detected_peaks_urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-detected/")
+    detected_peaks_urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-and-invent/", pattern='peaks_and_invent')
     for detected_peaks_url in detected_peaks_urls:
         # RegExp to get 4 digits followed by a dot
         yearmonth = re.findall(r'(\d{4})\.', detected_peaks_url)[-1]
@@ -39,10 +44,12 @@ def get_slider_mark(files):
     yearmonth_marks = {}
     for i, key in enumerate(sorted(files.keys())):
             yearmonth_text = files[key]['label']
+            #print(yearmonth_text)
+            #print(key[2:4])
             if i == 0 or i == len(files)-1:
                 yearmonth_marks.update({i: {'label': yearmonth_text}})
             elif key[2:4] == '01': # Only years
-                yearmonth_marks.update({i: {'label': '20' + key[0:2]}})
+                yearmonth_marks.update({i: {'label': '20' + key[:2]}})
     return yearmonth_marks
 
 datasets = Datasets(config_file)
@@ -83,10 +90,10 @@ def build_graph(df_oco2, sounding_id):
     sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token, peak_param)
 
     return html.Div([
-        
+
         html.Div([
             html.H3('2D Scatter plot with peak detection'),
-            html.P(f"m={peak_param['slope']}, b={peak_param['intercept']}, A={peak_param['amplitude']}, sig={peak_param['sigma']}"),
+            #html.P(f"m={peak_param['slope']}, b={peak_param['intercept']}, A={peak_param['amplitude']}, sig={peak_param['sigma']}"),
             dcc.Graph(
                 id='xco2-graph',
                 figure=sounding_scatter
@@ -105,12 +112,40 @@ def build_graph(df_oco2, sounding_id):
 
 
 
-last_key = sorted(files.keys())[-1]
+last_key = '1808' #sorted(files.keys())[-1]
 detected_peaks_url = files[last_key]['url']
-oco2_data = datasets.get_dataframe(detected_peaks_url)
-oco2_data = oco2_data[oco2_data.delta > 1]
-world_map = oco2map.build_world_map(oco2_data)
 previous_slider_key = last_key
+
+
+######################## DATA IMPORT (In Progress) #################################################
+print("- Loading peaks...")
+oco2_data = datasets.get_dataframe(files[last_key]['url'])
+oco2_data = oco2_data[oco2_data.delta > 1]
+oco2_data = gpd.GeoDataFrame(oco2_data)
+oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
+oco2_data.crs = {'init': 'epsg:4326'}
+print(oco2_data.shape[0], " peaks loaded.")
+
+print("- Loading inventory...")
+path_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_2018.csv"
+invent = pd.read_csv(path_invent, sep=",", index_col=0)
+invent = gpd.GeoDataFrame(invent, geometry=gpd.points_from_xy(invent.longitude, invent.latitude))
+invent.crs = {'init': 'epsg:4326'}
+invent = invent[invent['longitude'].notna()]
+invent = invent[invent['latitude'].notna()]
+invent = invent[invent['CO2/CO2e emissions (in tonnes per year)'].notna()]
+print(invent.shape[0], " inventory points loaded.")
+
+# oco2_data = datasets.get_dataframe(files[last_key]['url'])
+# oco2_data = oco2_data[oco2_data.delta > 1]
+print("- Creating map...")
+world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
+world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
+print("Map created.")
+
+######################## DATA IMPORT (In Progress)  #################################################
+
+
 
 ###############################################################################
 ######################## DASH #################################################
@@ -137,12 +172,17 @@ app.layout = html.Div(
         min=0,
         max=len(files)-1,
         step=1,
-        value=len(files)-1,
+        value=last_key,
         marks=get_slider_mark(files)
     ),
     html.Div(id='slider-output-container'),
     # Big Map
-    html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'}),
+    dcc.Loading(
+            id="loading-1",
+            type="default",
+            children=html.Div(id="loading-output-map")
+        )
+    ,
     # Focus on a single peak
     html.Div(id='div-xco2', children=build_graph(oco2_data, None)),
     # Input of a peak ID
@@ -157,33 +197,35 @@ app.layout = html.Div(
     '''),
 ])
 
-
-# @app.callback(
-#     dash.dependencies.Output('div-xco2', 'children'),
-#     [dash.dependencies.Input('input_sounding', 'value')])
-# def update_graph(sounding_id):
-#     global oco2_data
-#     return build_graph(oco2_data, sounding_id)
-
-
 @app.callback(
     [dash.dependencies.Output('slider-output-container', 'children'),
-    dash.dependencies.Output('folium-iframe', 'srcDoc'),
+    #dash.dependencies.Output('folium-iframe', 'srcDoc'),
+    dash.dependencies.Output('loading-output-map', 'children'),
+    
     dash.dependencies.Output('div-xco2', 'children')],
     [dash.dependencies.Input('my-slider', 'value'),
     dash.dependencies.Input('input_sounding', 'value')])
 def update_output(slider_key, sounding_id):
     global oco2_data, world_map, previous_slider_key, detected_peaks_url
-    #print('Input:', slider_key, sounding_id)
+    key = sorted(files.keys())[slider_key]
+    print('Input: previous_slider_key=',previous_slider_key,'slider_key=', slider_key, 'sounding_id=', sounding_id)
     if previous_slider_key != slider_key:
-        key = sorted(files.keys())[slider_key]
+        print("- Month change, re-Loading peaks...")
+        
         detected_peaks_url = files[key]['url']
+       
         oco2_data = datasets.get_dataframe(detected_peaks_url)
         oco2_data = oco2_data[oco2_data.delta > 1]
-        world_map = oco2map.build_world_map(oco2_data).get_root().render()
+        oco2_data = gpd.GeoDataFrame(oco2_data)
+        oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
+        oco2_data.crs = {'init': 'epsg:4326'}
+        print(oco2_data.shape[0], " peaks loaded.")
+        world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
         previous_slider_key = slider_key
-    return f'Dataset file : {detected_peaks_url}', world_map, build_graph(oco2_data, sounding_id)
+        world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
+        print('Map updated')
+    return f'Dataset file : {detected_peaks_url}', world_map_display, build_graph(oco2_data, sounding_id)
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True, threaded=True, dev_tools_hot_reload_interval=5000, dev_tools_hot_reload_max_retry=300)
+    app.run_server(host='0.0.0.0', debug=True, threaded=True, dev_tools_hot_reload_interval=5000, dev_tools_hot_reload_max_retry=300)
