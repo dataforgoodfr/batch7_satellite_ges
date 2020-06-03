@@ -34,8 +34,8 @@ entries:
       title: Gaussian fit
       url: /Laiwu_Plume-more_data_CD_exploration_selection_peaks
     - output: web,pdf
-      title: Upload file to Open Stack
-      url: /Untitled
+      title: Title
+      url: /show_map
     - output: web,pdf
       title: OCO2 - Count Cities and Plants inside a capture zone around the peak
       url: /WIP_OCO2_Capture
@@ -43,8 +43,8 @@ entries:
       title: OCO2 - Visualize detected peaks and other sources
       url: /WIP_OCO2_Peaks_Wind_Visualization
     - output: web,pdf
-      title: Title
-      url: /show_map
+      title: Misc notebook to explore stuff
+      url: /explorations
     - output: web,pdf
       title: Peak detection
       url: /oco2peak-find_peak
