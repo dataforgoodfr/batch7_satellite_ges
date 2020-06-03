@@ -12,6 +12,7 @@ index = {"Datasets": "oco2peak-datasets.ipynb",
          "gaussian_fit_on_file": "oco2peak-find_peak.ipynb",
          "build_sounding_scatter": "oco2peak-map.ipynb",
          "build_sounding_map": "oco2peak-map.ipynb",
+         "plot_emission": "oco2peak_find_source.ipynb",
          "build_world_map": "oco2peak-map.ipynb",
          "get_file_list": "oco2peak-nc4_convert.ipynb",
          "get_nc4_raw_content": "oco2peak-nc4_convert.ipynb",
@@ -20,8 +21,7 @@ index = {"Datasets": "oco2peak-datasets.ipynb",
          "get_dataframe": "oco2peak-nc4_convert.ipynb",
          "get_pattern_yearmonth": "oco2peak-nc4_convert.ipynb",
          "process_files": "oco2peak-nc4_convert.ipynb",
-         "estimate_emission": "oco2peak_find_source.ipynb",
-         "plot_emission": "oco2peak_find_source.ipynb"}
+         "estimate_emission": "oco2peak_find_source.ipynb"}
 
 modules = ["datasets.py",
            "find_peak.py",
