@@ -20,7 +20,7 @@ entries:
       url: /WIP_OCO2_Peaks_Wind
     - output: web,pdf
       title: '**1. EDGAR data**'
-      url: /CO2_emissions_Inventory_data
+      url: /CO2_emissions_Inventory_data_20200531
     - output: web,pdf
       title: Open Stack Swift storage of the project
       url: /oco2peak-datasets
@@ -34,11 +34,17 @@ entries:
       title: Gaussian fit
       url: /Laiwu_Plume-more_data_CD_exploration_selection_peaks
     - output: web,pdf
+      title: Import Sandbag data
+      url: /Process Sandbag data - Find infrastructure location
+    - output: web,pdf
       title: Title
       url: /show_map
     - output: web,pdf
       title: OCO2 - Count Cities and Plants inside a capture zone around the peak
       url: /WIP_OCO2_Capture
+    - output: web,pdf
+      title: OCO2 - Display map and capture zone around the peak
+      url: /WIP_OCO2_Map
     - output: web,pdf
       title: OCO2 - Visualize detected peaks and other sources
       url: /WIP_OCO2_Peaks_Wind_Visualization

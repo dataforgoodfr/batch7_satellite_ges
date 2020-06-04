@@ -1,6 +1,6 @@
 ---
 
-title: OCO-2 CO2 peak detector
+title: OCO-2 CO<sub>2</sub> peak detector
 
 keywords: fastai
 sidebar: home_sidebar
@@ -29,7 +29,7 @@ sidebar: home_sidebar
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="General-presentation">General presentation<a class="anchor-link" href="#General-presentation"> </a></h2><blockquote><p>The goal of our project is to localize CO² emissions on Earth based on the the carbon concentration data measured by the OCO-2 Satellite from the NASA.</p>
+<h2 id="General-presentation">General presentation<a class="anchor-link" href="#General-presentation"> </a></h2><blockquote><p>The goal of our project is to localize CO<sub>2</sub> emissions on Earth based on the the carbon concentration data measured by the OCO-2 Satellite from the NASA.</p>
 </blockquote>
 <p>We are working with:- Matthieu Porte, from IGN who submit the projet- Marie Heckmann, from the French Ministry of Ecology</p>
 <ul>
@@ -42,14 +42,14 @@ sidebar: home_sidebar
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="What-we-have-as-input">What we have as input<a class="anchor-link" href="#What-we-have-as-input"> </a></h2><p><strong>1/ OCO-2 Satellite data</strong></p>
-<p>The OCO-2 Satellite (Orbiting Carbon Observatory) from the NASA orbits around Earth and measures the CO² concentration in the atmosphere.</p>
-<p>Here is a visualisation of the CO² concentration mesured by the OCO-2 satellite in December 2019. 
+<p>The OCO-2 Satellite (Orbiting Carbon Observatory) from the NASA orbits around Earth and measures the CO<sub>2</sub> concentration in the atmosphere.</p>
+<p>Here is a visualisation of the CO<sub>2</sub> concentration mesured by the OCO-2 satellite in December 2019. 
 <img src="/batch7_satellite_ges/./assets/CO2_emissions_Edgar_2018.png" alt="CO2_ concentration_OCO2"></p>
-<p>The satellite uses spectrometers to detect CO² in the atmosphere, as shown in the image bellow.</p>
+<p>The satellite uses spectrometers to detect CO<sub>2</sub> in the atmosphere, as shown in the image bellow.</p>
 <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg/321px-Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg" alt="OCO2 spectrometers"></p>
 <p><a href="https://commons.wikimedia.org/wiki/File:Artist_rendition_of_the_CO2_column_that_OCO-2_will_see.jpg">source</a></p>
 <p>More info here : <a href="https://oco.jpl.nasa.gov/instrument/">https://oco.jpl.nasa.gov/instrument/</a></p>
-<p>There are some limitations to the satellite measurement of the CO² concentration:</p>
+<p>There are some limitations to the satellite measurement of the CO<sub>2</sub> concentration:</p>
 <ul>
 <li>The satellite can not see through clouds or fog;</li>
 <li>It does not work the same over ground or water;</li>
@@ -59,21 +59,21 @@ sidebar: home_sidebar
 <p><img src="https://scx1.b-cdn.net/csz/news/800/2020/3-nasasatellit.jpg" alt="OCO2 spectrometers">
 !!</p>
 <p>More info on the mission on <a href="https://earth.esa.int/web/eoportal/satellite-missions/o/oco-2">https://earth.esa.int/web/eoportal/satellite-missions/o/oco-2</a>.</p>
-<p>The NASA made a global CO² image (see bellow), however this is an extrapolation of the data, and not what the satellite really see.</p>
-<p><img src="https://www.jpl.nasa.gov/images/oco/20090219/sinks-browse.jpg" alt="NASA Global CO²"></p>
-<p><strong>2/ Data on known CO2 emissions</strong></p>
+<p>The NASA made a global CO<sub>2</sub> image (see bellow), however this is an extrapolation of the data, and not what the satellite really see.</p>
+<p><img src="https://www.jpl.nasa.gov/images/oco/20090219/sinks-browse.jpg" alt="NASA Global CO&lt;sub&gt;2&lt;/sub&gt;"></p>
+<p><strong>2/ Data on known CO<sub>2</sub> emissions</strong></p>
 <ul>
-<li>The Emissions Database for Global Atmospheric Research (EDGAR) on CO² emissions. For the energy related sectors the activity data is mainly based on the energy balance statistics of IEA (2017), whereas the activity data for the agricultural sectors originates mainly from FAO (2018). The spatial allocation of emissions on the grid is made based on spatial proxy datasets with the location of energy and manufacturing facilities, road networks, shipping routes, human and animal population density and agricultural land use, that vary over time. 
+<li>The Emissions Database for Global Atmospheric Research (EDGAR) on CO<sub>2</sub> emissions. For the energy related sectors the activity data is mainly based on the energy balance statistics of IEA (2017), whereas the activity data for the agricultural sectors originates mainly from FAO (2018). The spatial allocation of emissions on the grid is made based on spatial proxy datasets with the location of energy and manufacturing facilities, road networks, shipping routes, human and animal population density and agricultural land use, that vary over time. 
 Source : <a href="https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG">https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG</a></li>
 </ul>
 <p><img src="https://user-images.githubusercontent.com/61688979/79775474-9637d180-8334-11ea-9712-274a11356aea.PNG" alt="CO2_emissions_Edgar_2018"></p>
 <ul>
-<li>The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO² during their combustion.
+<li>The World Resource Institute provides a list of power plants producing electricity based on different primary energies. We filtered this list to keep only the fossil primary energies (gas, oil and coal), that release CO<sub>2</sub> during their combustion.
 Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http://datasets.wri.org/dataset/globalpowerplantdatabase</a></li>
 </ul>
 <p><img src="/batch7_satellite_ges/./assets/power_plant_emissions_2017.png" alt="power_plant_emissions_2017"></p>
 <ul>
-<li>Other sources of CO² emissions are under study. </li>
+<li>Other sources of CO<sub>2</sub> emissions are under study. </li>
 </ul>
 
 </div>
@@ -85,11 +85,11 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 <ul>
 <li><p>Detect peak in O-CO2 data, 2 step methodology</p>
 <ul>
-<li>Step 1: Identification of local ‘peaks’ through Gaussian fits (curve_fit) ; Taking into account intrinsic complexity of O-CO2 data, notably: High variance across ‘background’ CO² level across the globe, narrowness &amp; incompleteness of plumes observations (due to clouds / fogs / …), ...</li>
+<li>Step 1: Identification of local ‘peaks’ through Gaussian fits (curve_fit) ; Taking into account intrinsic complexity of O-CO2 data, notably: High variance across ‘background’ CO<sub>2</sub> level across the globe, narrowness &amp; incompleteness of plumes observations (due to clouds / fogs / …), ...</li>
 <li>Step 2: Elimination of irrelevant peaks to keep only ‘true’ anomalies: So far, through a quite drastic &amp; manual methodology, with rules to keep only clear Gaussians ; Objective to improve this part with algo-based anomaly detection </li>
 </ul>
 </li>
-<li><p>Aggregate known sources of CO² from inventory data: Using EDGAR &amp; World Resource Institute</p>
+<li><p>Aggregate known sources of CO<sub>2</sub> from inventory data: Using EDGAR &amp; World Resource Institute</p>
 </li>
 <li><p>Find nearest inventory from peak position, using the wind vector.</p>
 </li>
@@ -208,7 +208,7 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected/result_for_oco2_1808.csv&#39;]</pre>
+<pre>[]</pre>
 </div>
 
 </div>
@@ -244,10 +244,47 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 2/2 [00:00&lt;00:00,  6.04it/s]
-</pre>
+
+<div class="output_html rendered_html output_subarea ">
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value='1' class='' max='1', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [1/1 00:00<00:00]
+    </div>
+    
+
+
+    <div>
+        <style>
+            /* Turns off some styling */
+            progress {
+                /* gets rid of default border in Firefox and Opera. */
+                border: none;
+                /* Needs to be in here for Safari polyfill so background images work as expected. */
+                background-size: auto;
+            }
+            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+                background: #F44336;
+            }
+        </style>
+      <progress value='3' class='' max='3', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [3/3 00:01<00:00]
+    </div>
+    
 </div>
+
 </div>
 
 </div>

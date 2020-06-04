@@ -3,6 +3,8 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"Datasets": "oco2peak-datasets.ipynb",
+         "inventory_map_only": "WIP_OCO2_Map.ipynb",
+         "peaks_capture_map": "WIP_OCO2_Map.ipynb",
          "compute_haversine_formula": "oco2peak-find_peak.ipynb",
          "compute_distance": "oco2peak-find_peak.ipynb",
          "load_data": "oco2peak-find_peak.ipynb",
@@ -24,13 +26,14 @@ index = {"Datasets": "oco2peak-datasets.ipynb",
          "estimate_emission": "oco2peak_find_source.ipynb"}
 
 modules = ["datasets.py",
+           "oco2mapfolium.py",
            "find_peak.py",
            "oco2map.py",
            "nc4_convert.py",
            "find_source.py"]
 
-doc_url = "https://trancept.github.io/batch7_satellite_ges/"
+doc_url = "https://dataforgoodfr.github.io/batch7_satellite_ges/"
 
-git_url = "https://github.com/trancept/batch7_satellite_ges/tree/master/"
+git_url = "https://github.com/dataforgoodfr/batch7_satellite_ges/tree/master/"
 
 def custom_doc_links(name): return None

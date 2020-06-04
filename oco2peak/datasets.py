@@ -143,7 +143,7 @@ class Datasets:
         if len(df_param)<1:
             print(f'ERROR in oco2peak.Datasets.get_peak_param(...) : sounding_id -{sounding_id}- not found in dataframe !')
             #return {'slope' : 1,'intercept' : 1,'amplitude' : 1,'sigma': 1,'delta': 1,'R' : 1}
-            return {}
+            return None
         param_index = df_param.index[0]
         gaussian_param = df_param.loc[param_index].to_dict()
 #         gaussian_param = {

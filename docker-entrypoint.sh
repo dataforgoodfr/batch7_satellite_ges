@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
-
-#source venv/bin/activate
 cd $HOME_DIR
+
 echo "Running Jupyter"
 #  --debug
 jupyter lab --ip=0.0.0.0 --no-browser --allow-root &
@@ -11,15 +10,21 @@ if [ $status -ne 0 ]; then
   echo "Failed to start jupyter lab: $status"
   exit $status
 fi
+
 cd front
 # ln -s ../configs
 # ln -s ../oco2peak
-python3 home-dash.py
+echo "Starting Dash"
+python3 home-dash.py &
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start Dash: $status"
   exit $status
 fi
+
+#source venv/bin/activate
+
+
 # Naive check runs checks once a minute to see if either of the processes exited.
 # This illustrates part of the heavy lifting you need to do if you want to run
 # more than one service in a container. The container exits with an error
