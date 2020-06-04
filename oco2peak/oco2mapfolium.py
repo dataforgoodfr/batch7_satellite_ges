@@ -66,9 +66,8 @@ def inventory_map_only(invent):
     #inventory_map.save("inventory_map.html")
     return inventory_map
 
-
-
-def peaks_capture_map(peaks, invent):
+# Cell
+def peaks_capture_map(peaks, invent, mapbox_token = None):
     """
     Create map with peaks (marker + capture zone) and inventory
     :param peaks: GeoDataFrame, Dataframe containing the peaks we want to display.
@@ -78,12 +77,15 @@ def peaks_capture_map(peaks, invent):
     :return:
     """
     # Initialize Map
-    peaks_capture = folium.Map([40, -100], zoom_start=4)
+    peaks_capture = folium.Map([40, -100], zoom_start=3)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(peaks_capture)
+    if mapbox_token is not None:
+        folium.TileLayer(tiles="Mapbox", name="Satellite", API_key=mapbox_token).add_to(peaks_capture)
+
 
     # Adding detected peaks
     peaks_group = folium.FeatureGroup(name="Peaks").add_to(peaks_capture)
-    peaks_group_capture = folium.FeatureGroup(name=" - 50km Capture Zone", show=False).add_to(peaks_capture)
+    peaks_group_capture = folium.FeatureGroup(name=" - 50km Capture Zone", show=True).add_to(peaks_capture)
     for index, row in peaks.iterrows():
         radius = row["amplitude"]/20
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -156,7 +158,7 @@ def peaks_capture_map(peaks, invent):
         force_separate_button=True
     ).add_to(peaks_capture)
 
-    minimap = plugins.MiniMap()
+    minimap = plugins.MiniMap(position='bottomleft')
     peaks_capture.add_child(minimap)
 
     #peaks_capture.save("peaks_capture_map.html")
