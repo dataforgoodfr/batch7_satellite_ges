@@ -1,6 +1,8 @@
+import flask
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
+import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import dash_dangerously_set_inner_html
 import json
@@ -28,12 +30,16 @@ def get_detected_peak_file_list(datasets):
     detected_peaks_urls = datasets.get_files_urls(prefix="/datasets/oco-2/peaks-and-invent/", pattern='peaks_and_invent')
     for detected_peaks_url in detected_peaks_urls:
         # RegExp to get 4 digits followed by a dot
-        yearmonth = re.findall(r'(\d{4})\.', detected_peaks_url)[-1]
-        yearmonth_text = yearmonth[2:4] + '/20' +yearmonth[0:2]
+        date = re.findall(r'(\d{4})\.', detected_peaks_url)[-1]
+        year = '20' + date[0:2]
+        month = date[2:4]
+        yearmonth_text = month + '/' +year
         files.update(
-            {yearmonth : {
+            {date : {
                 'url' : detected_peaks_url,
-                'label' : yearmonth_text
+                'label' : yearmonth_text,
+                'year' : year,
+                'month' : month
                 }
             }
         )
@@ -60,7 +66,7 @@ def build_graph(df_oco2, sounding_id):
     # https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2016061413390672.json
 
     if sounding_id is None:
-        # Get the peak with maximum volume of CO2
+        # Get the peak with maximum mass of CO2
         sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
         # return html.H1("Please select a point")
     #if len(str(int(float(sounding_id))))!=16 :
@@ -79,8 +85,10 @@ def build_graph(df_oco2, sounding_id):
             msg='The server couldn\'t fulfill the request. Error code: '+ e.code
         return html.Div([html.H3('ERROR : souding data not found'),html.P(f"url : {one_peak_url}"),html.P(f"Error : {msg}")])
     peak_param = datasets.get_peak_param(sounding_id, df_oco2)
+    #print(peak_param)
     if peak_param is None:
-        return html.H1("Param of peak not found !")
+        print('One sounding ID of the df:',df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64'), 'Sounding asked:',sounding_id)
+        return html.H1("Metadata of the peak not found !")
     df_peak['gaussian_y'] = df_peak.distance.apply(
         lambda x: find_peak.gaussian(x=x, m=peak_param['slope'], b=peak_param['intercept'], A=peak_param['amplitude'], sig=peak_param['sigma']))
 
@@ -98,7 +106,7 @@ def build_graph(df_oco2, sounding_id):
                 id='xco2-graph',
                 figure=sounding_scatter
             ),
-            dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated volume of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>")
+            dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated mass of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>")
         ], className="eight columns"),
 
         html.Div([
@@ -112,9 +120,9 @@ def build_graph(df_oco2, sounding_id):
 
 
 
-last_key = '1808' #sorted(files.keys())[-1]
+last_key = sorted(files.keys())[-1]
 detected_peaks_url = files[last_key]['url']
-previous_slider_key = last_key
+previous_slider_key = len(files)-1
 
 
 ######################## DATA IMPORT (In Progress) #################################################
@@ -126,16 +134,21 @@ oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
 oco2_data.crs = {'init': 'epsg:4326'}
 print(oco2_data.shape[0], " peaks loaded.")
 
-print("- Loading inventory...")
-path_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_2018.csv"
-invent = pd.read_csv(path_invent, sep=",", index_col=0)
-invent = gpd.GeoDataFrame(invent, geometry=gpd.points_from_xy(invent.longitude, invent.latitude))
-invent.crs = {'init': 'epsg:4326'}
-invent = invent[invent['longitude'].notna()]
-invent = invent[invent['latitude'].notna()]
-invent = invent[invent['CO2/CO2e emissions (in tonnes per year)'].notna()]
-print(invent.shape[0], " inventory points loaded.")
+def load_invent(year):
+    path_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"+year+".csv"
+    invent = pd.read_csv(path_invent, sep=",", index_col=0)
+    invent = gpd.GeoDataFrame(invent, geometry=gpd.points_from_xy(invent.longitude, invent.latitude))
+    invent.crs = {'init': 'epsg:4326'}
+    invent = invent[invent['longitude'].notna()]
+    invent = invent[invent['latitude'].notna()]
+    invent = invent[invent['CO2/CO2e emissions (in tonnes per year)'].notna()]
+    return invent
 
+print("- Loading inventory...")
+#try:
+invent = load_invent(files[last_key]['year'])
+
+print(invent.shape[0], " inventory points loaded.")
 # oco2_data = datasets.get_dataframe(files[last_key]['url'])
 # oco2_data = oco2_data[oco2_data.delta > 1]
 print("- Creating map...")
@@ -149,9 +162,14 @@ print("Map created.")
 
 ###############################################################################
 ######################## DASH #################################################
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# Light theme
+# external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+# Dark theme
+external_stylesheets=[dbc.themes.DARKLY]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = flask.Flask(__name__) # define flask app.server
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server) # call flask server
+
 app.layout = html.Div(
     [
     html.H1(children='OCO-2 satellite data analysis'),
@@ -172,7 +190,7 @@ app.layout = html.Div(
         min=0,
         max=len(files)-1,
         step=1,
-        value=last_key,
+        value=len(files)-1,
         marks=get_slider_mark(files)
     ),
     html.Div(id='slider-output-container'),
@@ -180,7 +198,8 @@ app.layout = html.Div(
     dcc.Loading(
             id="loading-1",
             type="default",
-            children=html.Div(id="loading-output-map")
+            children=html.Div(id="loading-output-map"),
+            fullscreen=False
         )
     ,
     # Focus on a single peak
@@ -206,14 +225,12 @@ app.layout = html.Div(
     [dash.dependencies.Input('my-slider', 'value'),
     dash.dependencies.Input('input_sounding', 'value')])
 def update_output(slider_key, sounding_id):
-    global oco2_data, world_map, previous_slider_key, detected_peaks_url
+    global oco2_data, world_map, previous_slider_key, detected_peaks_url, world_map_display
     key = sorted(files.keys())[slider_key]
     print('Input: previous_slider_key=',previous_slider_key,'slider_key=', slider_key, 'sounding_id=', sounding_id)
     if previous_slider_key != slider_key:
         print("- Month change, re-Loading peaks...")
-        
         detected_peaks_url = files[key]['url']
-       
         oco2_data = datasets.get_dataframe(detected_peaks_url)
         oco2_data = oco2_data[oco2_data.delta > 1]
         oco2_data = gpd.GeoDataFrame(oco2_data)
@@ -228,4 +245,9 @@ def update_output(slider_key, sounding_id):
 
 
 if __name__ == '__main__':
-    app.run_server(host='0.0.0.0', debug=True, threaded=True, dev_tools_hot_reload_interval=5000, dev_tools_hot_reload_max_retry=300)
+    production = False
+    if production:
+        #app.run_server(debug=True)
+        app.run_server(host='0.0.0.0', debug=False, threaded=True, dev_tools_hot_reload_interval=50000, dev_tools_hot_reload_max_retry=3)
+    else:
+        app.run_server(host='0.0.0.0', debug=True, threaded=True, dev_tools_hot_reload_interval=5000, dev_tools_hot_reload_max_retry=300)
