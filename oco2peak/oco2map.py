@@ -6,7 +6,7 @@ __all__ = ['build_sounding_scatter', 'build_sounding_map', 'plot_emission', 'bui
 import plotly.graph_objects as go
 
 # Cell
-def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True):
+def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True, template='plotly_dark'):
     xco2 = go.Scatter(
                     x=df_sounding['distance'],
                     y=df_sounding['xco2'],
@@ -24,7 +24,8 @@ def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True):
                 yaxis={'title': 'CO² level in ppm'},
                 #margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
                 legend={'x': 0, 'y': 1},
-                hovermode='closest'
+                hovermode='closest',
+                template=template
             )
     if plot_gaussian:
         gaussian_plot = go.Scatter(x=df_sounding['distance'], y=df_sounding['gaussian_y'], name="Gaussian fit",
@@ -42,7 +43,7 @@ def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True):
     return sounding_plot
 
 # Cell
-def build_sounding_map(df_sounding, mapbox_token, peak_param=None):
+def build_sounding_map(df_sounding, mapbox_token, peak_param=None, template='plotly_dark'):
     df = df_sounding
     center_lat = peak_param['latitude'] #df.latitude.min() + (df.latitude.max() - df.latitude.min())/2
     center_lon = peak_param['longitude'] #df.longitude.min() + (df.longitude.max() - df.longitude.min())/2
@@ -72,6 +73,7 @@ def build_sounding_map(df_sounding, mapbox_token, peak_param=None):
             )
     xco_sounding_mapbox.update_layout(
         mapbox_style="satellite-streets",
+        template=template,
         hovermode='closest',
         mapbox=dict(
             accesstoken=mapbox_token,
