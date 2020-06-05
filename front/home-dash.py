@@ -23,6 +23,8 @@ from oco2peak import find_peak
 config_file = "./configs/config.json"
 with open(config_file) as json_data_file:
     config = json.load(json_data_file)
+mapbox_token = config['mapbox_token']
+datasets = Datasets(config_file)
 
 # Retrieve file list
 def get_detected_peak_file_list(datasets):
@@ -55,12 +57,10 @@ def get_slider_mark(files):
             if i == 0 or i == len(files)-1:
                 yearmonth_marks.update({i: {'label': yearmonth_text}})
             elif key[2:4] == '01': # Only years
-                yearmonth_marks.update({i: {'label': '20' + key[:2]}})
+                yearmonth_marks.update({i: {'label': '01/20' + key[:2]}})
+            elif key[2:4] == '06': # Only years
+                yearmonth_marks.update({i: {'label': '06/20' + key[:2]}})
     return yearmonth_marks
-
-datasets = Datasets(config_file)
-files = get_detected_peak_file_list(datasets)
-
 
 def build_graph(df_oco2, sounding_id):
     # https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2016061413390672.json
@@ -94,59 +94,44 @@ def build_graph(df_oco2, sounding_id):
 
     sounding_scatter = oco2map.build_sounding_scatter(df_peak, peak_param)
 
-    mapbox_token = config['mapbox_token']
+    
     sounding_map = oco2map.build_sounding_map(df_peak, mapbox_token, peak_param)
 
     return html.Div([
-
         html.Div([
-            html.H3('2D Scatter plot with peak detection'),
+            html.H3('Satellite view of the data'),
+            dcc.Graph(
+                id='xco_sounding_mapbox',
+                figure=sounding_map
+            )
+        ], className="col-lg-4"),
+        html.Div([
+            html.H3('Satellite data for 100km around the peak'),
             #html.P(f"m={peak_param['slope']}, b={peak_param['intercept']}, A={peak_param['amplitude']}, sig={peak_param['sigma']}"),
             dcc.Graph(
                 id='xco2-graph',
                 figure=sounding_scatter
             ),
             dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated mass of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>")
-        ], className="eight columns"),
-
-        html.Div([
-            html.H3('3D scatter plot on map'),
-            dcc.Graph(
-                id='xco_sounding_mapbox',
-                figure=sounding_map
-            )
-        ], className="four columns"),
+        ], className="col-lg-8")
     ], className="row")
 
-
-
+files = get_detected_peak_file_list(datasets)
 last_key = sorted(files.keys())[-1]
 detected_peaks_url = files[last_key]['url']
 previous_slider_key = len(files)-1
 
-
-######################## DATA IMPORT (In Progress) #################################################
+#### DATA IMPORT (In Progress)
 print("- Loading peaks...")
-oco2_data = datasets.get_dataframe(files[last_key]['url'])
-oco2_data = oco2_data[oco2_data.delta > 1]
-oco2_data = gpd.GeoDataFrame(oco2_data)
-oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
-oco2_data.crs = {'init': 'epsg:4326'}
+url = files[last_key]['url']
+oco2_data = datasets.get_peaks(url, delta_threshold=1)
 print(oco2_data.shape[0], " peaks loaded.")
-
-def load_invent(year):
-    path_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"+year+".csv"
-    invent = pd.read_csv(path_invent, sep=",", index_col=0)
-    invent = gpd.GeoDataFrame(invent, geometry=gpd.points_from_xy(invent.longitude, invent.latitude))
-    invent.crs = {'init': 'epsg:4326'}
-    invent = invent[invent['longitude'].notna()]
-    invent = invent[invent['latitude'].notna()]
-    invent = invent[invent['CO2/CO2e emissions (in tonnes per year)'].notna()]
-    return invent
-
 print("- Loading inventory...")
 #try:
-invent = load_invent(files[last_key]['year'])
+year = files[last_key]['year']
+url_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"\
+    +year+".csv"
+invent = datasets.get_inventory(url_invent)
 
 print(invent.shape[0], " inventory points loaded.")
 # oco2_data = datasets.get_dataframe(files[last_key]['url'])
@@ -169,6 +154,7 @@ external_stylesheets=[dbc.themes.DARKLY]
 
 server = flask.Flask(__name__) # define flask app.server
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server) # call flask server
+app.title = 'CO2 plume detector'
 
 app.layout = html.Div(
     [
@@ -214,7 +200,7 @@ app.layout = html.Div(
     html.Div(children='''
         Made with Dash: A web application framework for Python.
     '''),
-])
+], className="oco2app")
 
 @app.callback(
     [dash.dependencies.Output('slider-output-container', 'children'),
@@ -241,7 +227,7 @@ def update_output(slider_key, sounding_id):
         previous_slider_key = slider_key
         world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
         print('Map updated')
-    return f'Dataset file : {detected_peaks_url}', world_map_display, build_graph(oco2_data, sounding_id)
+    return f"Map for data from : {files[key]['month']}/{files[key]['year']}", world_map_display, build_graph(oco2_data, sounding_id)
 
 
 if __name__ == '__main__':

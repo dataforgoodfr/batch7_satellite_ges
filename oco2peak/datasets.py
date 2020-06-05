@@ -8,8 +8,10 @@ import json
 import glob
 import os
 import pandas as pd
+import geopandas as gpd
 from fastprogress.fastprogress import master_bar, progress_bar
 from swiftclient.exceptions import ClientException
+from shapely.wkt import loads
 
 class Datasets:
     """
@@ -138,6 +140,8 @@ class Datasets:
             df['sounding_id']= df['sounding_id'].astype('int64')
         return df
 
+
+
     def get_peak_param(self, sounding_id, df_all_peak):
         df_param = df_all_peak.query("sounding_id==@sounding_id")
         if len(df_param)<1:
@@ -157,3 +161,27 @@ class Datasets:
         return gaussian_param
     def get_gaussian_param(self, sounding_id, df_all_peak):
         return self.get_peak_param(sounding_id, df_all_peak)
+
+    def get_peaks(self, url, delta_threshold=None):
+        """
+        Load the peak dataframe and convert it to GeoPandas
+        """
+        oco2_data = self.get_dataframe(url)
+        # Filter to delta > 1
+        oco2_data = oco2_data[oco2_data.delta > delta_threshold] if delta_threshold is not None else oco2_data
+        oco2_data = gpd.GeoDataFrame(oco2_data)
+        oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
+        oco2_data.crs = {'init': 'epsg:4326'}
+        return oco2_data
+
+    def get_inventory(self, url):
+        """
+        Load the peak inventory dataframe and convert it to GeoPandas
+        """
+        invent = pd.read_csv(url, sep=",", index_col=0)
+        invent = gpd.GeoDataFrame(invent, geometry=gpd.points_from_xy(invent.longitude, invent.latitude))
+        invent.crs = {'init': 'epsg:4326'}
+        invent = invent[invent['longitude'].notna()]
+        invent = invent[invent['latitude'].notna()]
+        invent = invent[invent['CO2/CO2e emissions (in tonnes per year)'].notna()]
+        return invent

@@ -14,8 +14,9 @@ fi
 cd front
 # ln -s ../configs
 # ln -s ../oco2peak
-echo "Starting Dash"
+echo "Starting gUnicorn"
 python3 home-dash.py &
+#gunicorn --workers=4 home-dash:app.server -b :8050
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start Dash: $status"
