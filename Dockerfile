@@ -1,6 +1,6 @@
 FROM python:3.7.0
 
-RUN apt-get update && apt-get upgrade -y && apt-get install libspatialindex-dev -y && pip install --upgrade pip
+RUN apt-get update && apt-get upgrade -y && apt-get install libspatialindex-dev -y && /usr/local/bin/python -m pip install --upgrade pip
 
 # NodeJS for Jupyter
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -

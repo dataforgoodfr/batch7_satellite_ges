@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import dash_dangerously_set_inner_html
 import json
 import re
+import requests
 from urllib.error import URLError
 
 import pandas as pd
@@ -18,6 +19,9 @@ from oco2peak.datasets import Datasets
 from oco2peak import oco2map
 from oco2peak import oco2mapfolium
 from oco2peak import find_peak
+
+import locale
+locale.setlocale(locale.LC_ALL, '')
 
 # Read config file
 config_file = "./configs/config.json"
@@ -58,17 +62,19 @@ def get_slider_mark(files):
                 yearmonth_marks.update({i: {'label': yearmonth_text}})
             elif key[2:4] == '01': # Only years
                 yearmonth_marks.update({i: {'label': '01/20' + key[:2]}})
-            elif key[2:4] == '06': # Only years
-                yearmonth_marks.update({i: {'label': '06/20' + key[:2]}})
+            elif key[2:4] == '06': # June
+                yearmonth_marks.update({i: {'label': '06'}})
+            else:
+                yearmonth_marks.update({i: {'label': ''}})
     return yearmonth_marks
 
 def build_graph(df_oco2, sounding_id):
     # https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-detected-details/peak_data-si_2016061413390672.json
-
+    #print("build_graph")
     if sounding_id is None:
         # Get the peak with maximum mass of CO2
-        sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
-        # return html.H1("Please select a point")
+        #sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
+        return html.H3("Please select a point")
     #if len(str(int(float(sounding_id))))!=16 :
     sounding_id = str(sounding_id)
     #print(sounding_id)
@@ -112,7 +118,7 @@ def build_graph(df_oco2, sounding_id):
                 id='xco2-graph',
                 figure=sounding_scatter
             ),
-            dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p>The estimated mass of the peak is {peak_param['ktCO2_per_h']:.4f} kilo-ton of CO<SUB>2</SUB> per hour</p>")
+            dash_dangerously_set_inner_html.DangerouslySetInnerHTML(f"<p id='mass'>The estimated mass of the peak is <b>{peak_param['ktCO2_per_h']*1000:n} ton of CO<SUB>2</SUB> per hour</b></p>")
         ], className="col-lg-8")
     ], className="row")
 
@@ -122,28 +128,24 @@ detected_peaks_url = files[last_key]['url']
 previous_slider_key = len(files)-1
 
 #### DATA IMPORT (In Progress)
-print("- Loading peaks...")
+#print("- Loading peaks...")
 url = files[last_key]['url']
 oco2_data = datasets.get_peaks(url, delta_threshold=1)
-print(oco2_data.shape[0], " peaks loaded.")
 
-#try:
-year = files[last_key]['year']
-if(year == "2020"): year = "2019"
-if(year == "2015"): year = "2016" 
-print("- Loading ", year," inventory...")
-url_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"\
-    +year+".csv"
-invent = datasets.get_inventory(url_invent)
 
-print(invent.shape[0], " inventory points loaded.")
-# oco2_data = datasets.get_dataframe(files[last_key]['url'])
-# oco2_data = oco2_data[oco2_data.delta > 1]
-print("- Creating map...")
-world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
-world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
+def get_folium_iframe(year, month):
+    map_url = 'http://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/'\
+        + 'peaks_capture_map_' + year[2:4] + month +'.html'
+    #print(map_url)
+    r = requests.get(map_url)
+    #print(r.status_code)
+    # >>> r.headers['content-type']
+    # 'application/json; charset=utf8'
+    # >>> r.encoding
+    # 'utf-8'
+    return html.Iframe(id='folium-iframe', srcDoc=r.text, style={'width': '100%', 'height': '400px'}) # world_map.get_root().render()
+world_map_display = get_folium_iframe(files[last_key]['year'], files[last_key]['month'])
 print("Map created.")
-
 ######################## DATA IMPORT (In Progress)  #################################################
 
 
@@ -163,13 +165,13 @@ app.layout = html.Div(
     [
     html.H1(children='OCO-2 satellite data analysis'),
     html.Div(children=dash_dangerously_set_inner_html.DangerouslySetInnerHTML('''
-        The goal of our project is to localize CO<SUB>2</SUB> emissions on Earth based on the the carbon concentration data measured by the OCO-2 Satellite from the NASA.
+        The goal of our project is to localize CO<SUB>2</SUB> emissions on Earth based on the carbon concentration data measured by the OCO-2 Satellite from the NASA.
     ''')),
     html.Div(dash_dangerously_set_inner_html.DangerouslySetInnerHTML('''
     <ul>
-        <li>The map shows the places where we detect a peak in CO<SUB>2</SUB> emission based on OCO-2 satellite data.</li>
-        <li>We also plot the potential CO<SUB>2</SUB> source from declarative content (EDGAR, IEA, FAO...).</li>
-        <li>You can select a month of observation with the slider below.</li>
+        <li>The map shows in red the places where we detect a peak in CO<SUB>2</SUB> emission based on OCO-2 satellite data.</li>
+        <li>We also plot the potential CO<SUB>2</SUB> source from declarative content (EDGAR, IEA, FAO...), in green.</li>
+        <li>You can select a month of observations with the slider below.</li>
         <li>You can click on a peak to view a detailed graph of what the satellite really saw and how we find a peak in this data.</li>
     </ul>
     <p>For more info, see <a href="https://github.com/dataforgoodfr/batch7_satellite_ges">our website</a>.</p>
@@ -194,7 +196,8 @@ app.layout = html.Div(
     # Focus on a single peak
     html.Div(id='div-xco2', children=build_graph(oco2_data, None)),
     # Input of a peak ID
-    html.P("Sounding_id : "),
+    html.Div(className='souding_id_div', children=[
+    html.P("ID of OCO-2 sounding : "),
     dcc.Input(
         id="input_sounding",
         type="text",
@@ -202,7 +205,8 @@ app.layout = html.Div(
     ),
     html.Div(children='''
         Made with Dash: A web application framework for Python.
-    '''),
+    ''')
+    ])
 ], className="oco2app")
 
 @app.callback(
@@ -214,22 +218,28 @@ app.layout = html.Div(
     [dash.dependencies.Input('my-slider', 'value'),
     dash.dependencies.Input('input_sounding', 'value')])
 def update_output(slider_key, sounding_id):
-    global oco2_data, world_map, previous_slider_key, detected_peaks_url, world_map_display
+    #print("update_output")
+    global oco2_data, previous_slider_key, detected_peaks_url, world_map_display
     key = sorted(files.keys())[slider_key]
-    print('Input: previous_slider_key=',previous_slider_key,'slider_key=', slider_key, 'sounding_id=', sounding_id)
+    #print('Input: previous_slider_key=',previous_slider_key,'slider_key=', slider_key, 'sounding_id=', sounding_id)
     if previous_slider_key != slider_key:
-        print("- Month change, re-Loading peaks...")
+        print("- Month change", files[key]['month'], '/', files[key]['year'])
         detected_peaks_url = files[key]['url']
         oco2_data = datasets.get_dataframe(detected_peaks_url)
         oco2_data = oco2_data[oco2_data.delta > 1]
-        oco2_data = gpd.GeoDataFrame(oco2_data)
-        oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
-        oco2_data.crs = {'init': 'epsg:4326'}
-        print(oco2_data.shape[0], " peaks loaded.")
-        world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
+        # oco2_data = gpd.GeoDataFrame(oco2_data)
+        # oco2_data['geometry'] = oco2_data['geometry'].apply(loads)
+        # oco2_data.crs = {'init': 'epsg:4326'}
+        # print(oco2_data.shape[0], " peaks loaded.")
+        # world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
         previous_slider_key = slider_key
-        world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
-        print('Map updated')
+        # world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
+        world_map_display = get_folium_iframe(files[key]['year'], files[key]['month'])
+        sounding_id = None
+        #print('Map updated')
+    else:
+        print("No month change, only souding_id :", sounding_id)
+
     return f"Map for data from : {files[key]['month']}/{files[key]['year']}", world_map_display, build_graph(oco2_data, sounding_id)
 
 
