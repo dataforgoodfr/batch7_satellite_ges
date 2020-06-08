@@ -131,25 +131,6 @@ previous_slider_key = len(files)-1
 #print("- Loading peaks...")
 url = files[last_key]['url']
 oco2_data = datasets.get_peaks(url, delta_threshold=1)
-#print(oco2_data.shape[0], " peaks loaded.")
-#print("- Loading inventory...")
-# #try:
-# year_invent = files[last_key]['year']
-# if year_invent == '2020':
-#     year_invent = '2019'
-# elif int(year_invent)<16:
-#     year_invent = '2016'
-# url_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"\
-#     +year_invent+".csv"
-# print(url_invent)
-# invent = datasets.get_inventory(url_invent)
-
-# print(invent.shape[0], " inventory points loaded.")
-# # oco2_data = datasets.get_dataframe(files[last_key]['url'])
-# # oco2_data = oco2_data[oco2_data.delta > 1]
-# print("- Creating map...")
-# world_map = oco2mapfolium.peaks_capture_map(oco2_data, invent)
-# world_map_display = html.Iframe(id='folium-iframe', srcDoc=world_map.get_root().render(), style={'width': '100%', 'height': '400px'})
 
 
 def get_folium_iframe(year, month):

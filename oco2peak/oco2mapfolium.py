@@ -28,8 +28,9 @@ def inventory_map_only(invent):
     :return:
     """
     # Initialize Map
-    inventory_map = folium.Map([43, 0], zoom_start=4)
+    inventory_map = folium.Map([43, 0], zoom_start=4, tiles=None)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(inventory_map)
+    folium.TileLayer("OpenStreetMap", name="Open Street Map").add_to(inventory_map)
 
     d={}
     invent_types = invent['CO2/CO2e emissions source'].unique()
@@ -37,7 +38,7 @@ def inventory_map_only(invent):
         d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(inventory_map)
 
     for index, row in invent.iterrows():
-        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
+        radius = 1
         color="#368534" # green
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -77,8 +78,9 @@ def peaks_capture_map(peaks, invent, mapbox_token = None):
     :return:
     """
     # Initialize Map
-    peaks_capture = folium.Map([40, -100], zoom_start=3)
+    peaks_capture = folium.Map([40, -100], zoom_start=3, tiles=None)
     folium.TileLayer("CartoDB dark_matter", name="Dark mode").add_to(peaks_capture)
+    folium.TileLayer("OpenStreetMap", name="Open Street Map").add_to(peaks_capture)
     if mapbox_token is not None:
         folium.TileLayer(tiles="Mapbox", name="Satellite", API_key=mapbox_token).add_to(peaks_capture)
 
@@ -123,14 +125,14 @@ def peaks_capture_map(peaks, invent, mapbox_token = None):
                             popup=popup,
                             fill=True))
 
-
     d={}
     invent_types = invent['CO2/CO2e emissions source'].unique()
+    inventory = folium.FeatureGroup(name="Inventory").add_to(peaks_capture)
     for cl in invent_types:
-        d["{0}".format(cl)]=folium.FeatureGroup(name=cl).add_to(peaks_capture)
+        d["{0}".format(cl)]=folium.plugins.FeatureGroupSubGroup(inventory, name=" - "+cl).add_to(peaks_capture)
 
     for index, row in invent.iterrows():
-        radius = row['CO2/CO2e emissions (in tonnes per year)']/10000000
+        radius = 1
         color="#368534" # green
 
         tooltip =  "["+str(round(row['latitude'],2))+" ; "+str(round(row['longitude'],2))+"]"
@@ -152,7 +154,7 @@ def peaks_capture_map(peaks, invent, mapbox_token = None):
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
 
     plugins.Fullscreen(
-        position='topright',
+        position='bottomleft',
         title='Expand me',
         title_cancel='Exit me',
         force_separate_button=True
