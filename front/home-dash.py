@@ -126,9 +126,12 @@ print("- Loading peaks...")
 url = files[last_key]['url']
 oco2_data = datasets.get_peaks(url, delta_threshold=1)
 print(oco2_data.shape[0], " peaks loaded.")
-print("- Loading inventory...")
+
 #try:
 year = files[last_key]['year']
+if(year == "2020"): year = "2019"
+if(year == "2015"): year = "2016" 
+print("- Loading ", year," inventory...")
 url_invent = "https://raw.githubusercontent.com/dataforgoodfr/batch7_satellite_ges/master/dataset/Output%20inventory%20data/Merge%20of%20peaks/CO2_emissions_peaks_merged_"\
     +year+".csv"
 invent = datasets.get_inventory(url_invent)
