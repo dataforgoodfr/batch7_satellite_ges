@@ -154,7 +154,7 @@ def peaks_capture_map(peaks, invent, mapbox_token = None):
     folium.map.LayerControl(collapsed=False).add_to(peaks_capture)
 
     plugins.Fullscreen(
-        position='topright',
+        position='bottomleft',
         title='Expand me',
         title_cancel='Exit me',
         force_separate_button=True
