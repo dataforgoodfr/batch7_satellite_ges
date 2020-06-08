@@ -4,35 +4,47 @@ __all__ = ['build_sounding_scatter', 'build_sounding_map', 'plot_emission', 'bui
 
 # Cell
 import plotly.graph_objects as go
+from oco2peak import find_peak
 
 # Cell
 def build_sounding_scatter(df_sounding, gaussian_param, plot_gaussian = True, template='plotly_dark'):
     xco2 = go.Scatter(
                     x=df_sounding['distance'],
                     y=df_sounding['xco2'],
-                    text='xco2',
+                    text='CO<sub>2</sub>',
                     mode='markers',
                     opacity=0.5,
                     marker={
                         'size': 5,
                         'line': {'width': 0.5, 'color': 'white'}
                     },
-                    name="xco2"
+                    name="CO<sub>2</sub>"
                 )
     layout = go.Layout(
                 xaxis={'title': 'Distance (km)'},
                 yaxis={'title': 'CO² level in ppm'},
                 #margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
                 legend={'x': 0, 'y': 1},
+                margin = dict(l = 0, r = 0, t = 0, b = 0),
                 hovermode='closest',
                 template=template
             )
     if plot_gaussian:
-        gaussian_plot = go.Scatter(x=df_sounding['distance'], y=df_sounding['gaussian_y'], name="Gaussian fit",
+        x=df_sounding['distance']
+        m=gaussian_param['slope']
+        b=gaussian_param['intercept']
+        A=gaussian_param['amplitude']
+        sig=gaussian_param['sigma']
+
+        background_level_plot = go.Scatter(x=x, y=m*x+b, name="Background level",
+                    hoverinfo='name',
+                    line_shape='spline')
+        y=find_peak.gaussian(x, m, b, A, sig)
+        gaussian_plot = go.Scatter(x=x, y=y, name="Gaussian fit",
                     hoverinfo='name',
                     line_shape='spline')
         sounding_plot = {
-            'data': [xco2,gaussian_plot],
+            'data': [xco2, gaussian_plot, background_level_plot],
             'layout': layout
         }
     else:
@@ -54,7 +66,7 @@ def build_sounding_map(df_sounding, mapbox_token, peak_param=None, template='plo
         mode='markers',
         marker=go.scattermapbox.Marker(color = df['xco2'], size=10, opacity=0.5),
         text=df.xco2,
-        name='CO2 level'
+        name='CO<sub>2</sub> level'
     ))
 
     if peak_param is not None:
@@ -62,19 +74,22 @@ def build_sounding_map(df_sounding, mapbox_token, peak_param=None, template='plo
         wind_v = peak_param['windspeed_v']
         x0=peak_param['latitude']
         y0=peak_param['longitude']
-        x1=peak_param['latitude']+wind_u*0.3
-        y1=peak_param['longitude']+wind_v*0.3
+        x1=peak_param['latitude']-wind_u*0.3
+        y1=peak_param['longitude']-wind_v*0.3
         _ = xco_sounding_mapbox.add_trace(go.Scattermapbox(
             mode = "lines",
             lon = [y0, y1],
             lat = [x0, x1],
-            name="Wind direction",
-            marker = {'size': 10})
+            name="Wind vector",
+            marker = {'size': 10},
+            opacity=0.7)
             )
     xco_sounding_mapbox.update_layout(
+        legend={'x': 0, 'y': 1},
         mapbox_style="satellite-streets",
         template=template,
         hovermode='closest',
+        margin = dict(l = 0, r = 0, t = 0, b = 0),
         mapbox=dict(
             accesstoken=mapbox_token,
             bearing=0,
