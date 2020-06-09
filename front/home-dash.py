@@ -73,8 +73,8 @@ def build_graph(df_oco2, sounding_id):
     #print("build_graph")
     if sounding_id is None:
         # Get the peak with maximum mass of CO2
-        #sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
-        return html.H3("Please select a point")
+        sounding_id = df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64')
+        #return html.H3("Please select a point")
     #if len(str(int(float(sounding_id))))!=16 :
     sounding_id = str(sounding_id)
     #print(sounding_id)
