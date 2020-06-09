@@ -221,11 +221,18 @@ app.layout = html.Div(
         id="input_sounding",
         type="text",
         placeholder="2018082510150705",
-    ),
-    html.Div(children='''
-        Made with Dash: A web application framework for Python.
-    ''')
-    ])
+    )]),
+    html.Div(children=dash_dangerously_set_inner_html.DangerouslySetInnerHTML('''
+    <p>The satellite data were produced by the OCO-2 project at the Jet Propulsion Laboratory, California Institute of Technology, and obtained from the <a href="https://co2.jpl.nasa.gov/">OCO-2 data archive</a> maintained at the NASA Goddard Earth Science Data and Information Services Center.</p>
+    <p>O'Dell, C. W., et al. "The ACOS CO 2 retrieval algorithm–Part 1: Description and validation against synthetic observations." Atmospheric Measurement Techniques 5.1 (2012): 99-121 </p>
+    <p>Peak detection is based on the work from Zheng, B., Chevallier, F., Ciais, P., Broquet, G., Wang, Y., Lian, J., and Zhao, Y.: Observing carbon dioxide emissions over China's cities with the Orbiting Carbon Observatory-2, Atmos. Chem. Phys. Discuss., <a href="https://doi.org/10.5194/acp-2020-123">https://doi.org/10.5194/acp-2020-123</a>, in review, 2020.</p>
+    <p>Inventory data source :</p> 
+    <p>Estimation of anthropogenic emissions of greenhouse gases from <a href="https://edgar.jrc.ec.europa.eu/overview.php?v=50_GHG">Emissions Database for Global Atmospheric Research (EDGAR)</a>
+<p>Power plants burning fossil fuels (gas, oil and coal) from <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">World Resource Institute</a></p>
+<p>Coal power plants from <a href="https://www.gem.wiki/Main_Page">Global Energy Monitor (GEM)</a></p>
+<p>Major cities from <a href="https://public.opendatasoft.com/explore/dataset/co2-emissions-cities">Open Data Soft</a></p>
+<p>ETS infrastructures from <a href="https://sandbag.be/">Sandbag</p>
+    '''), className="foot_note")
 ], className="oco2app")
 
 @app.callback(
