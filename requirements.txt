@@ -1,13 +1,13 @@
-jupyterlab # Only for dev
-ray # Only for dev
-matplotlib # Only for dev
-twine # Only for pushing to PyPi
-rtree
-bs4 # BeautifulSoup
+#jupyterlab # Only for dev
+#ray # Only for dev
+#matplotlib # Only for dev
+#twine # Only for pushing to PyPi
+#rtree
+#bs4 # BeautifulSoup
 dash
 dash_bootstrap_components
 dash_dangerously_set_inner_html
-scipy
+scipy # For gaussian fit
 sklearn
 geopandas
 pandas
@@ -16,9 +16,9 @@ folium # for map display
 geopy
 requests
 shapely
-python-swiftclient
-python-keystoneclient
-nbdev # For generating modules from notebooks
+python-swiftclient # To access Open Stack swift
+python-keystoneclient # To access Open Stack swift
+#nbdev # For generating modules from notebooks
 #tqdm #Replaced by fastprogress
 fastprogress # Progress bar
-gunicorn # For production
+# gunicorn # For production
