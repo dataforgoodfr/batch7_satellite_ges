@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  oco2:
+    build: ./
+    ports:
+      # exposed on host : in guest
+      - 7901:8050 # Dash
+      - 7988:8888 # Jupyter
+    environment:
+      HOME_DIR: "/opt/oco2peak/"
+    volumes: 
+      - type: bind
+        source: ./
+        target: /opt/oco2peak/
+        # - type: bind
+        #   source: ./configs
+        #   target: /opt/oco2peak/configs
+        # - type: bind
+        #   source: ./notebooks
+        #   target: /opt/oco2peak/notebooks
+        # - type: bind
+        #   source: ./dataset
+        #   target: /opt/oco2peak/dataset
+        # - type: bind
+        #   source: ./oco2peak
+        #   target: /opt/oco2peak/oco2peak
+        # - type: bind
+        #   source: ./front
+        #   target: /opt/oco2peak/front
