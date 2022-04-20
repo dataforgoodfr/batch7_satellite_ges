@@ -1,30 +1,11 @@
-version: '3.3'
+version: '3.3' # Docker compose version, not our application !
 
 services:
   oco2:
     build: ./
     ports:
-      # local : distant
+      # port exposed on host : port in guest
       - 7901:8050 # Dash
-      - 7988:8888 # Jupyter
-    environment:
-      HOME_DIR: "/opt/oco2peak/"
-    volumes: 
-      - type: bind
-        source: ./
-        target: /opt/oco2peak/
-        # - type: bind
-        #   source: ./configs
-        #   target: /opt/oco2peak/configs
-        # - type: bind
-        #   source: ./notebooks
-        #   target: /opt/oco2peak/notebooks
-        # - type: bind
-        #   source: ./dataset
-        #   target: /opt/oco2peak/dataset
-        # - type: bind
-        #   source: ./oco2peak
-        #   target: /opt/oco2peak/oco2peak
-        # - type: bind
-        #   source: ./front
-        #   target: /opt/oco2peak/front
+    # environment:
+    #   # Environment variable to set in guest
+    #   HOME_DIR: "/opt/oco2peak/"

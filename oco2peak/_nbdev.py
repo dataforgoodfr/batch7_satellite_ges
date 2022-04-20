@@ -3,8 +3,6 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"Datasets": "oco2peak-datasets.ipynb",
-         "inventory_map_only": "WIP_OCO2_Map.ipynb",
-         "peaks_capture_map": "WIP_OCO2_Map.ipynb",
          "compute_haversine_formula": "oco2peak-find_peak.ipynb",
          "compute_distance": "oco2peak-find_peak.ipynb",
          "load_data": "oco2peak-find_peak.ipynb",
@@ -16,6 +14,8 @@ index = {"Datasets": "oco2peak-datasets.ipynb",
          "build_sounding_map": "oco2peak-map.ipynb",
          "plot_emission": "oco2peak_find_source.ipynb",
          "build_world_map": "oco2peak-map.ipynb",
+         "inventory_map_only": "oco2peak-mapfolium.ipynb",
+         "peaks_capture_map": "oco2peak-mapfolium.ipynb",
          "get_file_list": "oco2peak-nc4_convert.ipynb",
          "get_nc4_raw_content": "oco2peak-nc4_convert.ipynb",
          "get_np_table": "oco2peak-nc4_convert.ipynb",
@@ -26,9 +26,9 @@ index = {"Datasets": "oco2peak-datasets.ipynb",
          "estimate_emission": "oco2peak_find_source.ipynb"}
 
 modules = ["datasets.py",
-           "oco2mapfolium.py",
            "find_peak.py",
            "oco2map.py",
+           "oco2mapfolium.py",
            "nc4_convert.py",
            "find_source.py"]
 
