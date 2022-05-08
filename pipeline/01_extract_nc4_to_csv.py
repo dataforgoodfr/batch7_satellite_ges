@@ -16,14 +16,14 @@ def process_files(input_dir, output_dir, years_months):
     nc4_convert.process_files(input_dir, output_dir, years_months)
 futures = []
 # For 2014 to end of 2019, we took the V9 files
-input_dir = r'/media/NAS-Divers/dev/datasets/OCO2/nc4-v9/'
-output_dir = r'/media/data-nvme/dev/datasets/OCO2/csv-v9/'
-years_months = nc4_convert.get_pattern_yearmonth()
-futures = [process_files.remote(input_dir, output_dir, [year_month]) for year_month in years_months]
+# input_dir = r'/media/NAS-Divers/dev/datasets/OCO2/nc4-v9/'
+# output_dir = r'/media/data-nvme/dev/datasets/OCO2/csv-v9/'
+# years_months = nc4_convert.get_pattern_yearmonth()
+# futures = [process_files.remote(input_dir, output_dir, [year_month]) for year_month in years_months]
 
 # For 2020, we took the V10
-input_dir = r'/media/NAS-Divers/dev/datasets/OCO2/nc4-v10/'
-output_dir = r'/media/data-nvme/dev/datasets/OCO2/csv-v10/'
+input_dir = r'/mnt/datasets/OCO2/nc4-v10/'
+output_dir = r'/mnt/datasets/OCO2/csv-v10/'
 years_months = []
 year = 2020
 for month in range(1,12+1):

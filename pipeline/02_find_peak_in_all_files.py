@@ -22,8 +22,8 @@ def found_peaks(file, output_dir):
 
 
 ### V9
-input_dir = r'/media/data-nvme/dev/datasets/OCO2/csv-v9/'
-output_dir = r'/media/data-nvme/dev/datasets/OCO2/peaks-v9/'
+input_dir = r'/mnt/datasets/OCO2/csv-v9/'
+output_dir = r'/mnt/datasets/OCO2/peaks-v9/'
 dir = os.path.realpath(input_dir)
 print(dir)
 files = []
@@ -34,8 +34,8 @@ print('Files to process for V9:', len(files))
 futures = [found_peaks.remote(f, output_dir) for f in files]
 
 ### V10
-input_dir = r'/media/data-nvme/dev/datasets/OCO2/csv-v10/'
-output_dir = r'/media/data-nvme/dev/datasets/OCO2/peaks-v10/'
+input_dir = r'/mnt/datasets/OCO2/csv-v10/'
+output_dir = r'/mnt/datasets/OCO2/peaks-v10/'
 dir = os.path.realpath(input_dir)
 print(dir)
 files = []
