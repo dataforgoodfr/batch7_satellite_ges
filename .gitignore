@@ -6,3 +6,6 @@ venv
 doc/
 __pycache__/
 openrc.sh
+oco2peak.egg-info/
+build/
+dist/
