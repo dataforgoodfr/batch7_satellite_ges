@@ -1,8 +1,8 @@
 SRC = $(wildcard notebooks/*.ipynb)
 
-all: oco2peak docs
+all: lib docs
 
-oco2peak: $(SRC)
+lib: $(SRC)
 	nbdev_build_lib
 	touch oco2peak
 
