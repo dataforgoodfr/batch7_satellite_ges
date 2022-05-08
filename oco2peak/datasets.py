@@ -143,6 +143,7 @@ class Datasets:
 
 
     def get_peak_param(self, sounding_id, df_all_peak):
+        sounding_id = int(sounding_id)
         df_param = df_all_peak.query("sounding_id==@sounding_id")
         if len(df_param)<1:
             print(f'ERROR in oco2peak.Datasets.get_peak_param(...) : sounding_id -{sounding_id}- not found in dataframe !')
