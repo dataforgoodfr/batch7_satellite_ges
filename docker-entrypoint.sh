@@ -4,7 +4,7 @@ cd $HOME_DIR
 
 echo "Running Jupyter"
 #  --debug
-jupyter lab --ip=0.0.0.0 --no-browser --allow-root &
+jupyter lab --ip=0.0.0.0 --no-browser --allow-root --ServerApp.token='' &
 status=$?
 if [ $status -ne 0 ]; then
   echo "Failed to start jupyter lab: $status"
