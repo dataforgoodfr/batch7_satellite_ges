@@ -1,7 +1,7 @@
 import flask
 import dash
-import dash_html_components as html
-import dash_core_components as dcc
+from dash import html
+from dash import dcc
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import dash_dangerously_set_inner_html
@@ -94,7 +94,14 @@ def build_graph(df_oco2, sounding_id):
     #print(peak_param)
     if peak_param is None:
         print('One sounding ID of the df:',df_oco2.loc[df_oco2.ktCO2_per_h==df_oco2.ktCO2_per_h.max()].iloc[0].sounding_id.astype('int64'), 'Sounding asked:',sounding_id)
-        return html.H1("Metadata of the peak not found !")
+        return html.Div(
+            [html.H3('ERROR : Metadata of the peak not found !'),
+            html.P(f"peak_url : {one_peak_url}"),
+            html.P(f"sounding_id : {sounding_id}"),
+            html.P(f"detected_peaks_url : {detected_peaks_url}"),
+            html.P(f"df_oco2 len : {len(df_oco2)}"),
+            ]
+            )
     df_peak['gaussian_y'] = df_peak.distance.apply(
         lambda x: find_peak.gaussian(x=x, m=peak_param['slope'], b=peak_param['intercept'], A=peak_param['amplitude'], sig=peak_param['sigma']))
 
