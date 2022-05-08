@@ -6,7 +6,7 @@
 > The goal of our project is to localize CO<sub>2</sub> emissions on Earth based on the the carbon concentration data measured by the OCO-2 Satellite from the NASA. 
 
 We are working with:- Matthieu Porte, from IGN who submit the projet- Marie Heckmann, from the French Ministry of Ecology
-- Frederic Chevalier, from IPSL, one of the author of [Observing  carbon  dioxide  emissions over  China’s  cities with  the Orbiting Carbon Observatory-2](https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf)
+- Frederic Chevallier, from IPSL, one of the author of [Observing  carbon  dioxide  emissions over  China’s  cities with  the Orbiting Carbon Observatory-2](https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf)
 
 ## What we have as input
 
@@ -56,10 +56,10 @@ Source: http://datasets.wri.org/dataset/globalpowerplantdatabase
 
 - Other sources of CO<sub>2</sub> emissions are under study. 
 
-## What we want to do
+## What we do
 
 
-First approach: peak detection from O-CO2 & inference from inventory data [in progress]
+First approach: peak detection from O-CO2 & inference from inventory data
 
 - Detect peak in O-CO2 data, 2 step methodology
 	- Step 1: Identification of local ‘peaks’ through Gaussian fits (curve_fit) ; Taking into account intrinsic complexity of O-CO2 data, notably: High variance across ‘background’ CO<sub>2</sub> level across the globe, narrowness & incompleteness of plumes observations (due to clouds / fogs / …), ...
@@ -74,22 +74,24 @@ First approach: peak detection from O-CO2 & inference from inventory data [in pr
 Second approach: supervised model to learn to detect peaks from inventory data [not started]
 - Use areas where inventory data are complete to let a supervised model learn peaks in OCO2 data
 
-On top: dynamic visualization of data [in progress]
+On top: dynamic visualization of data
 - Display the result on a comprehensive map, crossing satellite & inventory data
 
 ## What we have achieved
 
- - We gather data from EDGAR and World Resource Institute and plotted them on a map.
- - We get raw satellite data from NASA and merge the to monthly dataset with the data we need.
- - We compute a Gaussian curve fit over each orbit and save the results.
- - We plot the results and the know emission on a map.
-
+ - Gather data from EDGAR and World Resource Institute and plotted them on a map.
+ - Get raw satellite data from NASA and merge the to monthly dataset with the data we need.
+ - Compute a Gaussian curve fit over each orbit and save the results.
+ - Interactive dasboard to share our work on the web.
+ 
 Here is a sample of a peak witth the gaussian found :
+
 ![Gaussian Peak](notebooks/assets/gaussian_peak.png)
 
-And the global map :
-![World CO2_peaks](notebooks/assets/map-dark.png)
-![CO2_peak over Spain](notebooks/assets/map-dark-orbit.png)
+And the result on the website :
+
+![OCO2 Peak app](notebooks/assets/screen-shot.png)
+
 
 
 ## We need help
@@ -98,12 +100,12 @@ And the global map :
     - We use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?
     - We are looking at other methodologies to detect anomalies (our 'peaks') in the concentrations  - any idea? 
 - Wind modeling to estimate emission from detected concentration - any idea? (inverting the Gaussian plume model)
-- Interactive dasboard to share our work on the web (Streamlit ?)
+
 
 ## Git directories structure
 * /dataset contains a sample of OCO-2 data and inventory data; _**Important**_ : The whole datas are in a shared Open Stack Storage, not in the Github.
 * /notebooks contains the notebooks made by the team;
-* /pipeline contains the scripts used to process the data needed.
+* /pipeline contains the scripts used to process the NASA's data.
 * /oco2peak containts the modules
 
 **Warning** : The project use NBDev so the doc (including this README !) and the modules ar generated from Notebooks. So you have only to edit the Notebooks.
@@ -118,36 +120,67 @@ We do not store the original OCO-2 files from NASA.
 * /peaks-detected-details/ contains one JSON file of the full data for all detected peak
 
 ## Install
-### Docker
-
-`
-docker-compose build && docker-compose up
-`
-
-Front on http://localhost:7901
-Jupyter Lab on http://localhost:7988
 
 ### Python Package Only
 If you are interested to use only our modules for your own project :
-
 `pip install oco2peak`
 
-## How to use
+### With Docker
 
-Fill me in please! Don't forget code examples:
+#### For use only
+`
+docker-compose up
+`
+
+Front on http://localhost:7901
+
+#### For dev
+
+`docker-compose -f docker-compose-dev.yml up`
+
+- Front on http://localhost:7901
+- Jupyter Lab on http://localhost:7988
 
 ### Dataset access
+
+You need a config.json with token to your OpenStack:
+```json
+{
+    "swift_storage": {
+        "user":"B..r",
+        "key":"ep..ca",
+        "auth_url":"https://auth.cloud.ovh.net/v3/",
+        "tenant_name":"8..8",
+        "auth_version":"3",
+        "options" : {
+            "region_name": "GRA"
+        },
+        "base_url" : "https://storage.gra.cloud.ovh.net/v1/AUTH_2...d/oco2/"
+    }
+}
+```
 
 ```python
 config = '../configs/config.json'
 datasets = Datasets(config)
-datasets.get_files_urls('result_for_oco2_1808')
+datasets.get_files_urls(prefix="/datasets/oco-2/peaks-and-invent/", pattern='1908')
 ```
 
 
 
 
-    []
+    ['https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1908.csv']
+
+
+
+```python
+datasets.get_files_urls(prefix="/map/peaks_map/", pattern='1908')
+```
+
+
+
+
+    ['https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1908.html']
 
 
 
@@ -196,3 +229,28 @@ datasets.upload(mask='../*.md', prefix="/Trash/",content_type='text/text')
 </div>
 
 
+
+## Build docs and modules
+
+`make all`
+
+Or if you are using Docker:
+
+`docker exec -it batch7_satellite_ges_oco2-dev_1 make all`
+
+
+# Process NASA Files
+
+In `docker-compose-dev.yml` change `source: /media/NAS-Divers/dev/datasets/` to the path to you NC4 files.
+
+Then run :
+`docker-compose -f docker-compose-dev.yml up`
+
+In another terminal, run:
+
+```bash
+docker exec -it batch7_satellite_ges_oco2-dev_1 /bin/bash
+python pipeline/01_extract_nc4_to_csv.py
+python pipeline/02_find_peak_in_all_files.py
+python pipeline/03_upload_json_to_the_cloud.py
+```

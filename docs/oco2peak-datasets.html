@@ -2,11 +2,13 @@
 
 title: Open Stack Swift storage of the project
 
+
 keywords: fastai
 sidebar: home_sidebar
 
 
 
+nb_path: "notebooks/oco2peak-datasets.ipynb"
 ---
 <!--
 
@@ -54,7 +56,7 @@ sidebar: home_sidebar
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="ch">#!pip install --user python-swiftclient python-keystoneclient --upgrade</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -71,13 +73,6 @@ sidebar: home_sidebar
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -99,6 +94,13 @@ sidebar: home_sidebar
 
 </div>
 </div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -176,8 +178,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -273,8 +274,7 @@ sidebar: home_sidebar
     </tr>
   </tbody>
 </table>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -321,8 +321,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -418,8 +417,7 @@ sidebar: home_sidebar
     </tr>
   </tbody>
 </table>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -468,8 +466,7 @@ sidebar: home_sidebar
 <div class="output_area">
 
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -581,8 +578,7 @@ sidebar: home_sidebar
     </tr>
   </tbody>
 </table>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -618,9 +614,17 @@ sidebar: home_sidebar
 
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.8/site-packages/pyproj/crs/crs.py:130: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
+  in_crs_string = _prepare_from_proj_string(in_crs_string)
+</pre>
+</div>
+</div>
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -737,8 +741,7 @@ sidebar: home_sidebar
   </tbody>
 </table>
 <p>3 rows × 48 columns</p>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -774,9 +777,17 @@ sidebar: home_sidebar
 
 <div class="output_area">
 
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.8/site-packages/pyproj/crs/crs.py:130: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
+  in_crs_string = _prepare_from_proj_string(in_crs_string)
+</pre>
+</div>
+</div>
 
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -812,7 +823,7 @@ sidebar: home_sidebar
       <td>City</td>
       <td>16151019.0</td>
       <td>CO2</td>
-      <td>POINT (-79.3831843 43.653226)</td>
+      <td>POINT (-79.38318 43.65323)</td>
     </tr>
     <tr>
       <th>4</th>
@@ -822,7 +833,7 @@ sidebar: home_sidebar
       <td>City</td>
       <td>3728678.0</td>
       <td>CO2</td>
-      <td>POINT (9.086356 45.802578)</td>
+      <td>POINT (9.08636 45.80258)</td>
     </tr>
     <tr>
       <th>5</th>
@@ -832,12 +843,11 @@ sidebar: home_sidebar
       <td>City</td>
       <td>861854.0</td>
       <td>CO2e</td>
-      <td>POINT (-122.0808 37.6689)</td>
+      <td>POINT (-122.08080 37.66890)</td>
     </tr>
   </tbody>
 </table>
-</div>
-</div>
+</div></div>
 
 </div>
 
@@ -898,7 +908,7 @@ sidebar: home_sidebar
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/map/&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;html&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/map/&#39;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;html&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -913,74 +923,7 @@ sidebar: home_sidebar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_and_sources.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1409.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1410.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1411.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1412.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1501.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1502.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1503.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1504.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1505.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1506.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1507.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1508.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1509.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1510.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1511.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1512.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1601.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1602.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1603.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1604.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1605.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1606.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1607.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1608.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1609.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1610.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1611.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1612.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1701.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1702.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1703.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1704.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1705.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1706.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1707.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1709.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1710.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1711.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1712.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1801.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1802.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1803.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1804.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1805.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1806.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1807.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1808.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1809.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1810.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1811.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1812.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1901.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1902.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1903.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1904.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1905.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1906.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1907.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1908.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1909.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1910.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1911.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1912.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_2001.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_2002.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_2003.html&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_2004.html&#39;]</pre>
+<pre>&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_2004.html&#39;</pre>
 </div>
 
 </div>
@@ -1106,44 +1049,38 @@ sidebar: home_sidebar
 
 
 <div class="output_html rendered_html output_subarea ">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
 
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
     <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value='1' class='' max='1', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      <progress value='1' class='' max='1' style='width:300px; height:20px; vertical-align: middle;'></progress>
       100.00% [1/1 00:00<00:00]
     </div>
     
 
 
     <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value='3' class='' max='3', style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [3/3 00:01<00:00]
+      <progress value='1' class='' max='1' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [1/1 00:00<00:00]
     </div>
-    
-</div>
+    </div>
 
 </div>
 
@@ -1175,9 +1112,7 @@ sidebar: home_sidebar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/CONTRIBUTING.md&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/README-old.md&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/README.md&#39;]</pre>
+<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//Trash/README.md&#39;]</pre>
 </div>
 
 </div>
@@ -1202,7 +1137,7 @@ sidebar: home_sidebar
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#datasets.upload(&quot;chemin/peaks_and_sources.html&quot;, &quot;/Trash/&quot;, &#39;text/html&#39;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
@@ -1239,44 +1174,38 @@ sidebar: home_sidebar
 
 
 <div class="output_html rendered_html output_subarea ">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div>
 
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
     <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value='1' class='' max='1', style='width:300px; height:20px; vertical-align: middle;'></progress>
+      <progress value='1' class='' max='1' style='width:300px; height:20px; vertical-align: middle;'></progress>
       100.00% [1/1 00:00<00:00]
     </div>
     
 
 
     <div>
-        <style>
-            /* Turns off some styling */
-            progress {
-                /* gets rid of default border in Firefox and Opera. */
-                border: none;
-                /* Needs to be in here for Safari polyfill so background images work as expected. */
-                background-size: auto;
-            }
-            .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
-                background: #F44336;
-            }
-        </style>
-      <progress value='3' class='' max='3', style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [3/3 00:00<00:00]
+      <progress value='1' class='' max='1' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [1/1 00:00<00:00]
     </div>
-    
-</div>
+    </div>
 
 </div>
 
@@ -1307,34 +1236,16 @@ sidebar: home_sidebar
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Converted 03_25_OCO2_Data_Exploration.ipynb.
-Converted 04_01_OCO2_Work_Base.ipynb.
-Converted 04_04_OCO2_China_Peaks.ipynb.
-Converted 04_15_OCO2_Laiwu_Peak_Detection.ipynb.
-Converted CO2_emissions_Inventory_data.ipynb.
-Converted CO2_emissions_Inventory_data_20200531.ipynb.
-Converted Christian-datasets-Distances.ipynb.
-Converted Find_Peaks_with_LSTM_autoencoders.ipynb.
-Converted Laiwu_Plume-more_data.ipynb.
-Converted Laiwu_Plume-more_data_CD_exploration_selection_peaks.ipynb.
-Converted Laiwu_Plume.ipynb.
-Converted Process Sandbag data - Find infrastructure location.ipynb.
-Converted Untitled1.ipynb.
-Converted WIP_OCO2_Capture.ipynb.
-Converted WIP_OCO2_Map.ipynb.
-Converted WIP_OCO2_Peaks_Wind.ipynb.
-Converted WIP_OCO2_Peaks_Wind_Visualization.ipynb.
-Converted explorations.ipynb.
-Converted find_peak_bco_test.ipynb.
+<pre>Converted explorations.ipynb.
 Converted index.ipynb.
+Converted oco2peak-datasets-points-isoles.ipynb.
 Converted oco2peak-datasets.ipynb.
 Converted oco2peak-find_peak.ipynb.
 Converted oco2peak-map.ipynb.
+Converted oco2peak-mapfolium.ipynb.
 Converted oco2peak-nc4_convert.ipynb.
 Converted oco2peak-swift_utils.ipynb.
 Converted oco2peak_find_source.ipynb.
-Converted show_map.ipynb.
-Converted view_peak.ipynb.
 </pre>
 </div>
 </div>
@@ -1358,8 +1269,7 @@ Converted view_peak.ipynb.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># config = &#39;./configs/config.json&#39;</span>
-<span class="c1"># datasets = Datasets(config)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># datasets = Datasets(config)</span>
 <span class="c1"># datasets.upload(mask=&#39;/media/NAS-Divers/dev/datasets/OCO2/drive-download-20200605T120938Z-001/*&#39;, prefix=&quot;/datasets/oco-2/inventory/&quot;,content_type=&#39;text/csv&#39;)</span>
 </pre></div>
 
@@ -1407,7 +1317,7 @@ Converted view_peak.ipynb.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/datasets/oco-2/peaks-and-invent/&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;peaks_and_invent&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/datasets/oco-2/peaks-and-invent/&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;peaks_and_invent&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -1422,73 +1332,7 @@ Converted view_peak.ipynb.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1409.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1410.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1411.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1412.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1501.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1502.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1503.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1504.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1505.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1506.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1507.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1508.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1509.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1510.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1511.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1512.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1601.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1602.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1603.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1604.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1605.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1606.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1607.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1608.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1609.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1610.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1611.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1612.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1701.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1702.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1703.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1704.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1705.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1706.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1707.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1709.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1710.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1711.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1712.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1801.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1802.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1803.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1804.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1805.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1806.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1807.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1808.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1809.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1810.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1811.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1812.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1901.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1902.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1903.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1904.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1905.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1906.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1907.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1908.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1909.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1910.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1911.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1912.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2001.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2002.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2003.csv&#39;,
- &#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2004.csv&#39;]</pre>
+<pre>&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2004.csv&#39;</pre>
 </div>
 
 </div>
@@ -1499,6 +1343,169 @@ Converted view_peak.ipynb.
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">detected_peaks_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_2004.csv&quot;</span>
+<span class="n">df_oco2</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="n">detected_peaks_url</span><span class="p">)</span>
+<span class="n">df_oco2</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
- 
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sounding_id</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>orbit</th>
+      <th>slope</th>
+      <th>intercept</th>
+      <th>amplitude</th>
+      <th>sigma</th>
+      <th>delta</th>
+      <th>R</th>
+      <th>...</th>
+      <th>index_Iron and steel</th>
+      <th>number_Iron and steel</th>
+      <th>index_Combustion</th>
+      <th>number_Combustion</th>
+      <th>index_Non ferrous metals</th>
+      <th>number_Non ferrous metals</th>
+      <th>index_Mineral oil</th>
+      <th>number_Mineral oil</th>
+      <th>index_Coke ovens</th>
+      <th>number_Coke ovens</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020040111290507</td>
+      <td>-13.643787</td>
+      <td>33.758358</td>
+      <td>30584</td>
+      <td>-0.001627</td>
+      <td>408.070283</td>
+      <td>25.912804</td>
+      <td>9.713367</td>
+      <td>1.064277</td>
+      <td>0.638229</td>
+      <td>...</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020040111290578</td>
+      <td>-13.606462</td>
+      <td>33.738327</td>
+      <td>30584</td>
+      <td>-0.001689</td>
+      <td>408.080266</td>
+      <td>22.825359</td>
+      <td>8.362192</td>
+      <td>1.088949</td>
+      <td>0.588814</td>
+      <td>...</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+      <td>[nan]</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 48 columns</p>
+</div></div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sounding_id</span> <span class="o">=</span> <span class="s2">&quot;2020040413511104&quot;</span>
+<span class="n">peak_param_str</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_peak_param</span><span class="p">(</span><span class="n">sounding_id</span><span class="p">,</span> <span class="n">df_oco2</span><span class="p">)</span>
+<span class="n">sounding_id</span> <span class="o">=</span> <span class="mi">2020040413511104</span>
+<span class="n">peak_param_int64</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_peak_param</span><span class="p">(</span><span class="n">sounding_id</span><span class="p">,</span> <span class="n">df_oco2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">peak_param_str</span> <span class="o">==</span> <span class="n">peak_param_int64</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+</div>
+
 

@@ -2,11 +2,13 @@
 
 title: OCO-2 CO<sub>2</sub> peak detector
 
+
 keywords: fastai
 sidebar: home_sidebar
 
 
 
+nb_path: "notebooks/index.ipynb"
 ---
 <!--
 
@@ -33,7 +35,7 @@ sidebar: home_sidebar
 </blockquote>
 <p>We are working with:- Matthieu Porte, from IGN who submit the projet- Marie Heckmann, from the French Ministry of Ecology</p>
 <ul>
-<li>Frederic Chevalier, from IPSL, one of the author of <a href="https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf">Observing  carbon  dioxide  emissions over  China’s  cities with  the Orbiting Carbon Observatory-2</a></li>
+<li>Frederic Chevallier, from IPSL, one of the author of <a href="https://www.atmos-chem-phys-discuss.net/acp-2020-123/acp-2020-123.pdf">Observing  carbon  dioxide  emissions over  China’s  cities with  the Orbiting Carbon Observatory-2</a></li>
 </ul>
 
 </div>
@@ -81,7 +83,7 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="What-we-want-to-do">What we want to do<a class="anchor-link" href="#What-we-want-to-do"> </a></h2><p>First approach: peak detection from O-CO2 &amp; inference from inventory data [in progress]</p>
+<h2 id="What-we-do">What we do<a class="anchor-link" href="#What-we-do"> </a></h2><p>First approach: peak detection from O-CO2 &amp; inference from inventory data</p>
 <ul>
 <li><p>Detect peak in O-CO2 data, 2 step methodology</p>
 <ul>
@@ -100,21 +102,20 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 <ul>
 <li>Use areas where inventory data are complete to let a supervised model learn peaks in OCO2 data</li>
 </ul>
-<p>On top: dynamic visualization of data [in progress]</p>
+<p>On top: dynamic visualization of data</p>
 <ul>
 <li>Display the result on a comprehensive map, crossing satellite &amp; inventory data</li>
 </ul>
 <h2 id="What-we-have-achieved">What we have achieved<a class="anchor-link" href="#What-we-have-achieved"> </a></h2><ul>
-<li>We gather data from EDGAR and World Resource Institute and plotted them on a map.</li>
-<li>We get raw satellite data from NASA and merge the to monthly dataset with the data we need.</li>
-<li>We compute a Gaussian curve fit over each orbit and save the results.</li>
-<li>We plot the results and the know emission on a map.</li>
+<li>Gather data from EDGAR and World Resource Institute and plotted them on a map.</li>
+<li>Get raw satellite data from NASA and merge the to monthly dataset with the data we need.</li>
+<li>Compute a Gaussian curve fit over each orbit and save the results.</li>
+<li>Interactive dasboard to share our work on the web.</li>
 </ul>
-<p>Here is a sample of a peak witth the gaussian found :
-<img src="/batch7_satellite_ges/./assets/gaussian_peak.png" alt="Gaussian Peak"></p>
-<p>And the global map :
-<img src="/batch7_satellite_ges/./assets/map-dark.png" alt="World CO2_peaks">
-<img src="/batch7_satellite_ges/./assets/map-dark-orbit.png" alt="CO2_peak over Spain"></p>
+<p>Here is a sample of a peak witth the gaussian found :</p>
+<p><img src="/batch7_satellite_ges/./assets/gaussian_peak.png" alt="Gaussian Peak"></p>
+<p>And the result on the website :</p>
+<p><img src="/batch7_satellite_ges/./assets/screen-shot.png" alt="OCO2 Peak app"></p>
 <h2 id="We-need-help">We need help<a class="anchor-link" href="#We-need-help"> </a></h2><ul>
 <li>Better peak detection: So far, we are fitting Gaussian curves to detect relevant peaks. 2 issues:<ul>
 <li>We use SciKit Learn curve_fit. Do you know a better algorithme or how to tune parameters of curve_fit ?</li>
@@ -122,7 +123,6 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 </ul>
 </li>
 <li>Wind modeling to estimate emission from detected concentration - any idea? (inverting the Gaussian plume model)</li>
-<li>Interactive dasboard to share our work on the web (Streamlit ?)</li>
 </ul>
 
 </div>
@@ -133,7 +133,7 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 <h2 id="Git-directories-structure">Git directories structure<a class="anchor-link" href="#Git-directories-structure"> </a></h2><ul>
 <li>/dataset contains a sample of OCO-2 data and inventory data; <em><strong>Important</strong></em> : The whole datas are in a shared Open Stack Storage, not in the Github.</li>
 <li>/notebooks contains the notebooks made by the team;</li>
-<li>/pipeline contains the scripts used to process the data needed.</li>
+<li>/pipeline contains the scripts used to process the NASA's data.</li>
 <li>/oco2peak containts the modules</li>
 </ul>
 <p><strong>Warning</strong> : The project use NBDev so the doc (including this README !) and the modules ar generated from Notebooks. So you have only to edit the Notebooks.</p>
@@ -150,37 +150,37 @@ Source: <a href="http://datasets.wri.org/dataset/globalpowerplantdatabase">http:
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Install">Install<a class="anchor-link" href="#Install"> </a></h2><h3 id="Docker">Docker<a class="anchor-link" href="#Docker"> </a></h3><p><code>docker-compose build &amp;&amp; docker-compose up</code></p>
-<p>Front on <a href="http://localhost:7901">http://localhost:7901</a>
-Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
-<h3 id="Python-Package-Only">Python Package Only<a class="anchor-link" href="#Python-Package-Only"> </a></h3><p>If you are interested to use only our modules for your own project :</p>
+<h2 id="Install">Install<a class="anchor-link" href="#Install"> </a></h2><h3 id="Python-Package-Only">Python Package Only<a class="anchor-link" href="#Python-Package-Only"> </a></h3><p>If you are interested to use only our modules for your own project :
+<code>pip install oco2peak</code></p>
+<h3 id="With-Docker">With Docker<a class="anchor-link" href="#With-Docker"> </a></h3><h4 id="For-use-only">For use only<a class="anchor-link" href="#For-use-only"> </a></h4><p><code>docker-compose up</code></p>
+<p>Front on <a href="http://localhost:7901">http://localhost:7901</a></p>
+<h4 id="For-dev">For dev<a class="anchor-link" href="#For-dev"> </a></h4><p><code>docker-compose -f docker-compose-dev.yml up</code></p>
+<ul>
+<li>Front on <a href="http://localhost:7901">http://localhost:7901</a></li>
+<li>Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></li>
+</ul>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>pip install oco2peak</code></p>
+<h3 id="Dataset-access">Dataset access<a class="anchor-link" href="#Dataset-access"> </a></h3><p>You need a config.json with token to your OpenStack:</p>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;swift_storage&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="s2">&quot;B..r&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="s2">&quot;ep..ca&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;auth_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://auth.cloud.ovh.net/v3/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;tenant_name&quot;</span><span class="p">:</span><span class="s2">&quot;8..8&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;auth_version&quot;</span><span class="p">:</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;region_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GRA&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;base_url&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://storage.gra.cloud.ovh.net/v1/AUTH_2...d/oco2/&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="How-to-use">How to use<a class="anchor-link" href="#How-to-use"> </a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Fill me in please! Don't forget code examples:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Dataset-access">Dataset access<a class="anchor-link" href="#Dataset-access"> </a></h3>
 </div>
 </div>
 </div>
@@ -193,7 +193,7 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="s1">&#39;../configs/config.json&#39;</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">Datasets</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="s1">&#39;result_for_oco2_1808&#39;</span><span class="p">)</span>
+<span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/datasets/oco-2/peaks-and-invent/&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;1908&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -208,7 +208,40 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[]</pre>
+<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//datasets/oco-2/peaks-and-invent/peaks_and_invent_1908.csv&#39;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">datasets</span><span class="o">.</span><span class="n">get_files_urls</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/map/peaks_map/&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;1908&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;https://storage.gra.cloud.ovh.net/v1/AUTH_2aaacef8e88a4ca897bb93b984bd04dd/oco2//map/peaks_map/peaks_capture_map_1908.html&#39;]</pre>
 </div>
 
 </div>
@@ -246,7 +279,6 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
 
 
 <div class="output_html rendered_html output_subarea ">
-
     <div>
         <style>
             /* Turns off some styling */
@@ -282,8 +314,7 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
       <progress value='3' class='' max='3', style='width:300px; height:20px; vertical-align: middle;'></progress>
       100.00% [3/3 00:01<00:00]
     </div>
-    
-</div>
+    </div>
 
 </div>
 
@@ -293,6 +324,36 @@ Jupyter Lab on <a href="http://localhost:7988">http://localhost:7988</a></p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Build-docs-and-modules">Build docs and modules<a class="anchor-link" href="#Build-docs-and-modules"> </a></h2><p><code>make all</code></p>
+<p>Or if you are using Docker:</p>
+<p><code>docker exec -it batch7_satellite_ges_oco2-dev_1 make all</code></p>
+
 </div>
- 
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Process-NASA-Files">Process NASA Files<a class="anchor-link" href="#Process-NASA-Files"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In <code>docker-compose-dev.yml</code> change <code>source: /media/NAS-Divers/dev/datasets/</code> to the path to you NC4 files.</p>
+<p>Then run :
+<code>docker-compose -f docker-compose-dev.yml up</code></p>
+<p>In another terminal, run:</p>
+<div class="highlight"><pre><span></span>docker <span class="nb">exec</span> -it batch7_satellite_ges_oco2-dev_1 /bin/bash
+python pipeline/01_extract_nc4_to_csv.py
+python pipeline/02_find_peak_in_all_files.py
+python pipeline/03_upload_json_to_the_cloud.py
+</pre></div>
+
+</div>
+</div>
+</div>
+</div>
+
 
